@@ -120,7 +120,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
           onTap: () {
             Navigator.pushNamed(context, screens[index]);
           },
-          rippleDuration: const Duration(milliseconds: 700),
           rippleColor: AppColors.primaryColor.withOpacity(.2),
           child: Center(
             child: Column(
@@ -150,23 +149,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
   List<String> images = [
     AppAssets.profileIcon,
     AppAssets.myordersIcon,
-    AppAssets.favoriteIcon,
     AppAssets.locationIcon,
     AppAssets.creatitIcon,
     AppAssets.trancfersIcon,
     AppAssets.notificationsIcon,
-    AppAssets.categoriesIcon,
     AppAssets.logoutIcon,
   ];
   List<String> titles = [
     App.tr.myInformation,
     App.tr.myOrders,
-    App.tr.myFavorites,
     App.tr.myAddresses,
     App.tr.paymentCards,
     App.tr.myPayments,
     App.tr.notifications,
-    App.tr.categories,
     'تسجيل خروج',
   ];
 }
@@ -174,11 +169,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
 List<String> screens = [
   Routes.myInformationRoute,
   Routes.myOrdersScreen,
-  Routes.myInformationRoute,
   Routes.myAdressesRoute,
   Routes.myInformationRoute,
-  Routes.myInformationRoute,
+  Routes.transictiosScreen,
   Routes.notiFicationScreen,
-  Routes.myInformationRoute,
   Routes.myInformationRoute,
 ];

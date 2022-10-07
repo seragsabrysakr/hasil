@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hassel/app.dart';
-import 'package:hassel/features/profile/presentation/widgets/details_widget.dart';
+import 'package:hassel/features/profile/widgets/details_widget.dart';
 import 'package:hassel/shared/app_utils/app_assets.dart';
 import 'package:hassel/shared/app_utils/app_colors.dart';
 import 'package:hassel/shared/app_utils/app_sized_box.dart';

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localization.dart';
+import 'package:hassel/features/cart/presentation/screens/delivery_address.dart';
+import 'package:hassel/features/profile/my_credit/add_credit_card_screen.dart';
 import 'package:hassel/shared/app_utils/app_prefs.dart';
 import 'package:sizer/sizer.dart';
 
@@ -19,8 +21,7 @@ class App extends StatelessWidget {
     return Sizer(builder: (context, orientation, deviceType) {
       return BlocConsumer<AppCubit, AppState>(
         listener: (context, state) {},
-        buildWhen: (previousState, currentState) =>
-            previousState != currentState,
+        buildWhen: (previousState, currentState) => previousState != currentState,
         builder: (context, state) {
           var cubit = context.read<AppCubit>();
           return MaterialApp(
@@ -35,8 +36,8 @@ class App extends StatelessWidget {
             theme: _themeData(context),
             initialRoute: Routes.onBoardRoute,
             debugShowCheckedModeBanner: false,
-            // home: const MyOrdersScreen(),
-            onGenerateRoute: AppRoutes.onGenerateRoute,
+            home: const AddCreditCardScreen(),
+            // onGenerateRoute: AppRoutes.onGenerateRoute,
           );
         },
       );

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hassel/features/favorite/presentation/favorite_screen.dart';
 import 'package:hassel/features/home/presentation/screens/home_screen.dart';
-import 'package:hassel/features/profile/presentation/profile_screen.dart';
+import 'package:hassel/features/profile/profile_screen.dart';
 import 'package:hassel/shared/app_utils/app_assets.dart';
 import 'package:hassel/shared/app_utils/app_colors.dart';
 import 'package:sizer/sizer.dart';

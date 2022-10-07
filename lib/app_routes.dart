@@ -10,13 +10,14 @@ import 'package:hassel/features/home/presentation/screens/product_details_screen
 import 'package:hassel/features/home/presentation/screens/product_screen.dart';
 import 'package:hassel/features/home/presentation/widgets/product_item.dart';
 import 'package:hassel/features/intro/presentation/screens/intro_screen.dart';
-import 'package:hassel/features/notifications/notification_screen.dart';
-import 'package:hassel/features/onboarding/presentation/screens/onboarding_screen.dart';
-import 'package:hassel/features/profile/presentation/my_addresses/add_address_screen.dart';
-import 'package:hassel/features/profile/presentation/my_addresses/my_addresses_screen.dart';
-import 'package:hassel/features/profile/presentation/my_information/my_information_screen.dart';
-import 'package:hassel/features/profile/presentation/my_orders/my_orders_screen.dart';
-import 'package:hassel/features/profile/presentation/profile_screen.dart';
+import 'package:hassel/features/profile/notifications/notification_screen.dart';
+import 'package:hassel/features/onboarding/onboarding_screen.dart';
+import 'package:hassel/features/profile/my_addresses/add_address_screen.dart';
+import 'package:hassel/features/profile/my_addresses/my_addresses_screen.dart';
+import 'package:hassel/features/profile/my_information/my_information_screen.dart';
+import 'package:hassel/features/profile/my_orders/my_orders_screen.dart';
+import 'package:hassel/features/profile/profile_screen.dart';
+import 'package:hassel/features/profile/transictions/transiction_screen.dart';
 
 import '../home_page.dart';
 import 'app.dart';
@@ -40,6 +41,7 @@ class Routes {
   static const String myAdressesRoute = 'MyAdressesScreen';
   static const String addAddresscreen = 'AddAddresscreen';
   static const String myOrdersScreen = 'MyOrdersScreen';
+  static const String transictiosScreen = 'TransictiosScreen';
   static const String notiFicationScreen = 'NotiFicationScreen';
 }
 
@@ -57,7 +59,12 @@ class AppRoutes {
       case Routes.introScreen:
         return MaterialPageRoute(builder: (context) {
           return const IntroScreen();
-        });case Routes.notiFicationScreen:
+        });
+      case Routes.transictiosScreen:
+        return MaterialPageRoute(builder: (context) {
+          return const TransictiosScreen();
+        });
+      case Routes.notiFicationScreen:
         return MaterialPageRoute(builder: (context) {
           return const NotiFicationScreen();
         });
