@@ -139,7 +139,7 @@
 "enableMailNotificationsH2":"صفقات وخصومات موسمية",
 "enableOrdersNotifications":"إشعارات الطلبات",
 "enableOrdersNotificationsH1":"احصل على إشعارات في الوقت المناسب حول طلباتك وحالته",
-"enableOrdersNotificationsH1":".عند التسليم",
+"enableOrdersNotificationsH2":".عند التسليم",
 "enableNotifications":"إشعارات عامه",
 "enableNotificationsH1":"احصل على إشعارات بمجرد أداء شىء ماإشعارات عامه",
 "enableNotificationsH2":"في التطبيق ، على سبيل المثال: إضافة منتج إلى المفضلة"

@@ -35,13 +35,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   children: [
                     Text(
                       'عبلة كامل',
-                      style: AppTextStyle.getBoldStyle(
-                          color: AppColors.titleColor, fontSize: 15.sp),
+                      style:
+                          AppTextStyle.getBoldStyle(color: AppColors.titleColor, fontSize: 15.sp),
                     ),
                     Text(
                       'Abla.camel@gmail.com',
-                      style: AppTextStyle.getBoldStyle(
-                          color: AppColors.subTitle, fontSize: 10.sp),
+                      style: AppTextStyle.getBoldStyle(color: AppColors.subTitle, fontSize: 10.sp),
                     ),
                   ],
                 ),
@@ -108,8 +107,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             crossAxisSpacing: 4.w,
             mainAxisSpacing: 3.2.w,
           ),
-          children: List.generate(
-              images.length, (index) => buildProfileWidget(index))),
+          children: List.generate(images.length, (index) => buildProfileWidget(index))),
     );
   }
 
@@ -139,8 +137,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 AppSizedBox.s2,
                 Text(
                   titles[index],
-                  style: AppTextStyle.getBoldStyle(
-                      color: AppColors.subTitle, fontSize: 10.sp),
+                  style: AppTextStyle.getBoldStyle(color: AppColors.subTitle, fontSize: 10.sp),
                 ),
               ],
             ),
@@ -181,7 +178,7 @@ List<String> screens = [
   Routes.myAdressesRoute,
   Routes.myInformationRoute,
   Routes.myInformationRoute,
-  Routes.myInformationRoute,
+  Routes.notiFicationScreen,
   Routes.myInformationRoute,
   Routes.myInformationRoute,
 ];

@@ -10,6 +10,7 @@ import 'package:hassel/features/home/presentation/screens/product_details_screen
 import 'package:hassel/features/home/presentation/screens/product_screen.dart';
 import 'package:hassel/features/home/presentation/widgets/product_item.dart';
 import 'package:hassel/features/intro/presentation/screens/intro_screen.dart';
+import 'package:hassel/features/notifications/notification_screen.dart';
 import 'package:hassel/features/onboarding/presentation/screens/onboarding_screen.dart';
 import 'package:hassel/features/profile/presentation/my_addresses/add_address_screen.dart';
 import 'package:hassel/features/profile/presentation/my_addresses/my_addresses_screen.dart';
@@ -39,6 +40,7 @@ class Routes {
   static const String myAdressesRoute = 'MyAdressesScreen';
   static const String addAddresscreen = 'AddAddresscreen';
   static const String myOrdersScreen = 'MyOrdersScreen';
+  static const String notiFicationScreen = 'NotiFicationScreen';
 }
 
 class AppRoutes {
@@ -55,6 +57,9 @@ class AppRoutes {
       case Routes.introScreen:
         return MaterialPageRoute(builder: (context) {
           return const IntroScreen();
+        });case Routes.notiFicationScreen:
+        return MaterialPageRoute(builder: (context) {
+          return const NotiFicationScreen();
         });
       case Routes.welcomeRoute:
         return MaterialPageRoute(builder: (context) {
