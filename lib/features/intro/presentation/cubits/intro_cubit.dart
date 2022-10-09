@@ -32,18 +32,18 @@ class IntroCubit extends Cubit<IntroState> {
     SliderTextItem(
       h1:App.tr.intro2Header1 ,
       h2: App.tr.intro2Header2,
-      h3: App.tr.intro2Header3,
+      h3: '',
       h4: App.tr.intro2Header4,
     ),
     SliderTextItem(
       h1:App.tr.intro3Header1 ,
       h2: App.tr.intro3Header2,
-      h3: App.tr.intro3Header3,
+      h3: '',
       h4: App.tr.intro3Header4,
     ), SliderTextItem(
       h1:App.tr.intro4Header1 ,
       h2: App.tr.intro4Header2,
-      h3: App.tr.intro4Header3,
+      h3:'',
       h4: App.tr.intro4Header4,
     ),
   ];

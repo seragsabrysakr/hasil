@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localization.dart';
-import 'package:hassel/features/cart/presentation/screens/delivery_address.dart';
-import 'package:hassel/features/profile/my_credit/add_credit_card_screen.dart';
 import 'package:hassel/shared/app_utils/app_prefs.dart';
 import 'package:sizer/sizer.dart';
 
 import '../app_routes.dart';
 import 'core/app_business_logic/app_cubit/app_cubit.dart';
+import 'features/profile/my_credit/add_credit_card_screen.dart';
 import 'shared/app_utils/app_colors.dart';
 
 class App extends StatelessWidget {

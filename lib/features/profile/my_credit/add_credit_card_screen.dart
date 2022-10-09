@@ -5,6 +5,7 @@ import 'package:hassel/shared/app_utils/app_assets.dart';
 import 'package:hassel/shared/app_utils/app_colors.dart';
 import 'package:hassel/shared/app_utils/app_sized_box.dart';
 import 'package:hassel/shared/app_utils/app_text_style.dart';
+import 'package:hassel/shared/app_widgets/custom_button.dart';
 import 'package:hassel/shared/app_widgets/custom_text_form_field.dart';
 import 'package:hassel/shared/app_widgets/widgets_helper.dart';
 import 'package:sizer/sizer.dart';
@@ -26,8 +27,8 @@ class _AddCreditCardScreenState extends State<AddCreditCardScreen> {
         children: [
           AppSizedBox.s3,
           SizedBox(
-            width: 90.w,
-            height: 20.h,
+            width: 100.w,
+            height: 25.h,
             child: SvgPicture.asset(
               AppAssets.card,
               clipBehavior: Clip.antiAlias,
@@ -111,6 +112,21 @@ class _AddCreditCardScreenState extends State<AddCreditCardScreen> {
               ),
             ],
           ),
+          const Spacer(
+            flex: 1,
+          ),
+          CustomButton(
+            onTap: () {},
+            fontSize: 13.sp,
+            radius: .5,
+            buttonColor: AppColors.primaryColor,
+            titleColor: Colors.white,
+            fontWeight: FontWeight.w500,
+            title: App.tr.addCard,
+            height: 6.h,
+            width: 80.w,
+          ),
+          AppSizedBox.s3
         ],
       ),
     );

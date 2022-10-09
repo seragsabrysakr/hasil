@@ -12,7 +12,7 @@
 "intro2Header4":"ليدنا فريق مدرب على أعلى مستوى لاختيار المنتجات",
 "intro3Header1":"الفواكه والخضروات لدينا",
 "intro3Header2":"طازجة يوم بيوم",
-"intro3Header3":"",
+
 "intro3Header4":"يتم الاتفاق مع التجار لإحضار الفواكه والخضروات يومياً طازجة",
 "intro4Header1":"وفرنا لكم كل طرق الدفع",
 "intro4Header2":"الأمنة",
@@ -118,7 +118,7 @@
 "myFavorites":"مفضلتي",
 "myOrders":"طلباتي",
 "myInformation":"بياناتي",
-"myPayments":"التحويلات",
+"myPayments":"المدفوعات",
 "paymentCards":"بطاقات الدفع",
 "myAddresses":"عناويني",
 "notifications":"الاشعارات",

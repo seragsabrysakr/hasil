@@ -170,7 +170,7 @@ List<String> screens = [
   Routes.myInformationRoute,
   Routes.myOrdersScreen,
   Routes.myAdressesRoute,
-  Routes.myInformationRoute,
+  Routes.myCreditCardScreen,
   Routes.transictiosScreen,
   Routes.notiFicationScreen,
   Routes.myInformationRoute,
