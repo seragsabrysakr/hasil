@@ -12,6 +12,7 @@ class DetailsWidget extends StatefulWidget {
   bool details;
   bool logo;
   bool delivered;
+  VoidCallback? onTap;
   DetailsWidget({
     Key? key,
     required this.imageLeading,
@@ -20,6 +21,7 @@ class DetailsWidget extends StatefulWidget {
     this.logo = true,
     this.delivered = false,
     required this.detailsWidget,
+    this.onTap,
   }) : super(key: key);
 
   @override
@@ -36,71 +38,71 @@ class _DetailsWidgetState extends State<DetailsWidget> {
           padding: EdgeInsets.symmetric(
             horizontal: 4.w,
           ),
-          child: Container(
-            color: Colors.white,
-            padding: EdgeInsets.all(2.h),
-            child: Column(
-              children: [
-                AppSizedBox.s2,
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    TouchRippleEffect(
-                      onTap: () {},
-                      rippleDuration: const Duration(milliseconds: 700),
-                      rippleColor: AppColors.primaryColor.withOpacity(.5),
-                      child: CircleAvatar(
-                        radius: 3.h,
-                        backgroundColor: AppColors.backGround,
-                        child: Image.asset(
-                          widget.imageLeading,
-                          scale: 1.5,
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      width: 10.w,
-                    ),
-                    widget.content,
-                    SizedBox(
-                      width: 5.w,
-                    ),
-                    TouchRippleEffect(
-                        onTap: () {
-                          setState(() {
-                            details = !details;
-                          });
-                        },
-                        rippleDuration: const Duration(milliseconds: 200),
+          child: TouchRippleEffect(
+            onTap: widget.onTap ?? () {},
+            rippleColor: Colors.grey.shade400,
+            child: Container(
+              color: Colors.white,
+              padding: EdgeInsets.all(2.h),
+              child: Column(
+                children: [
+                  AppSizedBox.s2,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      TouchRippleEffect(
+                        onTap: () {},
+                        rippleDuration: const Duration(milliseconds: 700),
                         rippleColor: AppColors.primaryColor.withOpacity(.5),
                         child: CircleAvatar(
-                          radius: 2.8.w,
-                          backgroundColor: !widget.delivered
-                              ? AppColors.primaryColor
-                              : Colors.grey.shade300,
-                          child: Center(
-                            child: Icon(
-                              !details
-                                  ? Icons.arrow_drop_up
-                                  : Icons.arrow_drop_down_outlined,
-                              color:
-                                  // details ?
-                                  Colors.white,
-                              //  : AppColors.navColorsUnActive,
-                              size: 15.sp,
-                            ),
+                          radius: 3.h,
+                          backgroundColor: AppColors.backGround,
+                          child: Image.asset(
+                            widget.imageLeading,
+                            scale: 1.5,
                           ),
-                        )),
-                  ],
-                ),
-                if (!details) widget.detailsWidget
-              ],
+                        ),
+                      ),
+                      SizedBox(
+                        width: 10.w,
+                      ),
+                      widget.content,
+                      SizedBox(
+                        width: 5.w,
+                      ),
+                      TouchRippleEffect(
+                          onTap: () {
+                            setState(() {
+                              details = !details;
+                            });
+                          },
+                          rippleDuration: const Duration(milliseconds: 200),
+                          rippleColor: AppColors.primaryColor.withOpacity(.5),
+                          child: CircleAvatar(
+                            radius: 2.8.w,
+                            backgroundColor:
+                                !widget.delivered ? AppColors.primaryColor : Colors.grey.shade300,
+                            child: Center(
+                              child: Icon(
+                                !details ? Icons.arrow_drop_up : Icons.arrow_drop_down_outlined,
+                                color:
+                                    // details ?
+                                    Colors.white,
+                                //  : AppColors.navColorsUnActive,
+                                size: 16.sp,
+                              ),
+                            ),
+                          )),
+                    ],
+                  ),
+                  if (!details) widget.detailsWidget
+                ],
+              ),
             ),
           ),
         ),
-        if (widget.logo)
-          PositionedDirectional(start: 8.w, top: 0, child: buildDefault())
+        if (widget.logo) PositionedDirectional(start: 4.w, top: 0, child: buildDefault())
       ],
     );
   }
@@ -116,8 +118,7 @@ class _DetailsWidgetState extends State<DetailsWidget> {
       child: Center(
         child: Text(
           'افتراضي',
-          style: AppTextStyle.getRegularStyle(
-              color: AppColors.primaryColor, fontSize: 7.sp),
+          style: AppTextStyle.getRegularStyle(color: AppColors.primaryColor, fontSize: 7.sp),
         ),
       ),
     );

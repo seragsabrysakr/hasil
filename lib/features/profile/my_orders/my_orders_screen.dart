@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hassel/app.dart';
+import 'package:hassel/app_routes.dart';
 import 'package:hassel/features/profile/widgets/details_widget.dart';
 import 'package:hassel/shared/app_utils/app_assets.dart';
 import 'package:hassel/shared/app_utils/app_colors.dart';
@@ -39,16 +40,11 @@ class _MyOrdersScreenState extends State<MyOrdersScreen> {
         padding: EdgeInsets.symmetric(vertical: 1.h),
         child: Column(
           children: [
-            buildOrderDetailsWidget(
-                state: false, steps: 3, order: order1, details: details1),
-            buildOrderDetailsWidget(
-                state: false, steps: 3, order: order1, details: details2),
-            buildOrderDetailsWidget(
-                state: false, steps: 3, order: order1, details: details3),
-            buildOrderDetailsWidget(
-                state: true, steps: 5, order: order2, details: details4),
-            buildOrderDetailsWidget(
-                state: true, steps: 5, order: order2, details: details5),
+            buildOrderDetailsWidget(state: false, steps: 3, order: order1, details: details1),
+            buildOrderDetailsWidget(state: false, steps: 3, order: order1, details: details2),
+            buildOrderDetailsWidget(state: false, steps: 3, order: order1, details: details3),
+            buildOrderDetailsWidget(state: true, steps: 5, order: order2, details: details4),
+            buildOrderDetailsWidget(state: true, steps: 5, order: order2, details: details5),
           ],
         ),
       ),
@@ -63,13 +59,14 @@ class _MyOrdersScreenState extends State<MyOrdersScreen> {
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 1.h),
       child: DetailsWidget(
+          onTap: () {
+            Navigator.pushNamed(context, Routes.trackingOrderScreen);
+          },
           logo: false,
           delivered: state,
           imageLeading: !state ? AppAssets.orderOn : AppAssets.orderOff,
           content: buildOrder(),
-          detailsWidget: state
-              ? buildOrderDelived(order)
-              : buildOrderDetails(steps, order)),
+          detailsWidget: state ? buildOrderDelived(order) : buildOrderDetails(steps, order)),
     );
   }
 
@@ -78,8 +75,7 @@ class _MyOrdersScreenState extends State<MyOrdersScreen> {
       padding: EdgeInsets.only(top: 1.h),
       child: Container(
         padding: EdgeInsets.only(top: 1.h),
-        decoration: BoxDecoration(
-            border: Border(top: BorderSide(color: Colors.grey.shade400))),
+        decoration: BoxDecoration(border: Border(top: BorderSide(color: Colors.grey.shade400))),
         child: Row(
           children: [
             Container(
@@ -99,16 +95,16 @@ class _MyOrdersScreenState extends State<MyOrdersScreen> {
                   ),
                   Text(
                     order.delivered,
-                    style: AppTextStyle.getSemiBoldStyle(
-                        color: AppColors.subTitle, fontSize: 11.sp),
+                    style:
+                        AppTextStyle.getSemiBoldStyle(color: AppColors.subTitle, fontSize: 11.sp),
                   ),
                   const Spacer(
                     flex: 1,
                   ),
                   Text(
                     'تم التوصيل',
-                    style: AppTextStyle.getSemiBoldStyle(
-                        color: AppColors.subTitle, fontSize: 11.sp),
+                    style:
+                        AppTextStyle.getSemiBoldStyle(color: AppColors.subTitle, fontSize: 11.sp),
                   ),
                 ],
               ),
@@ -125,38 +121,32 @@ class _MyOrdersScreenState extends State<MyOrdersScreen> {
       children: [
         Text(
           'الطلب #171190',
-          style: AppTextStyle.getSemiBoldStyle(
-              color: AppColors.titleColor, fontSize: 11.sp),
+          style: AppTextStyle.getSemiBoldStyle(color: AppColors.titleColor, fontSize: 11.sp),
         ),
         Text(
           'طلب في ١٧ نوفمبر ٢٠٢١',
-          style: AppTextStyle.getSemiBoldStyle(
-              color: AppColors.subTitle, fontSize: 11.sp),
+          style: AppTextStyle.getSemiBoldStyle(color: AppColors.subTitle, fontSize: 11.sp),
         ),
         Row(
           children: [
             Text(
               '\$18.99',
-              style: AppTextStyle.getSemiBoldStyle(
-                  color: AppColors.titleColor, fontSize: 11.sp),
+              style: AppTextStyle.getSemiBoldStyle(color: AppColors.titleColor, fontSize: 11.sp),
             ),
             Text(
               '  الاجمالي',
-              style: AppTextStyle.getSemiBoldStyle(
-                  color: AppColors.subTitle, fontSize: 11.sp),
+              style: AppTextStyle.getSemiBoldStyle(color: AppColors.subTitle, fontSize: 11.sp),
             ),
             SizedBox(
               width: 5.w,
             ),
             Text(
               '10',
-              style: AppTextStyle.getSemiBoldStyle(
-                  color: AppColors.subTitle, fontSize: 11.sp),
+              style: AppTextStyle.getSemiBoldStyle(color: AppColors.subTitle, fontSize: 11.sp),
             ),
             Text(
               '  العناصر',
-              style: AppTextStyle.getSemiBoldStyle(
-                  color: AppColors.subTitle, fontSize: 11.sp),
+              style: AppTextStyle.getSemiBoldStyle(color: AppColors.subTitle, fontSize: 11.sp),
             ),
           ],
         ),
@@ -168,8 +158,7 @@ class _MyOrdersScreenState extends State<MyOrdersScreen> {
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 1.h),
       child: Container(
-        decoration: BoxDecoration(
-            border: Border(top: BorderSide(color: Colors.grey.shade400))),
+        decoration: BoxDecoration(border: Border(top: BorderSide(color: Colors.grey.shade400))),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.end,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -216,16 +205,14 @@ class _MyOrdersScreenState extends State<MyOrdersScreen> {
         children: [
           Text(
             date,
-            style: AppTextStyle.getSemiBoldStyle(
-                color: AppColors.subTitle, fontSize: 11.sp),
+            style: AppTextStyle.getSemiBoldStyle(color: AppColors.subTitle, fontSize: 11.sp),
           ),
           const Spacer(
             flex: 1,
           ),
           Text(
             step,
-            style: AppTextStyle.getSemiBoldStyle(
-                color: AppColors.subTitle, fontSize: 11.sp),
+            style: AppTextStyle.getSemiBoldStyle(color: AppColors.subTitle, fontSize: 11.sp),
           ),
         ],
       ),

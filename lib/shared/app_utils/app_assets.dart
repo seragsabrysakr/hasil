@@ -5,6 +5,7 @@ class AppAssets {
   static const String orderOff = '$ordersPath/order_off.png';
   static const String card = '$imgPath/card.svg';
   static const String filter = '$imgPath/filter.svg';
+  static const String master = '$imgPath/master.png';
   static const String prande = '$imgPath/app/prand.png';
   static const String introPath = 'assets/images/intro';
   static const String intro1 = '$introPath/intro1.png';

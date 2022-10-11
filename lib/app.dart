@@ -6,7 +6,6 @@ import 'package:sizer/sizer.dart';
 
 import '../app_routes.dart';
 import 'core/app_business_logic/app_cubit/app_cubit.dart';
-import 'features/profile/my_credit/add_credit_card_screen.dart';
 import 'shared/app_utils/app_colors.dart';
 
 class App extends StatelessWidget {
@@ -20,7 +19,8 @@ class App extends StatelessWidget {
     return Sizer(builder: (context, orientation, deviceType) {
       return BlocConsumer<AppCubit, AppState>(
         listener: (context, state) {},
-        buildWhen: (previousState, currentState) => previousState != currentState,
+        buildWhen: (previousState, currentState) =>
+            previousState != currentState,
         builder: (context, state) {
           var cubit = context.read<AppCubit>();
           return MaterialApp(
@@ -35,8 +35,8 @@ class App extends StatelessWidget {
             theme: _themeData(context),
             initialRoute: Routes.onBoardRoute,
             debugShowCheckedModeBanner: false,
-            home: const AddCreditCardScreen(),
-            // onGenerateRoute: AppRoutes.onGenerateRoute,
+            // home: const AddCreditCardScreen(),
+            onGenerateRoute: AppRoutes.onGenerateRoute,
           );
         },
       );

@@ -43,6 +43,7 @@ dependencies:
   shimmer: ^2.0.0
   sizer: ^2.0.15
   touch_ripple_effect: ^2.2.3
+  flutter_rating_bar: ^4.0.1
 
 
 dev_dependencies:

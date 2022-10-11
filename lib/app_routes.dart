@@ -10,13 +10,15 @@ import 'package:hassel/features/home/presentation/screens/product_details_screen
 import 'package:hassel/features/home/presentation/screens/product_screen.dart';
 import 'package:hassel/features/home/presentation/widgets/product_item.dart';
 import 'package:hassel/features/intro/presentation/screens/intro_screen.dart';
-import 'package:hassel/features/profile/my_credit/my_credit_screen.dart';
-import 'package:hassel/features/profile/notifications/notification_screen.dart';
 import 'package:hassel/features/onboarding/onboarding_screen.dart';
 import 'package:hassel/features/profile/my_addresses/add_address_screen.dart';
 import 'package:hassel/features/profile/my_addresses/my_addresses_screen.dart';
+import 'package:hassel/features/profile/my_credit/add_credit_card_screen.dart';
+import 'package:hassel/features/profile/my_credit/my_credit_screen.dart';
 import 'package:hassel/features/profile/my_information/my_information_screen.dart';
 import 'package:hassel/features/profile/my_orders/my_orders_screen.dart';
+import 'package:hassel/features/profile/my_orders/tracking_order_screen.dart';
+import 'package:hassel/features/profile/notifications/notification_screen.dart';
 import 'package:hassel/features/profile/profile_screen.dart';
 import 'package:hassel/features/profile/transictions/transiction_screen.dart';
 
@@ -45,6 +47,8 @@ class Routes {
   static const String transictiosScreen = 'TransictiosScreen';
   static const String notiFicationScreen = 'NotiFicationScreen';
   static const String myCreditCardScreen = 'MyCreditCardScreen';
+  static const String addCreditCardScreen = 'AddCreditCardScreen';
+  static const String trackingOrderScreen = 'TrackingOrderScreen';
 }
 
 class AppRoutes {
@@ -62,11 +66,15 @@ class AppRoutes {
         return MaterialPageRoute(builder: (context) {
           return const IntroScreen();
         });
+      case Routes.addCreditCardScreen:
+        return MaterialPageRoute(builder: (context) {
+          return const AddCreditCardScreen();
+        });
       case Routes.transictiosScreen:
         return MaterialPageRoute(builder: (context) {
           return const TransictiosScreen();
         });
-        case Routes.myCreditCardScreen:
+      case Routes.myCreditCardScreen:
         return MaterialPageRoute(builder: (context) {
           return const MyCreditCardScreen();
         });
@@ -85,6 +93,10 @@ class AppRoutes {
       case Routes.myOrdersScreen:
         return MaterialPageRoute(builder: (context) {
           return const MyOrdersScreen();
+        });case
+         Routes.trackingOrderScreen:
+        return MaterialPageRoute(builder: (context) {
+          return const TrackingOrderScreen();
         });
       case Routes.registerRoute:
         return MaterialPageRoute(builder: (context) {
