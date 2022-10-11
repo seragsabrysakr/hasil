@@ -5,8 +5,10 @@ import 'package:hassel/features/auth/presentation/screens/register_screen.dart';
 import 'package:hassel/features/auth/presentation/screens/welcome_screen.dart';
 import 'package:hassel/features/cart/presentation/screens/cart_screen.dart';
 import 'package:hassel/features/favorite/presentation/favorite_screen.dart';
+import 'package:hassel/features/home/presentation/screens/add_preview_product/add_review_screen.dart';
 import 'package:hassel/features/home/presentation/screens/home_screen.dart';
 import 'package:hassel/features/home/presentation/screens/product_details_screen.dart';
+import 'package:hassel/features/home/presentation/screens/product_preview/product_preview_screen.dart';
 import 'package:hassel/features/home/presentation/screens/product_screen.dart';
 import 'package:hassel/features/home/presentation/widgets/product_item.dart';
 import 'package:hassel/features/intro/presentation/screens/intro_screen.dart';
@@ -40,11 +42,13 @@ class Routes {
   static const String productRoute = 'productRoute';
   static const String productDetailsRoute = 'productDetailsRoute';
   static const String cartRoute = 'cartRoute';
+  static const String addReviewScreen = 'AddProductReviewScreen';
   static const String myInformationRoute = 'MyInformationScreen';
   static const String myAdressesRoute = 'MyAdressesScreen';
   static const String addAddresscreen = 'AddAddresscreen';
   static const String myOrdersScreen = 'MyOrdersScreen';
   static const String transictiosScreen = 'TransictiosScreen';
+  static const String poductPreviewScreen = 'PoductPreviewScreen';
   static const String notiFicationScreen = 'NotiFicationScreen';
   static const String myCreditCardScreen = 'MyCreditCardScreen';
   static const String addCreditCardScreen = 'AddCreditCardScreen';
@@ -65,6 +69,14 @@ class AppRoutes {
       case Routes.introScreen:
         return MaterialPageRoute(builder: (context) {
           return const IntroScreen();
+        });
+      case Routes.poductPreviewScreen:
+        return MaterialPageRoute(builder: (context) {
+          return const PoductPreviewScreen();
+        });
+      case Routes.addReviewScreen:
+        return MaterialPageRoute(builder: (context) {
+          return const AddProductReviewScreen();
         });
       case Routes.addCreditCardScreen:
         return MaterialPageRoute(builder: (context) {
@@ -93,8 +105,8 @@ class AppRoutes {
       case Routes.myOrdersScreen:
         return MaterialPageRoute(builder: (context) {
           return const MyOrdersScreen();
-        });case
-         Routes.trackingOrderScreen:
+        });
+      case Routes.trackingOrderScreen:
         return MaterialPageRoute(builder: (context) {
           return const TrackingOrderScreen();
         });

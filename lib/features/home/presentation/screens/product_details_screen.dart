@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:hassel/app.dart';
+import 'package:hassel/app_routes.dart';
 import 'package:hassel/features/home/presentation/widgets/product_item.dart';
 import 'package:hassel/shared/app_utils/app_colors.dart';
 import 'package:hassel/shared/app_utils/app_sized_box.dart';
@@ -8,6 +10,7 @@ import 'package:hassel/shared/app_widgets/custom_button.dart';
 import 'package:hassel/shared/app_widgets/widgets_helper.dart';
 import 'package:readmore/readmore.dart';
 import 'package:sizer/sizer.dart';
+import 'package:touch_ripple_effect/touch_ripple_effect.dart';
 
 class ProductDetailsScreen extends StatefulWidget {
   final Product item;
@@ -21,8 +24,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: WidgetsHelper.customAppBar(context, title: widget.item.name,
-          onTap: () {
+      appBar: WidgetsHelper.customAppBar(context, title: widget.item.name, onTap: () {
         Navigator.canPop(context);
       }),
       body: ListView(
@@ -48,8 +50,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                 ),
                 Text(
                   widget.item.type,
-                  style: AppTextStyle.getBoldStyle(
-                      color: AppColors.primaryColor, fontSize: 18.sp),
+                  style: AppTextStyle.getBoldStyle(color: AppColors.primaryColor, fontSize: 18.sp),
                 ),
               ],
             ),
@@ -63,8 +64,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                 ),
                 Text(
                   widget.item.name,
-                  style: AppTextStyle.getBoldStyle(
-                      color: AppColors.headerColor, fontSize: 16.sp),
+                  style: AppTextStyle.getBoldStyle(color: AppColors.headerColor, fontSize: 16.sp),
                 ),
               ],
             ),
@@ -78,10 +78,49 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                 ),
                 Text(
                   '1.5 ibs',
-                  style: AppTextStyle.getMediumStyle(
-                      color: AppColors.subTitle, fontSize: 12.sp),
+                  style: AppTextStyle.getMediumStyle(color: AppColors.subTitle, fontSize: 12.sp),
                 ),
               ],
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 10.w),
+            child: TouchRippleEffect(
+              rippleColor: Colors.grey.shade400,
+              onTap: () {
+                Navigator.pushNamed(context, Routes.poductPreviewScreen);
+              },
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Text(
+                    '3.5',
+                    style:
+                        AppTextStyle.getMediumStyle(color: AppColors.titleColor, fontSize: 12.sp),
+                  ),
+                  SizedBox(
+                    width: 2.w,
+                  ),
+                  RatingBarIndicator(
+                    rating: 3.5,
+                    itemBuilder: (context, index) => const Icon(
+                      Icons.star,
+                      color: Colors.amber,
+                    ),
+                    itemCount: 5,
+                    itemSize: 15.sp,
+                    direction: Axis.horizontal,
+                  ),
+                  SizedBox(
+                    width: 2.w,
+                  ),
+                  Text(
+                    '(١٠ مراجعة)',
+                    style:
+                        AppTextStyle.getMediumStyle(color: AppColors.titleColor, fontSize: 12.sp),
+                  ),
+                ],
+              ),
             ),
           ),
           AppSizedBox.s1,
@@ -91,18 +130,16 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                 widget.item.description,
                 trimLines: 3,
                 style: AppTextStyle.getRegularStyle(
-                    color: AppColors.primaryColor,
-                    fontSize: 12.sp,
-                    height: 1.4),
+                    color: AppColors.primaryColor, fontSize: 12.sp, height: 1.4),
                 textAlign: TextAlign.end,
                 colorClickableText: AppColors.primaryColor,
                 trimMode: TrimMode.Line,
                 trimCollapsedText: 'المزيد',
                 trimExpandedText: 'أقل',
-                lessStyle: AppTextStyle.getBoldStyle(
-                    color: AppColors.primaryColor, fontSize: 14.sp),
-                moreStyle: AppTextStyle.getBoldStyle(
-                    color: AppColors.primaryColor, fontSize: 14.sp),
+                lessStyle:
+                    AppTextStyle.getBoldStyle(color: AppColors.primaryColor, fontSize: 14.sp),
+                moreStyle:
+                    AppTextStyle.getBoldStyle(color: AppColors.primaryColor, fontSize: 14.sp),
               )),
           AppSizedBox.s3,
           buildItemActions(),
@@ -122,8 +159,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
           children: [
             Text(
               App.tr.quantity,
-              style: AppTextStyle.getBoldStyle(
-                  color: AppColors.titleColor, fontSize: 10.sp),
+              style: AppTextStyle.getBoldStyle(color: AppColors.titleColor, fontSize: 10.sp),
             ),
             const Spacer(
               flex: 1,
@@ -160,8 +196,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
             ),
             Text(
               widget.item.count.toString(),
-              style: AppTextStyle.getBoldStyle(
-                  color: AppColors.titleColor, fontSize: 14.sp),
+              style: AppTextStyle.getBoldStyle(color: AppColors.titleColor, fontSize: 14.sp),
             ),
             SizedBox(
               width: 5.w,
@@ -263,8 +298,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
       child: Center(
         child: Text(
           '35%',
-          style: AppTextStyle.getRegularStyle(
-              color: AppColors.redColor, fontSize: 7.sp),
+          style: AppTextStyle.getRegularStyle(color: AppColors.redColor, fontSize: 7.sp),
         ),
       ),
     );
