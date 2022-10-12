@@ -122,4 +122,26 @@ class WidgetsHelper {
         statusBarIconBrightness: Brightness.dark // status bar color
         ));
   }
+
+
+
+bottomSheet(
+  context,
+  Widget screen, {
+  bool rootnavigator = true,
+  double initial = 0.6,
+}) {
+  return showModalBottomSheet(
+      backgroundColor: Colors.transparent,
+      context: context,
+      isScrollControlled: true,
+      useRootNavigator: rootnavigator,
+      clipBehavior: Clip.none,
+      isDismissible: true,
+      builder: (BuildContext context) {
+        return screen;
+      });
+}
+
+
 }

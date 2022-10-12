@@ -9,7 +9,6 @@ import 'package:hassel/shared/app_utils/app_colors.dart';
 import 'package:hassel/shared/app_utils/app_navigator.dart';
 import 'package:hassel/shared/app_utils/app_sized_box.dart';
 import 'package:hassel/shared/app_utils/app_text_style.dart';
-import 'package:hassel/shared/app_widgets/custom_text_form_field.dart';
 import 'package:sizer/sizer.dart';
 import 'package:touch_ripple_effect/touch_ripple_effect.dart';
 
@@ -153,22 +152,20 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               )),
           TouchRippleEffect(
-            rippleColor: Colors.grey.shade300,
-            onTap: () {
-              AppNavigator.navigateTo(context: context, screen: Routes.searchScreen);
-            },
-            child: 
-            
-            CustomTextField(
-              enable: false,
-              hint: '.... ابحث عن المنتج ',
-              width: 75.w,
-              textAlign: TextAlign.end,
-              validator: (String? value) {
-                return;
+              rippleColor: Colors.grey.shade300,
+              onTap: () {
+                AppNavigator.navigateTo(context: context, screen: Routes.searchScreen);
               },
-            ),
-          ),
+              child: Container(
+                padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 1.h),
+                color: Colors.white,
+                height: 6.h,
+                width: 75.w,
+                child: const Text(
+                  '.... ابحث عن المنتج ',
+                  textAlign: TextAlign.end,
+                ),
+              )),
         ],
       ),
     );

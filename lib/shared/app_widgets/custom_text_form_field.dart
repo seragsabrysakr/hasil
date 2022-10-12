@@ -47,7 +47,8 @@ class CustomTextField extends StatelessWidget {
       this.radius = 18,
       this.width,
       this.hi = 6.5,
-      this.textAlign = TextAlign.center,  this.color =Colors.white})
+      this.textAlign = TextAlign.center,
+      this.color = Colors.white})
       : super(key: key);
 
   @override
@@ -64,7 +65,7 @@ class CustomTextField extends StatelessWidget {
           child: TextFormField(
             textAlign: textAlign,
             // textAlignVertical: TextAlignVertical.bottom,
-            onTap: ontap,
+            // onTap: ontap,
             // enabled: enable,
             // autofocus: true,
             // obscuringCharacter: '*',
@@ -109,7 +110,7 @@ class CustomTextField extends StatelessWidget {
           minHeight: 25,
         ),
         suffixIcon: suffix != null
-            ? GestureDetector(
+            ? InkResponse(
                 child: Padding(
                   padding: EdgeInsetsDirectional.only(start: 3.w, end: 4.w),
                   child: Icon(
@@ -117,7 +118,7 @@ class CustomTextField extends StatelessWidget {
                     color: Colors.grey,
                   ),
                 ),
-                onTap: visiblpass,
+                onTap: ontap,
               )
             : SizedBox(
                 width: 5.w,

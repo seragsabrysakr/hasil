@@ -38,14 +38,20 @@ class TrackProgress extends StatelessWidget {
     );
   }
 
-  Widget tick(bool isChecked, int tick, {bool isTick = false}) {
+  Widget tick(
+    bool isChecked,
+    int tick, {
+    bool isTick = false,
+    required String image1,
+    required String image2,
+  }) {
     return Padding(
         padding: EdgeInsets.symmetric(vertical: .5.h),
         child: CircleAvatar(
           radius: 3.h,
           backgroundColor: AppColors.backGround,
           child: Image.asset(
-            isTick ? AppAssets.orderOn : AppAssets.orderOff,
+            isTick ? image1 : image2,
             scale: 1.7,
           ),
         ));
@@ -53,27 +59,37 @@ class TrackProgress extends StatelessWidget {
 
   Widget tick1() {
     bool isTicks = ticks > 1;
-    return ticks > 0 ? tick(true, 1, isTick: isTicks) : tick(false, 1);
+    return ticks > 0
+        ? tick(true, 1, isTick: isTicks, image1: AppAssets.orderOn, image2: AppAssets.orderOff)
+        : tick(false, 1, image1: '', image2: '');
   }
 
   Widget tick2() {
     bool isTicks = ticks > 2;
-    return ticks > 1 ? tick(true, 2, isTick: isTicks) : tick(false, 2);
+    return ticks > 1
+        ? tick(true, 2, isTick: isTicks, image1: ' ', image2: '')
+        : tick(false, 2, image2: '', image1: '');
   }
 
   Widget tick3() {
     bool isTicks = ticks > 3;
-    return ticks > 2 ? tick(true, 3, isTick: isTicks) : tick(false, 3);
+    return ticks > 2
+        ? tick(true, 3, isTick: isTicks, image1: '', image2: '')
+        : tick(false, 3, image2: '', image1: '');
   }
 
   Widget tick4() {
     bool isTicks = ticks > 4;
-    return ticks > 2 ? tick(true, 3, isTick: isTicks) : tick(false, 3);
+    return ticks > 2
+        ? tick(true, 3, isTick: isTicks, image1: '', image2: '')
+        : tick(false, 3, image1: '', image2: '');
   }
 
   Widget tick5() {
     bool isTicks = ticks > 5;
-    return ticks > 2 ? tick(true, 3, isTick: isTicks) : tick(false, 3);
+    return ticks > 2
+        ? tick(true, 3, isTick: isTicks, image1: '', image2: '')
+        : tick(false, 3, image1: '', image2: '');
   }
 
   Widget line1() {

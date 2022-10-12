@@ -6,6 +6,7 @@ import 'package:hassel/shared/app_utils/app_colors.dart';
 import 'package:hassel/shared/app_utils/app_navigator.dart';
 import 'package:hassel/shared/app_utils/app_sized_box.dart';
 import 'package:hassel/shared/app_utils/app_text_style.dart';
+import 'package:hassel/shared/app_widgets/custom_button.dart';
 import 'package:hassel/shared/app_widgets/custom_text_form_field.dart';
 import 'package:sizer/sizer.dart';
 
@@ -20,19 +21,37 @@ class _SearchScreenState extends State<SearchScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: [
-          AppSizedBox.s4,
-          buildSearchBox(),
-          AppSizedBox.s1,
-          searchDraftTitle(),
-          AppSizedBox.s1,
-          searchDraftItems(),
-          AppSizedBox.s1,
-          searchDiscoverTitle(),
-          AppSizedBox.s1,
-          searchDiscoverItems(),
-        ],
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            AppSizedBox.s4,
+            buildSearchBox(),
+            AppSizedBox.s1,
+            searchDraftTitle(),
+            AppSizedBox.s1,
+            searchDraftItems(),
+            AppSizedBox.s1,
+            searchDiscoverTitle(),
+            AppSizedBox.s1,
+            searchDiscoverItems(),
+            AppSizedBox.s9,
+            AppSizedBox.s9,
+            AppSizedBox.s9,
+            AppSizedBox.s9,
+            AppSizedBox.s5,
+            CustomButton(
+              onTap: () {},
+              fontSize: 13.sp,
+              radius: .5,
+              buttonColor: Colors.white,
+              titleColor: AppColors.titleColor,
+              fontWeight: FontWeight.w500,
+              title: ' بحث',
+              height: 6.h,
+              width: 80.w,
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -163,8 +182,15 @@ class _SearchScreenState extends State<SearchScreen> {
                 )),
             CustomTextField(
               enable: false,
+              ontap: () {
+                AppNavigator.navigateTo(context: context, screen: Routes.filterScreen);
+              },
               color: Colors.grey.shade200,
-              prefix: const Icon(Icons.search),
+              prefix: Icon(
+                Icons.search,
+                color: AppColors.primaryColor,
+              ),
+              suffix: Icons.tune,
               hint: '.... ابحث عن المنتج ',
               width: 75.w,
               textAlign: TextAlign.end,

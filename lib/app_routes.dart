@@ -10,6 +10,7 @@ import 'package:hassel/features/home/presentation/screens/home_screen.dart';
 import 'package:hassel/features/home/presentation/screens/product_details_screen.dart';
 import 'package:hassel/features/home/presentation/screens/product_preview/product_preview_screen.dart';
 import 'package:hassel/features/home/presentation/screens/product_screen.dart';
+import 'package:hassel/features/home/presentation/screens/search/filter_screen.dart';
 import 'package:hassel/features/home/presentation/widgets/product_item.dart';
 import 'package:hassel/features/intro/presentation/screens/intro_screen.dart';
 import 'package:hassel/features/onboarding/onboarding_screen.dart';
@@ -49,6 +50,7 @@ class Routes {
   static const String addAddresscreen = 'AddAddresscreen';
   static const String myOrdersScreen = 'MyOrdersScreen';
   static const String searchScreen = 'SearchScreen';
+  static const String filterScreen = 'FilterScreen';
   static const String transictiosScreen = 'TransictiosScreen';
   static const String poductPreviewScreen = 'PoductPreviewScreen';
   static const String notiFicationScreen = 'NotiFicationScreen';
@@ -71,6 +73,9 @@ class AppRoutes {
       case Routes.introScreen:
         return MaterialPageRoute(builder: (context) {
           return const IntroScreen();
+        });case Routes.filterScreen:
+        return MaterialPageRoute(builder: (context) {
+          return const FilterScreen();
         });
       case Routes.poductPreviewScreen:
         return MaterialPageRoute(builder: (context) {

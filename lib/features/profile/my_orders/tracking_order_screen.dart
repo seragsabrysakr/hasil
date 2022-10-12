@@ -37,7 +37,7 @@ class _TrackingOrderScreenState extends State<TrackingOrderScreen> {
         children: [
           AppSizedBox.s3,
           buildTrackingWidget(
-            image: AppAssets.orderOn,
+            image: AppAssets.myordersIcon,
             content: buildOrder(),
           ),
           Stack(
@@ -47,11 +47,11 @@ class _TrackingOrderScreenState extends State<TrackingOrderScreen> {
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   AppSizedBox.s2,
-                  buildOrderStep(AppAssets.orderOn, 'تم الطلب ', order.placed),
-                  buildOrderStep(AppAssets.orderOn, 'تم تأكيد الطلب ', order.confirm),
-                  buildOrderStep(AppAssets.orderOn, 'تم شحن الطلب ', order.shipped),
-                  buildOrderStep(AppAssets.orderOn, 'خرج للتوصيل', order.outDelivery),
-                  buildOrderStep(AppAssets.orderOn, 'تم التوصيل', order.delivered),
+                  buildOrderStep(  'تم الطلب ', order.placed),
+                  buildOrderStep(  'تم تأكيد الطلب ', order.confirm),
+                  buildOrderStep(  'تم شحن الطلب ', order.shipped),
+                  buildOrderStep(  'خرج للتوصيل', order.outDelivery),
+                  buildOrderStep(  'تم التوصيل', order.delivered),
                 ],
               ),
               PositionedDirectional(
@@ -155,7 +155,6 @@ class _TrackingOrderScreenState extends State<TrackingOrderScreen> {
   }
 
   Widget buildOrderStep(
-    String image,
     String step,
     String date,
   ) {
