@@ -56,8 +56,7 @@ class _HomeScreenState extends State<HomeScreen> {
         AppSizedBox.s2,
         Text(
           App.tr.dailyNeeds,
-          style: AppTextStyle.getMediumStyle(
-              color: AppColors.headerColor, fontSize: 13.sp),
+          style: AppTextStyle.getMediumStyle(color: AppColors.headerColor, fontSize: 13.sp),
         ),
         AppSizedBox.s2
       ]),
@@ -95,8 +94,7 @@ class _HomeScreenState extends State<HomeScreen> {
               AppSizedBox.s2,
               Text(
                 App.tr.categories,
-                style: AppTextStyle.getMediumStyle(
-                    color: AppColors.headerColor, fontSize: 13.sp),
+                style: AppTextStyle.getMediumStyle(color: AppColors.headerColor, fontSize: 13.sp),
               ),
               AppSizedBox.s2,
               Expanded(
@@ -139,8 +137,7 @@ class _HomeScreenState extends State<HomeScreen> {
         children: [
           IconButton(
               onPressed: () {
-                AppNavigator.navigateTo(
-                    context: context, screen: Routes.cartRoute);
+                AppNavigator.navigateTo(context: context, screen: Routes.cartRoute);
               },
               icon: Badge(
                 toAnimate: false,
@@ -155,14 +152,22 @@ class _HomeScreenState extends State<HomeScreen> {
                   color: AppColors.primaryColor,
                 ),
               )),
-          CustomTextField(
-            enable: false,
-            hint: '.... ابحث عن المنتج ',
-            width: 75.w,
-            textAlign: TextAlign.end,
-            validator: (String? value) {
-              return;
+          TouchRippleEffect(
+            rippleColor: Colors.grey.shade300,
+            onTap: () {
+              AppNavigator.navigateTo(context: context, screen: Routes.searchScreen);
             },
+            child: 
+            
+            CustomTextField(
+              enable: false,
+              hint: '.... ابحث عن المنتج ',
+              width: 75.w,
+              textAlign: TextAlign.end,
+              validator: (String? value) {
+                return;
+              },
+            ),
           ),
         ],
       ),

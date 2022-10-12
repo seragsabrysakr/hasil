@@ -26,6 +26,7 @@ import 'package:hassel/features/profile/transictions/transiction_screen.dart';
 
 import '../home_page.dart';
 import 'app.dart';
+import 'features/home/presentation/screens/search/search_screen.dart';
 import 'shared/app_utils/app_strings.dart';
 
 class Routes {
@@ -47,6 +48,7 @@ class Routes {
   static const String myAdressesRoute = 'MyAdressesScreen';
   static const String addAddresscreen = 'AddAddresscreen';
   static const String myOrdersScreen = 'MyOrdersScreen';
+  static const String searchScreen = 'SearchScreen';
   static const String transictiosScreen = 'TransictiosScreen';
   static const String poductPreviewScreen = 'PoductPreviewScreen';
   static const String notiFicationScreen = 'NotiFicationScreen';
@@ -81,6 +83,9 @@ class AppRoutes {
       case Routes.addCreditCardScreen:
         return MaterialPageRoute(builder: (context) {
           return const AddCreditCardScreen();
+        }); case Routes.searchScreen:
+        return MaterialPageRoute(builder: (context) {
+          return const SearchScreen();
         });
       case Routes.transictiosScreen:
         return MaterialPageRoute(builder: (context) {
