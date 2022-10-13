@@ -7,7 +7,6 @@ import 'package:hassel/shared/app_utils/app_colors.dart';
 import 'package:hassel/shared/app_utils/app_navigator.dart';
 import 'package:hassel/shared/app_utils/app_sized_box.dart';
 import 'package:hassel/shared/app_utils/app_text_style.dart';
-import 'package:hassel/shared/app_utils/app_validation.dart';
 import 'package:hassel/shared/app_widgets/custom_button.dart';
 import 'package:hassel/shared/app_widgets/custom_text_form_field.dart';
 import 'package:sizer/sizer.dart';
@@ -63,9 +62,9 @@ class _LogInScreenState extends State<LogInScreen> {
       children: [
         CustomButton(
           onTap: () {
-            if (!_formKey.currentState!.validate()) {
-              AppNavigator.navigateTo(
-                  context: context, screen: Routes.onBoardRoute);
+                          AppNavigator.navigateAndFinish(context: context, screen: Routes.onBoardRoute);
+
+            if (_formKey.currentState!.validate()) {
             }
           },
           fontSize: 13.sp,
@@ -88,13 +87,11 @@ class _LogInScreenState extends State<LogInScreen> {
       children: [
         InkWell(
           onTap: () {
-            AppNavigator.navigateAndFinish(
-                context: context, screen: Routes.forgetRoute);
+            AppNavigator.navigateAndFinish(context: context, screen: Routes.forgetRoute);
           },
           child: Text(
             App.tr.lostPassword,
-            style: AppTextStyle.getSemiBoldStyle(
-                color: Colors.blue, fontSize: 10.sp),
+            style: AppTextStyle.getSemiBoldStyle(color: Colors.blue, fontSize: 10.sp),
           ),
         ),
         AppSizedBox.s2,
@@ -112,7 +109,7 @@ class _LogInScreenState extends State<LogInScreen> {
             controller: emailController,
             hint: App.tr.email,
             validator: (String? value) {
-              return Validations.emailValidation(value);
+              return;
             }),
         CustomTextField(
             action: TextInputAction.done,
@@ -127,7 +124,7 @@ class _LogInScreenState extends State<LogInScreen> {
             suffix: showPassword ? Icons.visibility : Icons.visibility_off,
             hint: App.tr.password,
             validator: (String? value) {
-              return Validations.passwordValidation(value);
+              return;
             }),
         AppSizedBox.s1,
       ],
@@ -143,17 +140,14 @@ class _LogInScreenState extends State<LogInScreen> {
           children: [
             TextButton(
               onPressed: () {
-                AppNavigator.navigateTo(
-                    context: context, screen: Routes.registerRoute);
+                AppNavigator.navigateTo(context: context, screen: Routes.registerRoute);
               },
               style: ButtonStyle(
-                padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
-                    EdgeInsets.zero),
+                padding: MaterialStateProperty.all<EdgeInsetsGeometry>(EdgeInsets.zero),
               ),
               child: Text(
                 App.tr.newRegister,
-                style: AppTextStyle.getSemiBoldStyle(
-                    color: AppColors.headerColor, fontSize: 11.sp),
+                style: AppTextStyle.getSemiBoldStyle(color: AppColors.headerColor, fontSize: 11.sp),
               ),
             ),
             SizedBox(
@@ -161,8 +155,7 @@ class _LogInScreenState extends State<LogInScreen> {
             ),
             Text(
               App.tr.doNotHaveAccount,
-              style: AppTextStyle.getMediumStyle(
-                  color: AppColors.subTitle, fontSize: 11.sp),
+              style: AppTextStyle.getMediumStyle(color: AppColors.subTitle, fontSize: 11.sp),
             ),
           ],
         ),
@@ -190,10 +183,7 @@ class _LogInScreenState extends State<LogInScreen> {
                 gradient: LinearGradient(
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
-                  colors: [
-                    Colors.black.withOpacity(.25),
-                    Colors.black.withOpacity(.1)
-                  ],
+                  colors: [Colors.black.withOpacity(.25), Colors.black.withOpacity(.1)],
                 ),
               ),
               height: 12.h,
@@ -204,8 +194,7 @@ class _LogInScreenState extends State<LogInScreen> {
           right: 34.w,
           child: Text(
             App.tr.logIn,
-            style:
-                AppTextStyle.getBoldStyle(color: Colors.white, fontSize: 14.sp),
+            style: AppTextStyle.getBoldStyle(color: Colors.white, fontSize: 14.sp),
           ),
         ),
       ],
@@ -219,14 +208,12 @@ class _LogInScreenState extends State<LogInScreen> {
         AppSizedBox.s2,
         Text(
           App.tr.welcomeAgain,
-          style: AppTextStyle.getMediumStyle(
-              color: AppColors.headerColor, fontSize: 18.sp),
+          style: AppTextStyle.getMediumStyle(color: AppColors.headerColor, fontSize: 18.sp),
         ),
         AppSizedBox.s1,
         Text(
           App.tr.logInToYourAccount,
-          style: AppTextStyle.getMediumStyle(
-              color: AppColors.subTitle, fontSize: 11.sp),
+          style: AppTextStyle.getMediumStyle(color: AppColors.subTitle, fontSize: 11.sp),
         ),
         AppSizedBox.s1,
       ],

@@ -118,7 +118,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
         height: 16.h,
         child: TouchRippleEffect(
           onTap: () {
-            Navigator.pushNamed(context, screens[index]);
+            if(index!=screens.length-1){
+
+                          Navigator.pushNamed(context, screens[index]);
+
+            }
           },
           rippleColor: AppColors.primaryColor.withOpacity(.2),
           child: Center(
@@ -173,5 +177,5 @@ List<String> screens = [
   Routes.myCreditCardScreen,
   Routes.transictiosScreen,
   Routes.notiFicationScreen,
-  Routes.myInformationRoute,
+  Routes.profileRoute,
 ];

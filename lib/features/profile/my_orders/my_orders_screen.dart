@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hassel/app.dart';
 import 'package:hassel/app_routes.dart';
 import 'package:hassel/features/profile/widgets/details_widget.dart';
@@ -7,7 +6,7 @@ import 'package:hassel/shared/app_utils/app_assets.dart';
 import 'package:hassel/shared/app_utils/app_colors.dart';
 import 'package:hassel/shared/app_utils/app_sized_box.dart';
 import 'package:hassel/shared/app_utils/app_text_style.dart';
-import 'package:hassel/shared/app_widgets/custom_text.dart';
+import 'package:hassel/shared/app_widgets/widgets_helper.dart';
 import 'package:sizer/sizer.dart';
 
 class MyOrdersScreen extends StatefulWidget {
@@ -21,21 +20,7 @@ class _MyOrdersScreenState extends State<MyOrdersScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-          centerTitle: true,
-          title: CustomText(
-            text: App.tr.myOrders,
-            size: 15.sp,
-            weight: FontWeight.bold,
-          ),
-          actions: [
-            IconButton(
-                onPressed: () {},
-                icon: SvgPicture.asset(
-                  AppAssets.filter,
-                  color: AppColors.titleColor,
-                ))
-          ]),
+      appBar: WidgetsHelper.customAppBar(context, title: App.tr.myOrders),
       body: SingleChildScrollView(
         padding: EdgeInsets.symmetric(vertical: 1.h),
         child: Column(

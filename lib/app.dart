@@ -19,8 +19,7 @@ class App extends StatelessWidget {
     return Sizer(builder: (context, orientation, deviceType) {
       return BlocConsumer<AppCubit, AppState>(
         listener: (context, state) {},
-        buildWhen: (previousState, currentState) =>
-            previousState != currentState,
+        buildWhen: (previousState, currentState) => previousState != currentState,
         builder: (context, state) {
           var cubit = context.read<AppCubit>();
           return MaterialApp(
@@ -33,9 +32,9 @@ class App extends StatelessWidget {
             supportedLocales: AppLocalizations.supportedLocales,
             locale: cubit.locale,
             theme: _themeData(context),
-            initialRoute: Routes.onBoardRoute,
+            initialRoute: Routes.introScreen,
             debugShowCheckedModeBanner: false,
-            // home: const AddCreditCardScreen(),
+            // home: const IntroScreen(),
             onGenerateRoute: AppRoutes.onGenerateRoute,
           );
         },

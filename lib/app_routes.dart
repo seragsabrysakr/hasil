@@ -4,6 +4,7 @@ import 'package:hassel/features/auth/presentation/screens/login_screen.dart';
 import 'package:hassel/features/auth/presentation/screens/register_screen.dart';
 import 'package:hassel/features/auth/presentation/screens/welcome_screen.dart';
 import 'package:hassel/features/cart/presentation/screens/cart_screen.dart';
+import 'package:hassel/features/cart/presentation/screens/delivery_address.dart';
 import 'package:hassel/features/favorite/presentation/favorite_screen.dart';
 import 'package:hassel/features/home/presentation/screens/add_preview_product/add_review_screen.dart';
 import 'package:hassel/features/home/presentation/screens/home_screen.dart';
@@ -33,6 +34,7 @@ import 'shared/app_utils/app_strings.dart';
 class Routes {
   static const String initialRoute = '/';
   static const String introScreen = 'introRoute';
+  static const String deliveryAddresscreen = 'DeliveryAddresscreen';
   static const String welcomeRoute = 'welcomeRoute';
   static const String logInRoute = 'logInRoute';
   static const String registerRoute = 'registerRoute';
@@ -73,7 +75,12 @@ class AppRoutes {
       case Routes.introScreen:
         return MaterialPageRoute(builder: (context) {
           return const IntroScreen();
-        });case Routes.filterScreen:
+        });
+      case Routes.deliveryAddresscreen:
+        return MaterialPageRoute(builder: (context) {
+          return const DeliveryAddresscreen();
+        });
+      case Routes.filterScreen:
         return MaterialPageRoute(builder: (context) {
           return const FilterScreen();
         });
@@ -88,7 +95,8 @@ class AppRoutes {
       case Routes.addCreditCardScreen:
         return MaterialPageRoute(builder: (context) {
           return const AddCreditCardScreen();
-        }); case Routes.searchScreen:
+        });
+      case Routes.searchScreen:
         return MaterialPageRoute(builder: (context) {
           return const SearchScreen();
         });

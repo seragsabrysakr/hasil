@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:hassel/app.dart';
+import 'package:hassel/app_routes.dart';
 import 'package:hassel/features/home/presentation/widgets/product_item.dart';
 import 'package:hassel/shared/app_utils/app_colors.dart';
+import 'package:hassel/shared/app_utils/app_navigator.dart';
 import 'package:hassel/shared/app_utils/app_sized_box.dart';
 import 'package:hassel/shared/app_utils/app_text_style.dart';
 import 'package:hassel/shared/app_widgets/custom_button.dart';
@@ -20,16 +22,15 @@ class CartScreen extends StatefulWidget {
 
 class _CartScreenState extends State<CartScreen> {
   List<Product> productItems = List.of(cart).toSet().toList();
-  bool orderComplete = true;
-  bool orderList = false;
+  bool orderComplete = false;
+  bool orderList = true;
   bool orderEmpty = false;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: WidgetsHelper.customAppBar(context,
-          title: orderComplete ? App.tr.completeRequest : App.tr.cart,
-          cart: false),
+          title: orderComplete ? App.tr.completeRequest : App.tr.cart, cart: false),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 2.h),
         child: CustomScrollView(
@@ -71,16 +72,14 @@ class _CartScreenState extends State<CartScreen> {
                 children: [
                   Text(
                     App.tr.subTotal,
-                    style: AppTextStyle.getMediumStyle(
-                        color: AppColors.subTitle, fontSize: 10.sp),
+                    style: AppTextStyle.getMediumStyle(color: AppColors.subTitle, fontSize: 10.sp),
                   ),
                   const Spacer(
                     flex: 1,
                   ),
                   Text(
                     '123.5 ريال',
-                    style: AppTextStyle.getMediumStyle(
-                        color: AppColors.subTitle, fontSize: 10.sp),
+                    style: AppTextStyle.getMediumStyle(color: AppColors.subTitle, fontSize: 10.sp),
                   ),
                 ],
               ),
@@ -91,16 +90,14 @@ class _CartScreenState extends State<CartScreen> {
                 children: [
                   Text(
                     App.tr.deliveryCharge,
-                    style: AppTextStyle.getMediumStyle(
-                        color: AppColors.subTitle, fontSize: 10.sp),
+                    style: AppTextStyle.getMediumStyle(color: AppColors.subTitle, fontSize: 10.sp),
                   ),
                   const Spacer(
                     flex: 1,
                   ),
                   Text(
                     '123.5 ريال',
-                    style: AppTextStyle.getMediumStyle(
-                        color: AppColors.subTitle, fontSize: 10.sp),
+                    style: AppTextStyle.getMediumStyle(color: AppColors.subTitle, fontSize: 10.sp),
                   ),
                 ],
               ),
@@ -119,23 +116,30 @@ class _CartScreenState extends State<CartScreen> {
                 children: [
                   Text(
                     App.tr.total,
-                    style: AppTextStyle.getBoldStyle(
-                        color: AppColors.titleColor, fontSize: 13.sp),
+                    style: AppTextStyle.getBoldStyle(color: AppColors.titleColor, fontSize: 13.sp),
                   ),
                   const Spacer(
                     flex: 1,
                   ),
                   Text(
                     '123.5 ريال',
-                    style: AppTextStyle.getBoldStyle(
-                        color: AppColors.titleColor, fontSize: 13.sp),
+                    style: AppTextStyle.getBoldStyle(color: AppColors.titleColor, fontSize: 13.sp),
                   ),
                 ],
               ),
             ),
             AppSizedBox.s1,
             CustomButton(
-              onTap: () {},
+              onTap: () async {
+                var result = await Navigator.pushNamed(context, Routes.deliveryAddresscreen);
+                if (result == 'done') {
+                  setState(() {
+                    orderComplete = true;
+                    orderList = false;
+                    orderEmpty = false;
+                  });
+                }
+              },
               fontSize: 13.sp,
               radius: .5,
               buttonColor: AppColors.primaryColor,
@@ -155,6 +159,9 @@ class _CartScreenState extends State<CartScreen> {
     return SliverToBoxAdapter(
       child: EmptyViewScreen(
         image: true,
+        onTap: () {
+          AppNavigator.navigateTo(context: context, screen: Routes.trackingOrderScreen);
+        },
         item: EmptyItemModel(
           mainTextHeader: 'تم إكتمال طلبك ',
           mainHeader: 'بنجاح',
@@ -241,18 +248,15 @@ class _CartScreenState extends State<CartScreen> {
       children: [
         Text(
           '\$1.22 x 5',
-          style: AppTextStyle.getBoldStyle(
-              color: AppColors.primaryColor, fontSize: 11.sp),
+          style: AppTextStyle.getBoldStyle(color: AppColors.primaryColor, fontSize: 11.sp),
         ),
         Text(
           item.name,
-          style: AppTextStyle.getBoldStyle(
-              color: AppColors.titleColor, fontSize: 12.sp),
+          style: AppTextStyle.getBoldStyle(color: AppColors.titleColor, fontSize: 12.sp),
         ),
         Text(
           '1.50 ibs',
-          style: AppTextStyle.getMediumStyle(
-              color: AppColors.subTitle, fontSize: 12.sp),
+          style: AppTextStyle.getMediumStyle(color: AppColors.subTitle, fontSize: 12.sp),
         ),
       ],
     );
@@ -296,14 +300,13 @@ class _CartScreenState extends State<CartScreen> {
               ),
             ),
           ),
-          Container(
+          SizedBox(
             height: 4.h,
             width: 10.w,
             child: Center(
               child: Text(
                 productItems[index].count.toString(),
-                style: AppTextStyle.getBoldStyle(
-                    color: AppColors.titleColor, fontSize: 14.sp),
+                style: AppTextStyle.getBoldStyle(color: AppColors.titleColor, fontSize: 14.sp),
               ),
             ),
           ),

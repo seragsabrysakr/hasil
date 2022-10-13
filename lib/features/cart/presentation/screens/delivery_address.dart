@@ -62,10 +62,8 @@ class _DeliveryAddresscreenState extends State<DeliveryAddresscreen> {
                       padding: EdgeInsets.symmetric(horizontal: 10.w),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: List.generate(
-                            icons.length,
-                            (index) => buildPaymentMethods(
-                                title[index], icons[index], index)),
+                        children: List.generate(icons.length,
+                            (index) => buildPaymentMethods(title[index], icons[index], index)),
                       ),
                     ),
                     AppSizedBox.s3,
@@ -165,6 +163,8 @@ class _DeliveryAddresscreenState extends State<DeliveryAddresscreen> {
                     setState(() {
                       step++;
                     });
+                  } else {
+                    Navigator.pop(context, 'done');
                   }
                 },
                 fontSize: 13.sp,
@@ -325,8 +325,8 @@ class _DeliveryAddresscreenState extends State<DeliveryAddresscreen> {
               rippleColor: Colors.grey.shade300,
               child: Text(
                 'حفظ العنوان',
-                style: AppTextStyle.getSemiBoldStyle(
-                    color: AppColors.primaryColor, fontSize: 11.sp),
+                style:
+                    AppTextStyle.getSemiBoldStyle(color: AppColors.primaryColor, fontSize: 11.sp),
               ),
             ),
             SizedBox(
@@ -367,19 +367,18 @@ class _DeliveryAddresscreenState extends State<DeliveryAddresscreen> {
                     ),
                     Text(
                       'الشحن خلال اليوم',
-                      style: AppTextStyle.getRegularStyle(
-                          color: Colors.black, fontSize: 10.sp),
+                      style: AppTextStyle.getRegularStyle(color: Colors.black, fontSize: 10.sp),
                     ),
                     AppSizedBox.s2,
                     Text(
                       'ضع طلبك قبل الساعة ٦ مساءا مع اغراضك',
-                      style: AppTextStyle.getRegularStyle(
-                          color: AppColors.subTitle, fontSize: 10.sp),
+                      style:
+                          AppTextStyle.getRegularStyle(color: AppColors.subTitle, fontSize: 10.sp),
                     ),
                     Text(
                       'سيتم تسليمها في اليوم التالي',
-                      style: AppTextStyle.getRegularStyle(
-                          color: AppColors.subTitle, fontSize: 10.sp),
+                      style:
+                          AppTextStyle.getRegularStyle(color: AppColors.subTitle, fontSize: 10.sp),
                     ),
                   ],
                 ),
@@ -388,8 +387,8 @@ class _DeliveryAddresscreenState extends State<DeliveryAddresscreen> {
                 ),
                 Text(
                   '٥ ريال',
-                  style: AppTextStyle.getRegularStyle(
-                      color: AppColors.primaryColor, fontSize: 11.sp),
+                  style:
+                      AppTextStyle.getRegularStyle(color: AppColors.primaryColor, fontSize: 11.sp),
                 ),
                 SizedBox(
                   width: 5.w,
@@ -424,9 +423,8 @@ class _DeliveryAddresscreenState extends State<DeliveryAddresscreen> {
             decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(.5.h),
-                border: Border.all(
-                    color: select ? AppColors.primaryColor : Colors.white,
-                    width: .4.w)),
+                border:
+                    Border.all(color: select ? AppColors.primaryColor : Colors.white, width: .4.w)),
             child: Column(
               children: [
                 AppSizedBox.s2,
@@ -438,9 +436,7 @@ class _DeliveryAddresscreenState extends State<DeliveryAddresscreen> {
                 Text(
                   title,
                   style: AppTextStyle.getRegularStyle(
-                      color: select
-                          ? AppColors.primaryColor
-                          : Colors.grey.shade500,
+                      color: select ? AppColors.primaryColor : Colors.grey.shade500,
                       fontSize: 8.sp),
                 ),
               ],

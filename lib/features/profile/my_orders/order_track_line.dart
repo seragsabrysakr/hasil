@@ -61,35 +61,35 @@ class TrackProgress extends StatelessWidget {
     bool isTicks = ticks > 1;
     return ticks > 0
         ? tick(true, 1, isTick: isTicks, image1: AppAssets.orderOn, image2: AppAssets.orderOff)
-        : tick(false, 1, image1: '', image2: '');
+        : tick(false, 1, image1: AppAssets.orderOn, image2: AppAssets.orderOff);
   }
 
   Widget tick2() {
     bool isTicks = ticks > 2;
     return ticks > 1
-        ? tick(true, 2, isTick: isTicks, image1: ' ', image2: '')
-        : tick(false, 2, image2: '', image1: '');
+        ? tick(true, 2, isTick: isTicks, image1: AppAssets.orderOn, image2: AppAssets.orderOff)
+        : tick(false, 2, image1: AppAssets.orderOn, image2: AppAssets.orderOff);
   }
 
   Widget tick3() {
     bool isTicks = ticks > 3;
     return ticks > 2
-        ? tick(true, 3, isTick: isTicks, image1: '', image2: '')
-        : tick(false, 3, image2: '', image1: '');
+        ? tick(true, 3, isTick: isTicks, image1: AppAssets.orderOn, image2: AppAssets.orderOff)
+        : tick(false, 3, image1: AppAssets.orderOn, image2: AppAssets.orderOff);
   }
 
   Widget tick4() {
     bool isTicks = ticks > 4;
     return ticks > 2
-        ? tick(true, 3, isTick: isTicks, image1: '', image2: '')
-        : tick(false, 3, image1: '', image2: '');
+        ? tick(true, 3, isTick: isTicks, image1: AppAssets.orderOn, image2: AppAssets.orderOff)
+        : tick(false, 3, image1: AppAssets.orderOn, image2: AppAssets.orderOff);
   }
 
   Widget tick5() {
     bool isTicks = ticks > 5;
     return ticks > 2
-        ? tick(true, 3, isTick: isTicks, image1: '', image2: '')
-        : tick(false, 3, image1: '', image2: '');
+        ? tick(true, 3, isTick: isTicks, image1: AppAssets.orderOn, image2: AppAssets.orderOff)
+        : tick(false, 3, image1: AppAssets.orderOn, image2: AppAssets.orderOff);
   }
 
   Widget line1() {
