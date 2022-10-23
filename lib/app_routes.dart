@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hassel/data/model/productModel.dart';
 import 'package:hassel/features/auth/presentation/screens/forget_password.dart';
 import 'package:hassel/features/auth/presentation/screens/login_screen.dart';
 import 'package:hassel/features/auth/presentation/screens/register_screen.dart';
@@ -12,7 +13,6 @@ import 'package:hassel/features/home/presentation/screens/product_details_screen
 import 'package:hassel/features/home/presentation/screens/product_preview/product_preview_screen.dart';
 import 'package:hassel/features/home/presentation/screens/product_screen.dart';
 import 'package:hassel/features/home/presentation/screens/search/filter_screen.dart';
-import 'package:hassel/features/home/presentation/widgets/product_item.dart';
 import 'package:hassel/features/intro/presentation/screens/intro_screen.dart';
 import 'package:hassel/features/onboarding/onboarding_screen.dart';
 import 'package:hassel/features/profile/my_addresses/add_address_screen.dart';
@@ -176,7 +176,7 @@ class AppRoutes {
           );
         });
       case Routes.productDetailsRoute:
-        final item = routeSettings.arguments as Product;
+        final item = routeSettings.arguments as ProductModel;
         return MaterialPageRoute(builder: (context) {
           return ProductDetailsScreen(
             item: item,

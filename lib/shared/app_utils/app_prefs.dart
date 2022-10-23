@@ -20,7 +20,7 @@ class AppPreferences {
 
   AppPreferences(this._sharedPreferences);
 
-  Future<bool> putData(String key, dynamic value) async {
+  Future<bool> _putData(String key, dynamic value) async {
     if (value is String) return await _sharedPreferences.setString(key, value);
     if (value is int) return await _sharedPreferences.setInt(key, value);
     return await _sharedPreferences.setBool(key, value);
@@ -40,7 +40,7 @@ class AppPreferences {
   }
 
   setLanguage(String language) {
-    putData(lang, language);
+    _putData(lang, language);
   }
 
   ThemeData? getTheme() {
@@ -55,6 +55,6 @@ class AppPreferences {
   }
 
   setTheme(bool isDark) {
-    putData(isDarkMode, isDark);
+    _putData(isDarkMode, isDark);
   }
 }

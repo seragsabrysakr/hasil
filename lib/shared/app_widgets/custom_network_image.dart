@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:hassel/shared/app_utils/app_assets.dart';
 import 'package:sizer/sizer.dart';
 
 class CustomNetworkImage extends StatelessWidget {
@@ -26,51 +27,47 @@ class CustomNetworkImage extends StatelessWidget {
 ClipRRect buildImage(
     {required String imageUrl, required height, required width}) {
   return ClipRRect(
-      borderRadius: BorderRadius.circular(1.h),
       child: Container(
+    decoration: BoxDecoration(),
+    height: height,
+    width: width,
+    child: CachedNetworkImage(
+      color: Colors.grey.shade300,
+      imageBuilder: (context, imageProvider) => Container(
+        height: height,
+        width: width,
         decoration: BoxDecoration(
+          image: DecorationImage(image: imageProvider, fit: BoxFit.cover),
+        ),
+      ),
+      imageUrl: imageUrl,
+      placeholder: (context, url) => Container(
+        decoration: BoxDecoration(
+          boxShadow: [
+            BoxShadow(
+              color: Colors.green.shade100,
+              blurRadius: 8,
+              offset: const Offset(2, 5), // Shadow position
+            ),
+          ],
           borderRadius: BorderRadius.circular(1.h),
+          image: const DecorationImage(
+              image: AssetImage(AppAssets.placeholder), fit: BoxFit.cover),
         ),
         height: height,
         width: width,
-        child: CachedNetworkImage(
-          color: Colors.grey.shade300,
-          imageBuilder: (context, imageProvider) => Container(
-            height: height,
-            width: width,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(1.h),
-              border: Border.all(color: Colors.grey.shade200),
-              image: DecorationImage(image: imageProvider, fit: BoxFit.cover),
-            ),
-          ),
-          imageUrl: imageUrl,
-          placeholder: (context, url) => Container(
-            decoration: BoxDecoration(
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.red.shade100,
-                  blurRadius: 8,
-                  offset: const Offset(2, 5), // Shadow position
-                ),
-              ],
-              borderRadius: BorderRadius.circular(1.h),
-              image: const DecorationImage(
-                  image: AssetImage(''), fit: BoxFit.cover),
-            ),
-            height: height,
-            width: width,
-          ),
-          errorWidget: (context, url, error) => Container(
-            height: height,
-            width: width,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(1.h),
-              image: const DecorationImage(
-                image: AssetImage(''),
-              ),
-            ),
+      ),
+      errorWidget: (context, url, error) => Container(
+        height: height,
+        width: width,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(1.h),
+          image: const DecorationImage(
+            image: AssetImage(AppAssets.placeholder),
+            fit: BoxFit.cover,
           ),
         ),
-      ));
+      ),
+    ),
+  ));
 }

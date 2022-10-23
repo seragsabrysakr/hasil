@@ -1,7 +1,14 @@
 import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hassel/app.dart';
 import 'package:hassel/app_routes.dart';
+import 'package:hassel/core/app_business_logic/state_renderer/state_renderer_impl.dart';
+import 'package:hassel/core/dependency_injection/dependency_injection.dart';
+import 'package:hassel/data/model/category_model.dart' as model;
+import 'package:hassel/data/model/productModel.dart';
+import 'package:hassel/features/home/presentation/cubits/categories_cubit.dart';
+import 'package:hassel/features/home/presentation/cubits/products_cubit.dart';
 import 'package:hassel/features/home/presentation/widgets/category_item.dart';
 import 'package:hassel/features/home/presentation/widgets/product_item.dart';
 import 'package:hassel/shared/app_utils/app_assets.dart';
@@ -9,6 +16,7 @@ import 'package:hassel/shared/app_utils/app_colors.dart';
 import 'package:hassel/shared/app_utils/app_navigator.dart';
 import 'package:hassel/shared/app_utils/app_sized_box.dart';
 import 'package:hassel/shared/app_utils/app_text_style.dart';
+import 'package:hassel/shared/app_widgets/widgets_helper.dart';
 import 'package:sizer/sizer.dart';
 import 'package:touch_ripple_effect/touch_ripple_effect.dart';
 
@@ -23,27 +31,43 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: Column(
-          children: [
-            buildSearchBox(),
-            Expanded(
-              child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 5.w),
-                child: CustomScrollView(
-                  physics: const BouncingScrollPhysics(),
-                  slivers: [
-                    buildHeaderImage(),
-                    buildCategories(),
-                    buildDailyTitle(),
-                    buildDailyNeeds()
-                  ],
+      body: MultiBlocProvider(
+        providers: [
+          BlocProvider(
+            create: (context) => getIt<CategoriesCubit>()..getCategories(),
+          ),
+          BlocProvider(
+            create: (context) => getIt<ProductsCubit>()..getAllProducts(),
+          ),
+        ],
+        child: SafeArea(
+          child: Column(
+            children: [
+              buildSearchBox(),
+              Expanded(
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 5.w),
+                  child: CustomScrollView(
+                    physics: const BouncingScrollPhysics(),
+                    slivers: [
+                      buildHeaderImage(),
+                      buildCategoriesTitle(),
+                      buildCategoriesRequestBuilder(),
+                      buildDailyTitle(),
+                      buildProductsRequestBuilder()
+                    ],
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -55,14 +79,45 @@ class _HomeScreenState extends State<HomeScreen> {
         AppSizedBox.s2,
         Text(
           App.tr.dailyNeeds,
-          style: AppTextStyle.getMediumStyle(color: AppColors.headerColor, fontSize: 13.sp),
+          style: AppTextStyle.getMediumStyle(
+              color: AppColors.headerColor, fontSize: 13.sp),
         ),
         AppSizedBox.s2
       ]),
     );
   }
 
-  SliverGrid buildDailyNeeds() {
+  SliverToBoxAdapter buildCategoriesTitle() {
+    return SliverToBoxAdapter(
+      child: Column(crossAxisAlignment: CrossAxisAlignment.end, children: [
+        AppSizedBox.s2,
+        Text(
+          App.tr.categories,
+          style: AppTextStyle.getMediumStyle(
+              color: AppColors.headerColor, fontSize: 13.sp),
+        ),
+      ]),
+    );
+  }
+
+  buildProductsRequestBuilder() {
+    return BlocConsumer<ProductsCubit, FlowState>(
+      listener: (context, state) {
+        state.flowStateListener(context);
+      },
+      builder: (context, state) {
+        var cubit = ProductsCubit.get(context);
+        List<ProductModel> productList = cubit.products;
+        return state.flowStateBuilder(context,
+            isSliver: true,
+            loadingView: buildProductsLoading(),
+            screenContent: buildProducts(productList),
+            retry: () {});
+      },
+    );
+  }
+
+  SliverGrid buildProducts(List<ProductModel> productList) {
     return SliverGrid(
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
@@ -73,7 +128,7 @@ class _HomeScreenState extends State<HomeScreen> {
       delegate: SliverChildBuilderDelegate(
         (BuildContext context, int index) {
           return StatefulBuilder(builder: (context, snapshot) {
-            return ProductItem(product: products[index]);
+            return ProductItem(product: productList[index]);
           });
         },
         childCount: products.length,
@@ -81,27 +136,86 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  SliverToBoxAdapter buildCategories() {
+  buildProductsLoading() {
+    return SliverGrid(
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2,
+        childAspectRatio: .63,
+        crossAxisSpacing: 4.w,
+        mainAxisSpacing: 3.w,
+      ),
+      delegate: SliverChildBuilderDelegate(
+        (BuildContext context, int index) {
+          return StatefulBuilder(builder: (context, snapshot) {
+            return WidgetsHelper.loadingWidget(
+              height: 32.h,
+              width: 27.w,
+              radius: 1.h,
+            );
+          });
+        },
+        childCount: 4,
+      ),
+    );
+  }
+
+  buildCategoriesRequestBuilder() {
+    return BlocConsumer<CategoriesCubit, FlowState>(
+      listener: (context, state) {
+        state.flowStateListener(context);
+      },
+      builder: (context, state) {
+        var cubit = CategoriesCubit.get(context);
+        List<model.CategoryModel> categoriesList = cubit.categories;
+
+        return state.flowStateBuilder(context,
+            isSliver: true,
+            loadingView: categoriesLoading(),
+            screenContent: buildCategories(context, categoriesList),
+            retry: () {});
+      },
+    );
+  }
+
+  SliverToBoxAdapter categoriesLoading() {
+    return SliverToBoxAdapter(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: [
+          AppSizedBox.s2,
+          Row(
+            children: List.generate(
+                3,
+                (index) => Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 1.5.w),
+                      child: WidgetsHelper.loadingWidget(
+                        height: 15.h,
+                        width: 27.w,
+                        radius: 1.h,
+                      ),
+                    )),
+          ),
+        ],
+      ),
+    );
+  }
+
+  SliverToBoxAdapter buildCategories(
+      BuildContext context, List<model.CategoryModel> categoriesList) {
     return SliverToBoxAdapter(
       child: Padding(
-        padding: EdgeInsets.symmetric(vertical: 2.h),
+        padding: EdgeInsets.symmetric(vertical: 1.h),
         child: SizedBox(
-          height: 23.h,
+          height: 18.h,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              AppSizedBox.s2,
-              Text(
-                App.tr.categories,
-                style: AppTextStyle.getMediumStyle(color: AppColors.headerColor, fontSize: 13.sp),
-              ),
-              AppSizedBox.s2,
               Expanded(
                 child: ListView(
                   scrollDirection: Axis.horizontal,
                   // itemExtent: 31.w,
                   children: List.generate(
-                      categories.length,
+                      categoriesList.length,
                       ((index) => Padding(
                             padding: EdgeInsetsDirectional.only(end: 4.w),
                             child: TouchRippleEffect(
@@ -114,7 +228,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     arguments: categories[index].title);
                               },
                               child: CategoryItem(
-                                category: categories[index],
+                                category: categoriesList[index],
                               ),
                             ),
                           ))),
@@ -136,7 +250,8 @@ class _HomeScreenState extends State<HomeScreen> {
         children: [
           IconButton(
               onPressed: () {
-                AppNavigator.navigateTo(context: context, screen: Routes.cartRoute);
+                AppNavigator.navigateTo(
+                    context: context, screen: Routes.cartRoute);
               },
               icon: Badge(
                 toAnimate: false,
@@ -154,7 +269,8 @@ class _HomeScreenState extends State<HomeScreen> {
           TouchRippleEffect(
               rippleColor: Colors.grey.shade300,
               onTap: () {
-                AppNavigator.navigateTo(context: context, screen: Routes.searchScreen);
+                AppNavigator.navigateTo(
+                    context: context, screen: Routes.searchScreen);
               },
               child: Container(
                 padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 1.h),

@@ -1,19 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:hassel/app.dart';
 import 'package:hassel/app_routes.dart';
-import 'package:hassel/features/home/presentation/widgets/product_item.dart';
+import 'package:hassel/core/app_business_logic/state_renderer/state_renderer_impl.dart';
+import 'package:hassel/core/dependency_injection/dependency_injection.dart';
+import 'package:hassel/data/model/productModel.dart';
+import 'package:hassel/features/home/presentation/cubits/single_product_cubit.dart';
 import 'package:hassel/shared/app_utils/app_colors.dart';
 import 'package:hassel/shared/app_utils/app_sized_box.dart';
 import 'package:hassel/shared/app_utils/app_text_style.dart';
 import 'package:hassel/shared/app_widgets/custom_button.dart';
+import 'package:hassel/shared/app_widgets/custom_network_image.dart';
 import 'package:hassel/shared/app_widgets/widgets_helper.dart';
 import 'package:readmore/readmore.dart';
 import 'package:sizer/sizer.dart';
 import 'package:touch_ripple_effect/touch_ripple_effect.dart';
 
 class ProductDetailsScreen extends StatefulWidget {
-  final Product item;
+  final ProductModel item;
+
   const ProductDetailsScreen({Key? key, required this.item}) : super(key: key);
 
   @override
@@ -24,128 +30,154 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: WidgetsHelper.customAppBar(context, title: widget.item.name, onTap: () {
+      appBar: WidgetsHelper.customAppBar(context, title: widget.item.name,
+          onTap: () {
         Navigator.canPop(context);
       }),
-      body: ListView(
-        physics: const BouncingScrollPhysics(),
-        children: [
-          Container(
-            color: Colors.white,
-            width: double.infinity,
-            child: Column(children: [
-              AppSizedBox.s4,
-              buildProductImage(),
-              AppSizedBox.s7,
-            ]),
-          ),
-          AppSizedBox.s4,
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 10.w),
-            child: Row(
-              children: [
-                WidgetsHelper.buildFavoriteIcon(widget.item, size: 18),
-                const Spacer(
-                  flex: 1,
-                ),
-                Text(
-                  widget.item.type,
-                  style: AppTextStyle.getBoldStyle(color: AppColors.primaryColor, fontSize: 18.sp),
-                ),
-              ],
-            ),
-          ),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 10.w),
-            child: Row(
-              children: [
-                const Spacer(
-                  flex: 1,
-                ),
-                Text(
-                  widget.item.name,
-                  style: AppTextStyle.getBoldStyle(color: AppColors.headerColor, fontSize: 16.sp),
-                ),
-              ],
-            ),
-          ),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 10.w),
-            child: Row(
-              children: [
-                const Spacer(
-                  flex: 1,
-                ),
-                Text(
-                  '1.5 ibs',
-                  style: AppTextStyle.getMediumStyle(color: AppColors.subTitle, fontSize: 12.sp),
-                ),
-              ],
-            ),
-          ),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 10.w),
-            child: TouchRippleEffect(
-              rippleColor: Colors.grey.shade400,
-              onTap: () {
-                Navigator.pushNamed(context, Routes.poductPreviewScreen);
-              },
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Text(
-                    '3.5',
-                    style:
-                        AppTextStyle.getMediumStyle(color: AppColors.titleColor, fontSize: 12.sp),
-                  ),
-                  SizedBox(
-                    width: 2.w,
-                  ),
-                  RatingBarIndicator(
-                    rating: 3.5,
-                    itemBuilder: (context, index) => const Icon(
-                      Icons.star,
-                      color: Colors.amber,
-                    ),
-                    itemCount: 5,
-                    itemSize: 15.sp,
-                    direction: Axis.horizontal,
-                  ),
-                  SizedBox(
-                    width: 2.w,
-                  ),
-                  Text(
-                    '(١٠ مراجعة)',
-                    style:
-                        AppTextStyle.getMediumStyle(color: AppColors.titleColor, fontSize: 12.sp),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          AppSizedBox.s1,
-          Padding(
-              padding: EdgeInsets.symmetric(horizontal: 8.w),
-              child: ReadMoreText(
-                widget.item.description,
-                trimLines: 3,
-                style: AppTextStyle.getRegularStyle(
-                    color: AppColors.primaryColor, fontSize: 12.sp, height: 1.4),
-                textAlign: TextAlign.end,
-                colorClickableText: AppColors.primaryColor,
-                trimMode: TrimMode.Line,
-                trimCollapsedText: 'المزيد',
-                trimExpandedText: 'أقل',
-                lessStyle:
-                    AppTextStyle.getBoldStyle(color: AppColors.primaryColor, fontSize: 14.sp),
-                moreStyle:
-                    AppTextStyle.getBoldStyle(color: AppColors.primaryColor, fontSize: 14.sp),
-              )),
-          AppSizedBox.s3,
-          buildItemActions(),
-          buildAddToCart(),
-        ],
+      body: BlocProvider(
+        create: (context) =>
+            getIt<SingleProductsCubit>()..getProduct(widget.item.id.toString()),
+        child: BlocConsumer<SingleProductsCubit, FlowState>(
+          listener: (context, state) {
+            state.flowStateListener(context);
+          },
+          builder: (context, state) {
+            var cubit = SingleProductsCubit.get(context);
+            ProductModel? products = cubit.products;
+            return state.flowStateBuilder(context,
+                screenContent: products != null
+                    ? buildScreenContent(context, products)
+                    : const SizedBox(), retry: () {
+              cubit.getProduct(widget.item.id.toString());
+            });
+          },
+        ),
       ),
+    );
+  }
+
+  ListView buildScreenContent(BuildContext context, ProductModel product) {
+    return ListView(
+      physics: const BouncingScrollPhysics(),
+      children: [
+        Container(
+          color: Colors.white,
+          width: double.infinity,
+          child: Column(children: [
+            AppSizedBox.s4,
+            buildProductImage(product),
+            AppSizedBox.s7,
+          ]),
+        ),
+        AppSizedBox.s4,
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 10.w),
+          child: Row(
+            children: [
+              // WidgetsHelper.buildFavoriteIcon(widget.item, size: 18),
+              const Spacer(
+                flex: 1,
+              ),
+              Text(
+                product.name,
+                style: AppTextStyle.getBoldStyle(
+                    color: AppColors.primaryColor, fontSize: 18.sp),
+              ),
+            ],
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 10.w),
+          child: Row(
+            children: [
+              const Spacer(
+                flex: 1,
+              ),
+              Text(
+                product.categories.first.name,
+                style: AppTextStyle.getBoldStyle(
+                    color: AppColors.headerColor, fontSize: 16.sp),
+              ),
+            ],
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 10.w),
+          child: Row(
+            children: [
+              const Spacer(
+                flex: 1,
+              ),
+              Text(
+                '${product.price}  ريال',
+                style: AppTextStyle.getMediumStyle(
+                    color: AppColors.subTitle, fontSize: 12.sp),
+              ),
+            ],
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 10.w),
+          child: TouchRippleEffect(
+            rippleColor: Colors.grey.shade400,
+            onTap: () {
+              Navigator.pushNamed(context, Routes.poductPreviewScreen);
+            },
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Text(
+                  product.averageRating.toString(),
+                  style: AppTextStyle.getMediumStyle(
+                      color: AppColors.titleColor, fontSize: 12.sp),
+                ),
+                SizedBox(
+                  width: 2.w,
+                ),
+                RatingBarIndicator(
+                  rating: double.parse(product.averageRating),
+                  itemBuilder: (context, index) => const Icon(
+                    Icons.star,
+                    color: Colors.amber,
+                  ),
+                  itemCount: 5,
+                  itemSize: 15.sp,
+                  direction: Axis.horizontal,
+                ),
+                SizedBox(
+                  width: 2.w,
+                ),
+                Text(
+                  '(${product.ratingCount} مراجعة)',
+                  style: AppTextStyle.getMediumStyle(
+                      color: AppColors.titleColor, fontSize: 12.sp),
+                ),
+              ],
+            ),
+          ),
+        ),
+        AppSizedBox.s1,
+        Padding(
+            padding: EdgeInsets.symmetric(horizontal: 8.w),
+            child: ReadMoreText(
+              product.description,
+              trimLines: 3,
+              style: AppTextStyle.getRegularStyle(
+                  color: AppColors.primaryColor, fontSize: 12.sp, height: 1.4),
+              textAlign: TextAlign.end,
+              colorClickableText: AppColors.primaryColor,
+              trimMode: TrimMode.Line,
+              trimCollapsedText: 'المزيد',
+              trimExpandedText: 'أقل',
+              lessStyle: AppTextStyle.getBoldStyle(
+                  color: AppColors.primaryColor, fontSize: 14.sp),
+              moreStyle: AppTextStyle.getBoldStyle(
+                  color: AppColors.primaryColor, fontSize: 14.sp),
+            )),
+        AppSizedBox.s3,
+        buildItemActions(),
+        buildAddToCart(),
+      ],
     );
   }
 
@@ -159,7 +191,8 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
           children: [
             Text(
               App.tr.quantity,
-              style: AppTextStyle.getBoldStyle(color: AppColors.titleColor, fontSize: 10.sp),
+              style: AppTextStyle.getBoldStyle(
+                  color: AppColors.titleColor, fontSize: 10.sp),
             ),
             const Spacer(
               flex: 1,
@@ -168,7 +201,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
               child: InkWell(
                 onTap: () {
                   setState(() {
-                    widget.item.count--;
+                    // widget.item.count--;
                   });
                 },
                 child: Container(
@@ -195,8 +228,9 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
               width: 5.w,
             ),
             Text(
-              widget.item.count.toString(),
-              style: AppTextStyle.getBoldStyle(color: AppColors.titleColor, fontSize: 14.sp),
+              widget.item.menuOrder.toString(),
+              style: AppTextStyle.getBoldStyle(
+                  color: AppColors.titleColor, fontSize: 14.sp),
             ),
             SizedBox(
               width: 5.w,
@@ -205,7 +239,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
               child: InkWell(
                 onTap: () {
                   setState(() {
-                    widget.item.count++;
+                    // widget.item.count++;
                   });
                 },
                 child: Container(
@@ -251,22 +285,11 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
     );
   }
 
-  Stack buildProductImage() {
-    return Stack(
-      clipBehavior: Clip.none,
-      children: [
-        CircleAvatar(
-          radius: 15.h,
-          backgroundColor: widget.item.color,
-        ),
-        Positioned(
-          bottom: -3.h,
-          child: Image.asset(
-            widget.item.image,
-            scale: .7,
-          ),
-        ),
-      ],
+  buildProductImage(ProductModel product) {
+    return buildImage(
+      height: product.description.isEmpty ? 40.h : 30.h,
+      width: 80.w,
+      imageUrl: product.images.first.src,
     );
   }
 
@@ -276,11 +299,13 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
       child: InkWell(
           onTap: () {
             setState(() {
-              widget.item.isFavorite = !widget.item.isFavorite;
+              // widget.item.isFavorite = !widget.item.isFavorite;
             });
           },
           child: Icon(
-            widget.item.isFavorite ? Icons.favorite : Icons.favorite_border,
+            // widget.item.isFavorite ?
+            // Icons.favorite :
+            Icons.favorite_border,
             color: AppColors.redColor,
             size: 14.sp,
           )),
@@ -298,7 +323,8 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
       child: Center(
         child: Text(
           '35%',
-          style: AppTextStyle.getRegularStyle(color: AppColors.redColor, fontSize: 7.sp),
+          style: AppTextStyle.getRegularStyle(
+              color: AppColors.redColor, fontSize: 7.sp),
         ),
       ),
     );

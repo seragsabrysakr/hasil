@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:hassel/shared/app_utils/app_colors.dart';
 import 'package:lottie/lottie.dart';
 import 'package:sizer/sizer.dart';
 
 import '/../shared/app_utils/app_assets.dart';
-import '/../shared/app_utils/app_text_style.dart';
 import '/../shared/app_utils/app_fonts.dart';
+import '/../shared/app_utils/app_text_style.dart';
 
 enum StateRendererType {
   // POPUP STATES (DIALOG)
@@ -56,7 +57,8 @@ class StateRenderer extends StatelessWidget {
   Widget _getStateWidget(BuildContext context) {
     switch (stateRendererType) {
       case StateRendererType.popupLoadingState:
-        return _getPopUpLoadingDialog(context, [_getAnimatedImage(AppJsonAssets.loading)]);
+        return _getPopUpLoadingDialog(
+            context, [_getAnimatedImage(AppJsonAssets.loading)]);
       case StateRendererType.popupErrorState:
         return _getPopUpDialog(context, [
           _getAnimatedImage(AppJsonAssets.error),
@@ -72,7 +74,7 @@ class StateRenderer extends StatelessWidget {
             _getItemsColumn([
           _getAnimatedImage(AppJsonAssets.error),
           _getMessage(message),
-          getRetryButton('retryAgain', context)
+          getRetryButton('try Again', context)
         ]);
       case StateRendererType.fullScreenEmptyState:
         return _getItemsColumn(
@@ -165,6 +167,34 @@ class StateRenderer extends StatelessWidget {
         child: SizedBox(
             width: double.infinity,
             child: ElevatedButton(
+                style: ButtonStyle(
+                  backgroundColor:
+                      MaterialStateProperty.all<Color>(AppColors.primaryColor),
+                  shape: MaterialStateProperty.all<OutlinedBorder>(
+                    RoundedRectangleBorder(
+                      side: BorderSide(
+                          // style: BorderStyle.solid,
+                          color: AppColors.primaryColor,
+                          width: 1), // <-- this doesn't work?
+                      borderRadius: BorderRadius.all(Radius.circular(1.h)),
+                    ),
+                  ),
+                  padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
+                      EdgeInsets.zero),
+                  elevation: MaterialStateProperty.resolveWith<double>(
+                      (Set<MaterialState> states) {
+                    if (states.contains(MaterialState.pressed)) {
+                      return 0;
+                    }
+                    if (states.contains(MaterialState.focused)) {
+                      return 0;
+                    }
+                    if (states.contains(MaterialState.hovered)) {
+                      return 0;
+                    }
+                    return 0;
+                  }),
+                ),
                 onPressed: () {
                   if (stateRendererType ==
                       StateRendererType.fullScreenErrorState) {

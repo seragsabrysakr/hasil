@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:hassel/app.dart';
 import 'package:hassel/app_routes.dart';
+import 'package:hassel/data/model/productModel.dart';
 import 'package:hassel/shared/app_utils/app_colors.dart';
 import 'package:hassel/shared/app_utils/app_sized_box.dart';
 import 'package:hassel/shared/app_utils/app_text_style.dart';
+import 'package:hassel/shared/app_widgets/custom_network_image.dart';
 import 'package:hassel/shared/app_widgets/widgets_helper.dart';
 import 'package:sizer/sizer.dart';
 import 'package:touch_ripple_effect/touch_ripple_effect.dart';
 
 class ProductItem extends StatefulWidget {
-  final Product product;
+  final ProductModel product;
 
   const ProductItem({Key? key, required this.product}) : super(key: key);
 
@@ -20,9 +22,8 @@ class ProductItem extends StatefulWidget {
 class _ProductItemState extends State<ProductItem> {
   @override
   Widget build(BuildContext context) {
-    bool inCart = widget.product.count == 0;
+    // bool inCart = widget.product.count == 0;
     return TouchRippleEffect(
-      rippleDuration: const Duration(milliseconds: 700),
       rippleColor: AppColors.primaryColor.withOpacity(.2),
       onTap: () {
         Navigator.pushNamed(context, Routes.productDetailsRoute,
@@ -35,7 +36,8 @@ class _ProductItemState extends State<ProductItem> {
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              if (inCart) buildDiscount(),
+              // if (inCart)
+              // buildDiscount(),
               const Spacer(
                 flex: 1,
               ),
@@ -64,12 +66,14 @@ class _ProductItemState extends State<ProductItem> {
             height: .3.h,
           ),
           Text(
-            widget.product.type,
+            widget.product.categories.first.name,
             style: AppTextStyle.getMediumStyle(
                 color: AppColors.subTitle, fontSize: 10.sp),
           ),
           AppSizedBox.s2,
-          inCart ? buildAddToCart() : buildItemActions(),
+          // inCart ?
+          buildAddToCart()
+          // : buildItemActions(),
         ]),
       ),
     );
@@ -92,7 +96,7 @@ class _ProductItemState extends State<ProductItem> {
               child: InkWell(
                 onTap: () {
                   setState(() {
-                    widget.product.count--;
+                    // widget.product.count--;
                   });
                 },
                 child: Container(
@@ -119,7 +123,7 @@ class _ProductItemState extends State<ProductItem> {
             width: 10.w,
           ),
           Text(
-            widget.product.count.toString(),
+            widget.product.toString(),
             style: AppTextStyle.getBoldStyle(
                 color: AppColors.headerColor.withOpacity(.4), fontSize: 13.sp),
           ),
@@ -132,7 +136,7 @@ class _ProductItemState extends State<ProductItem> {
               child: InkWell(
                 onTap: () {
                   setState(() {
-                    widget.product.count++;
+                    // widget.product.count++;
                   });
                 },
                 child: Container(
@@ -166,7 +170,7 @@ class _ProductItemState extends State<ProductItem> {
         child: InkWell(
           onTap: () {
             setState(() {
-              widget.product.count = 1;
+              // widget.product.count = 1;
             });
           },
           child: Container(
@@ -190,22 +194,11 @@ class _ProductItemState extends State<ProductItem> {
     );
   }
 
-  Stack buildProduxtImage() {
-    return Stack(
-      clipBehavior: Clip.none,
-      children: [
-        CircleAvatar(
-          radius: 6.h,
-          backgroundColor: widget.product.color,
-        ),
-        Positioned(
-          bottom: 0.h,
-          child: Image.asset(
-            widget.product.image,
-            scale: 1.8,
-          ),
-        ),
-      ],
+  buildProduxtImage() {
+    return buildImage(
+      height: 10.h,
+      width: 28.w,
+      imageUrl: widget.product.images.first.src,
     );
   }
 

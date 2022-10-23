@@ -1,10 +1,11 @@
 import 'dart:ui' as ui;
 
 import 'package:badges/badges.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hassel/app_routes.dart';
-import 'package:hassel/features/home/presentation/widgets/product_item.dart';
+import 'package:hassel/data/model/productModel.dart';
 import 'package:hassel/shared/app_utils/app_colors.dart';
 import 'package:hassel/shared/app_utils/app_navigator.dart';
 import 'package:hassel/shared/app_utils/app_sized_box.dart';
@@ -35,16 +36,18 @@ class WidgetsHelper {
     );
   }
 
-  static Widget buildFavoriteIcon(Product item, {double size = 14}) {
+  static Widget buildFavoriteIcon(ProductModel item, {double size = 14}) {
     return StatefulBuilder(builder: (context, setState) {
       return InkWell(
           onTap: () {
             setState(() {
-              item.isFavorite = !item.isFavorite;
+              // item.isFavorite = !item.isFavorite;
             });
           },
           child: Icon(
-            item.isFavorite ? Icons.favorite : Icons.favorite_border,
+            // item.isFavorite ?
+            // Icons.favorite :
+            Icons.favorite_border,
             color: AppColors.redColor,
             size: size.sp,
           ));
@@ -123,25 +126,72 @@ class WidgetsHelper {
         ));
   }
 
+  bottomSheet(
+    context,
+    Widget screen, {
+    bool rootnavigator = true,
+    double initial = 0.6,
+  }) {
+    return showModalBottomSheet(
+        backgroundColor: Colors.transparent,
+        context: context,
+        isScrollControlled: true,
+        useRootNavigator: rootnavigator,
+        clipBehavior: Clip.none,
+        isDismissible: true,
+        builder: (BuildContext context) {
+          return screen;
+        });
+  }
 
-
-bottomSheet(
-  context,
-  Widget screen, {
-  bool rootnavigator = true,
-  double initial = 0.6,
-}) {
-  return showModalBottomSheet(
-      backgroundColor: Colors.transparent,
-      context: context,
-      isScrollControlled: true,
-      useRootNavigator: rootnavigator,
-      clipBehavior: Clip.none,
-      isDismissible: true,
-      builder: (BuildContext context) {
-        return screen;
-      });
-}
-
-
+  ClipRRect buildImage({required String img, double? height, double? width}) {
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(1.h),
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(1.h),
+        ),
+        height: height,
+        width: width,
+        child: CachedNetworkImage(
+          color: Colors.grey.shade300,
+          imageBuilder: (context, imageProvider) => Container(
+            height: height,
+            width: width,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(1.h),
+              border: Border.all(color: Colors.grey.shade200),
+              image: DecorationImage(image: imageProvider, fit: BoxFit.cover),
+            ),
+          ),
+          imageUrl: img,
+          placeholder: (context, url) => Container(
+            decoration: BoxDecoration(
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.red.shade100,
+                  blurRadius: 8,
+                  offset: const Offset(2, 5), // Shadow position
+                ),
+              ],
+              borderRadius: BorderRadius.circular(1.h),
+              image: const DecorationImage(
+                  image: AssetImage(''), fit: BoxFit.cover),
+            ),
+            height: height,
+            width: width,
+          ),
+          errorWidget: (context, url, error) => Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(1.h),
+              image: const DecorationImage(
+                  image: AssetImage(''), fit: BoxFit.fill),
+            ),
+            height: height,
+            width: width,
+          ),
+        ),
+      ),
+    );
+  }
 }

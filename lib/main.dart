@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 import 'app.dart';
 import 'core/app_business_logic/app_cubit/app_cubit.dart';
 import 'core/app_business_logic/bloc_observer.dart';
-import 'shared/app_utils/app_prefs.dart';
 import 'core/dependency_injection/dependency_injection.dart';
+import 'shared/app_utils/app_prefs.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

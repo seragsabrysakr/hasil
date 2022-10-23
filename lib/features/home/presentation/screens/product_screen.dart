@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:hassel/features/home/presentation/widgets/product_item.dart';
 import 'package:hassel/shared/app_widgets/widgets_helper.dart';
 import 'package:sizer/sizer.dart';
 
@@ -22,7 +21,7 @@ class _ProductScreenState extends State<ProductScreen> {
           physics: const BouncingScrollPhysics(),
           slivers: [
             SliverPadding(padding: EdgeInsets.symmetric(vertical: 1.h)),
-            buildProductLit(),
+            // buildProductLit(),
             SliverPadding(padding: EdgeInsets.symmetric(vertical: 3.h)),
           ],
         ),
@@ -30,22 +29,22 @@ class _ProductScreenState extends State<ProductScreen> {
     );
   }
 
-  SliverGrid buildProductLit() {
-    return SliverGrid(
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
-        childAspectRatio: .63,
-        crossAxisSpacing: 4.w,
-        mainAxisSpacing: 3.w,
-      ),
-      delegate: SliverChildBuilderDelegate(
-        (BuildContext context, int index) {
-          return StatefulBuilder(builder: (context, snapshot) {
-            return ProductItem(product: products[index]);
-          });
-        },
-        childCount: products.length,
-      ),
-    );
-  }
+  // SliverGrid buildProductLit() {
+  //   return SliverGrid(
+  //     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+  //       crossAxisCount: 2,
+  //       childAspectRatio: .63,
+  //       crossAxisSpacing: 4.w,
+  //       mainAxisSpacing: 3.w,
+  //     ),
+  //     delegate: SliverChildBuilderDelegate(
+  //       (BuildContext context, int index) {
+  //         return StatefulBuilder(builder: (context, snapshot) {
+  //           return ProductItem(product: products[index]);
+  //         });
+  //       },
+  //       childCount: products.length,
+  //     ),
+  //   );
+  // }
 }
