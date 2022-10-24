@@ -79,8 +79,7 @@ class _HomeScreenState extends State<HomeScreen> {
         AppSizedBox.s2,
         Text(
           App.tr.dailyNeeds,
-          style: AppTextStyle.getMediumStyle(
-              color: AppColors.headerColor, fontSize: 13.sp),
+          style: AppTextStyle.getMediumStyle(color: AppColors.headerColor, fontSize: 13.sp),
         ),
         AppSizedBox.s2
       ]),
@@ -93,8 +92,7 @@ class _HomeScreenState extends State<HomeScreen> {
         AppSizedBox.s2,
         Text(
           App.tr.categories,
-          style: AppTextStyle.getMediumStyle(
-              color: AppColors.headerColor, fontSize: 13.sp),
+          style: AppTextStyle.getMediumStyle(color: AppColors.headerColor, fontSize: 13.sp),
         ),
       ]),
     );
@@ -243,15 +241,14 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Padding buildSearchBox() {
     return Padding(
-      padding: EdgeInsets.only(top: 2.h, left: 5.w, right: 5.w),
+      padding: EdgeInsets.only(top: 2.h, bottom: 2.h, left: 5.w, right: 5.w),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           IconButton(
               onPressed: () {
-                AppNavigator.navigateTo(
-                    context: context, screen: Routes.cartRoute);
+                AppNavigator.navigateTo(context: context, screen: Routes.cartRoute);
               },
               icon: Badge(
                 toAnimate: false,
@@ -269,8 +266,7 @@ class _HomeScreenState extends State<HomeScreen> {
           TouchRippleEffect(
               rippleColor: Colors.grey.shade300,
               onTap: () {
-                AppNavigator.navigateTo(
-                    context: context, screen: Routes.searchScreen);
+                AppNavigator.navigateTo(context: context, screen: Routes.searchScreen);
               },
               child: Container(
                 padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 1.h),

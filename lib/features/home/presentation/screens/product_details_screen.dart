@@ -30,13 +30,11 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: WidgetsHelper.customAppBar(context, title: widget.item.name,
-          onTap: () {
+      appBar: WidgetsHelper.customAppBar(context, title: widget.item.name, onTap: () {
         Navigator.canPop(context);
       }),
       body: BlocProvider(
-        create: (context) =>
-            getIt<SingleProductsCubit>()..getProduct(widget.item.id.toString()),
+        create: (context) => getIt<SingleProductsCubit>()..getProduct(widget.item.id.toString()),
         child: BlocConsumer<SingleProductsCubit, FlowState>(
           listener: (context, state) {
             state.flowStateListener(context);
@@ -80,8 +78,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
               ),
               Text(
                 product.name,
-                style: AppTextStyle.getBoldStyle(
-                    color: AppColors.primaryColor, fontSize: 18.sp),
+                style: AppTextStyle.getBoldStyle(color: AppColors.primaryColor, fontSize: 18.sp),
               ),
             ],
           ),
@@ -95,8 +92,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
               ),
               Text(
                 product.categories.first.name,
-                style: AppTextStyle.getBoldStyle(
-                    color: AppColors.headerColor, fontSize: 16.sp),
+                style: AppTextStyle.getBoldStyle(color: AppColors.headerColor, fontSize: 16.sp),
               ),
             ],
           ),
@@ -110,8 +106,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
               ),
               Text(
                 '${product.price}  ريال',
-                style: AppTextStyle.getMediumStyle(
-                    color: AppColors.subTitle, fontSize: 12.sp),
+                style: AppTextStyle.getMediumStyle(color: AppColors.subTitle, fontSize: 12.sp),
               ),
             ],
           ),
@@ -128,8 +123,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
               children: [
                 Text(
                   product.averageRating.toString(),
-                  style: AppTextStyle.getMediumStyle(
-                      color: AppColors.titleColor, fontSize: 12.sp),
+                  style: AppTextStyle.getMediumStyle(color: AppColors.titleColor, fontSize: 12.sp),
                 ),
                 SizedBox(
                   width: 2.w,
@@ -149,8 +143,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                 ),
                 Text(
                   '(${product.ratingCount} مراجعة)',
-                  style: AppTextStyle.getMediumStyle(
-                      color: AppColors.titleColor, fontSize: 12.sp),
+                  style: AppTextStyle.getMediumStyle(color: AppColors.titleColor, fontSize: 12.sp),
                 ),
               ],
             ),
@@ -169,10 +162,8 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
               trimMode: TrimMode.Line,
               trimCollapsedText: 'المزيد',
               trimExpandedText: 'أقل',
-              lessStyle: AppTextStyle.getBoldStyle(
-                  color: AppColors.primaryColor, fontSize: 14.sp),
-              moreStyle: AppTextStyle.getBoldStyle(
-                  color: AppColors.primaryColor, fontSize: 14.sp),
+              lessStyle: AppTextStyle.getBoldStyle(color: AppColors.primaryColor, fontSize: 14.sp),
+              moreStyle: AppTextStyle.getBoldStyle(color: AppColors.primaryColor, fontSize: 14.sp),
             )),
         AppSizedBox.s3,
         buildItemActions(),
@@ -191,8 +182,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
           children: [
             Text(
               App.tr.quantity,
-              style: AppTextStyle.getBoldStyle(
-                  color: AppColors.titleColor, fontSize: 10.sp),
+              style: AppTextStyle.getBoldStyle(color: AppColors.titleColor, fontSize: 10.sp),
             ),
             const Spacer(
               flex: 1,
@@ -229,8 +219,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
             ),
             Text(
               widget.item.menuOrder.toString(),
-              style: AppTextStyle.getBoldStyle(
-                  color: AppColors.titleColor, fontSize: 14.sp),
+              style: AppTextStyle.getBoldStyle(color: AppColors.titleColor, fontSize: 14.sp),
             ),
             SizedBox(
               width: 5.w,
@@ -287,7 +276,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
 
   buildProductImage(ProductModel product) {
     return buildImage(
-      height: product.description.isEmpty ? 40.h : 30.h,
+      height: product.description.isEmpty ? 35.h : 30.h,
       width: 80.w,
       imageUrl: product.images.first.src,
     );
@@ -323,8 +312,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
       child: Center(
         child: Text(
           '35%',
-          style: AppTextStyle.getRegularStyle(
-              color: AppColors.redColor, fontSize: 7.sp),
+          style: AppTextStyle.getRegularStyle(color: AppColors.redColor, fontSize: 7.sp),
         ),
       ),
     );
