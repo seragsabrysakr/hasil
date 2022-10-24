@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hassel/data/model/category_model.dart';
 import 'package:hassel/data/model/productModel.dart';
 import 'package:hassel/features/auth/presentation/screens/forget_password.dart';
 import 'package:hassel/features/auth/presentation/screens/login_screen.dart';
@@ -169,10 +170,10 @@ class AppRoutes {
           return const MyAdressesScreen();
         });
       case Routes.productRoute:
-        final title = routeSettings.arguments as String;
+        final item = routeSettings.arguments as CategoryModel;
         return MaterialPageRoute(builder: (context) {
           return ProductScreen(
-            title: title,
+            item: item,
           );
         });
       case Routes.productDetailsRoute:

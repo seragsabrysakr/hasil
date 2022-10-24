@@ -19,6 +19,14 @@ abstract class HomeServiceClient {
     @Query(AppUrls.consumerKey) required String consumerKey,
     @Query(AppUrls.consumerSecret) required String consumerSecret,
   });
+
+  @GET(AppUrls.products)
+  Future<List<ProductModel>> geCategoryProducts({
+    @Query(AppUrls.consumerKey) required String consumerKey,
+    @Query(AppUrls.consumerSecret) required String consumerSecret,
+    @Query(AppUrls.keyPermissions) required String keyPermissions,
+    @Query('categories') required String categoriesID,
+  });
   @GET('https://hasseal.com/wp-json/wc/v3/products/{id}')
   Future<ProductModel> geSingleProducts({
     @Path("id") required String id,

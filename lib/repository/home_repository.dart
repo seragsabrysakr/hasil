@@ -38,6 +38,17 @@ class HomeRepository {
     return data;
   }
 
+  Future<Either<Failure, List<ProductModel>>> getCategoryProducts(
+      String id) async {
+    Future<Either<Failure, List<ProductModel>>> data = safeApi.call(
+        apiCall: _appServiceClient.geCategoryProducts(
+            consumerKey: AppUrls.consumerKeyValue,
+            consumerSecret: AppUrls.consumerSecretValue,
+            keyPermissions: AppUrls.keyPermissionsValue,
+            categoriesID: id));
+    return data;
+  }
+
   Future<Either<Failure, ProductModel>> geSingleProducts(String id) async {
     Future<Either<Failure, ProductModel>> data = safeApi.call(
         apiCall: _appServiceClient.geSingleProducts(

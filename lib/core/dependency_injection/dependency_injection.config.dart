@@ -16,6 +16,8 @@ import '../../data/storage/aurh/auth_api_services.dart' as _i13;
 import '../../data/storage/home/home_api_services.dart' as _i10;
 import '../../data/storage/products/products_api_services.dart' as _i11;
 import '../../features/home/presentation/cubits/categories_cubit.dart' as _i18;
+import '../../features/home/presentation/cubits/category_product_cubit.dart'
+    as _i19;
 import '../../features/home/presentation/cubits/products_cubit.dart' as _i15;
 import '../../features/home/presentation/cubits/single_product_cubit.dart'
     as _i16;
@@ -26,8 +28,8 @@ import '../../shared/app_utils/app_prefs.dart' as _i8;
 import '../app_business_logic/app_cubit/app_cubit.dart' as _i12;
 import '../data/network/network_info.dart' as _i5;
 import '../data/network/save_api.dart' as _i6;
-import 'module/di_module.dart' as _i19;
-import 'module/dio_module.dart' as _i20; // ignore_for_file: unnecessary_lambdas
+import 'module/di_module.dart' as _i20;
+import 'module/dio_module.dart' as _i21; // ignore_for_file: unnecessary_lambdas
 
 // ignore_for_file: lines_longer_than_80_chars
 /// initializes the registration of provided dependencies inside of [GetIt]
@@ -87,9 +89,13 @@ Future<_i1.GetIt> $initGetIt(
         get<_i14.HomeRepository>(),
         get<_i8.AppPreferences>(),
       ));
+  gh.factory<_i19.CategoryProductsCubit>(() => _i19.CategoryProductsCubit(
+        get<_i14.HomeRepository>(),
+        get<_i8.AppPreferences>(),
+      ));
   return get;
 }
 
-class _$DIModule extends _i19.DIModule {}
+class _$DIModule extends _i20.DIModule {}
 
-class _$DioModule extends _i20.DioModule {}
+class _$DioModule extends _i21.DioModule {}
