@@ -57,7 +57,9 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                   width: 25.sp,
                   child: Icon(
                     Icons.favorite_border_rounded,
-                    color: selected == 0 ? AppColors.headerColor : AppColors.navColorsUnActive,
+                    color: selected == 0
+                        ? AppColors.headerColor
+                        : AppColors.navColorsUnActive,
                     size: 25.sp,
                   ),
                 ),
@@ -76,7 +78,9 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                   width: 25.sp,
                   child: SvgPicture.asset(
                     AppAssets.profileNavIcon,
-                    color: selected == 1 ? AppColors.headerColor : AppColors.navColorsUnActive,
+                    color: selected == 1
+                        ? AppColors.headerColor
+                        : AppColors.navColorsUnActive,
                   ),
                 ),
               ),

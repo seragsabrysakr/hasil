@@ -206,7 +206,7 @@ class _HomeScreenState extends State<HomeScreen> {
       child: Padding(
         padding: EdgeInsets.symmetric(vertical: 1.h),
         child: SizedBox(
-          height: 18.h,
+          height: 19.h,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
