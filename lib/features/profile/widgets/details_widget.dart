@@ -65,7 +65,7 @@ class _DetailsWidgetState extends State<DetailsWidget> {
                         ),
                       ),
                       SizedBox(
-                        width: 10.w,
+                        width: 5.w,
                       ),
                       widget.content,
                       SizedBox(
@@ -81,11 +81,14 @@ class _DetailsWidgetState extends State<DetailsWidget> {
                           rippleColor: AppColors.primaryColor.withOpacity(.5),
                           child: CircleAvatar(
                             radius: 2.8.w,
-                            backgroundColor:
-                                !widget.delivered ? AppColors.primaryColor : Colors.grey.shade300,
+                            backgroundColor: !widget.delivered
+                                ? AppColors.primaryColor
+                                : Colors.grey.shade300,
                             child: Center(
                               child: Icon(
-                                !details ? Icons.arrow_drop_up : Icons.arrow_drop_down_outlined,
+                                !details
+                                    ? Icons.arrow_drop_up
+                                    : Icons.arrow_drop_down_outlined,
                                 color:
                                     // details ?
                                     Colors.white,
@@ -102,7 +105,8 @@ class _DetailsWidgetState extends State<DetailsWidget> {
             ),
           ),
         ),
-        if (widget.logo) PositionedDirectional(start: 4.w, top: 0, child: buildDefault())
+        if (widget.logo)
+          PositionedDirectional(start: 4.w, top: 0, child: buildDefault())
       ],
     );
   }
@@ -118,7 +122,8 @@ class _DetailsWidgetState extends State<DetailsWidget> {
       child: Center(
         child: Text(
           'افتراضي',
-          style: AppTextStyle.getRegularStyle(color: AppColors.primaryColor, fontSize: 7.sp),
+          style: AppTextStyle.getRegularStyle(
+              color: AppColors.primaryColor, fontSize: 7.sp),
         ),
       ),
     );

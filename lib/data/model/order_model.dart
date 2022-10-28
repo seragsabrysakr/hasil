@@ -74,8 +74,8 @@ class OrderModel {
   late final String customerUserAgent;
   late final String createdVia;
   late final String customerNote;
-  late final Null dateCompleted;
-  late final Null datePaid;
+  late final String? dateCompleted;
+  late final String? datePaid;
   late final String cartHash;
   late final String number;
   late final List<MetaData> metaData;
@@ -89,10 +89,10 @@ class OrderModel {
   late final bool isEditable;
   late final bool needsPayment;
   late final bool needsProcessing;
-  late final String dateCreatedGmt;
-  late final String dateModifiedGmt;
-  late final String dateCompletedGmt;
-  late final String datePaidGmt;
+  late final String? dateCreatedGmt;
+  late final String? dateModifiedGmt;
+  late final String? dateCompletedGmt;
+  late final String? datePaidGmt;
   late final String currencySymbol;
   late final Links links;
 

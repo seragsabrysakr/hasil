@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hassel/app.dart';
-import 'package:hassel/app_routes.dart';
+import 'package:hassel/core/app_business_logic/state_renderer/request_builder.dart';
+import 'package:hassel/core/dependency_injection/dependency_injection.dart';
+import 'package:hassel/data/model/order_model.dart';
+import 'package:hassel/features/profile/my_orders/cubits/orders_cubit.dart';
 import 'package:hassel/features/profile/widgets/details_widget.dart';
 import 'package:hassel/shared/app_utils/app_assets.dart';
 import 'package:hassel/shared/app_utils/app_colors.dart';
@@ -21,17 +25,33 @@ class _MyOrdersScreenState extends State<MyOrdersScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: WidgetsHelper.customAppBar(context, title: App.tr.myOrders),
-      body: SingleChildScrollView(
-        padding: EdgeInsets.symmetric(vertical: 1.h),
-        child: Column(
-          children: [
-            buildOrderDetailsWidget(state: false, steps: 3, order: order1, details: details1),
-            buildOrderDetailsWidget(state: false, steps: 3, order: order1, details: details2),
-            buildOrderDetailsWidget(state: false, steps: 3, order: order1, details: details3),
-            buildOrderDetailsWidget(state: true, steps: 5, order: order2, details: details4),
-            buildOrderDetailsWidget(state: true, steps: 5, order: order2, details: details5),
-          ],
-        ),
+      body: BlocProvider(
+        create: (context) => getIt<OrdersCubit>()..getAllProducts('8'),
+        child: RequestBuilder<OrdersCubit>(
+            listener: (context, cubit) {},
+            contentBuilder: (context, cubit) {
+              List<OrderDetails> myOrders = [];
+              for (int i = 0; i < cubit.orders.length; i++) {
+                myOrders.add(OrderDetails(cubit.orders[i]));
+              }
+              return buildScreenContent(myOrders);
+            },
+            retry: (context, cubit) {}),
+      ),
+    );
+  }
+
+  SingleChildScrollView buildScreenContent(List<OrderDetails> myOrders) {
+    return SingleChildScrollView(
+      padding: EdgeInsets.symmetric(vertical: 1.h),
+      child: Column(
+        children: List.generate(
+            myOrders.length,
+            (index) => buildOrderDetailsWidget(
+                state: false,
+                steps: 1,
+                order: myOrders[index],
+                details: myOrders[index].details)),
       ),
     );
   }
@@ -45,13 +65,15 @@ class _MyOrdersScreenState extends State<MyOrdersScreen> {
       padding: EdgeInsets.symmetric(vertical: 1.h),
       child: DetailsWidget(
           onTap: () {
-            Navigator.pushNamed(context, Routes.trackingOrderScreen);
+            // Navigator.pushNamed(context, Routes.trackingOrderScreen);
           },
           logo: false,
           delivered: state,
           imageLeading: !state ? AppAssets.orderOn : AppAssets.orderOff,
-          content: buildOrder(),
-          detailsWidget: state ? buildOrderDelived(order) : buildOrderDetails(steps, order)),
+          content: buildOrder(order),
+          detailsWidget: state
+              ? buildOrderDelived(order)
+              : buildOrderDetails(steps, order)),
     );
   }
 
@@ -60,7 +82,8 @@ class _MyOrdersScreenState extends State<MyOrdersScreen> {
       padding: EdgeInsets.only(top: 1.h),
       child: Container(
         padding: EdgeInsets.only(top: 1.h),
-        decoration: BoxDecoration(border: Border(top: BorderSide(color: Colors.grey.shade400))),
+        decoration: BoxDecoration(
+            border: Border(top: BorderSide(color: Colors.grey.shade400))),
         child: Row(
           children: [
             Container(
@@ -79,17 +102,17 @@ class _MyOrdersScreenState extends State<MyOrdersScreen> {
                     width: 2.w,
                   ),
                   Text(
-                    order.delivered,
-                    style:
-                        AppTextStyle.getSemiBoldStyle(color: AppColors.subTitle, fontSize: 11.sp),
+                    order.order.dateCompleted ?? 'جاري',
+                    style: AppTextStyle.getSemiBoldStyle(
+                        color: AppColors.subTitle, fontSize: 11.sp),
                   ),
                   const Spacer(
                     flex: 1,
                   ),
                   Text(
                     'تم التوصيل',
-                    style:
-                        AppTextStyle.getSemiBoldStyle(color: AppColors.subTitle, fontSize: 11.sp),
+                    style: AppTextStyle.getSemiBoldStyle(
+                        color: AppColors.subTitle, fontSize: 11.sp),
                   ),
                 ],
               ),
@@ -100,38 +123,53 @@ class _MyOrdersScreenState extends State<MyOrdersScreen> {
     );
   }
 
-  buildOrder() {
+  buildOrder(OrderDetails order) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
         Text(
-          'الطلب #171190',
-          style: AppTextStyle.getSemiBoldStyle(color: AppColors.titleColor, fontSize: 11.sp),
-        ),
-        Text(
-          'طلب في ١٧ نوفمبر ٢٠٢١',
-          style: AppTextStyle.getSemiBoldStyle(color: AppColors.subTitle, fontSize: 11.sp),
+          'الطلب #${order.order.number}',
+          style: AppTextStyle.getSemiBoldStyle(
+              color: AppColors.titleColor, fontSize: 11.sp),
         ),
         Row(
           children: [
             Text(
-              '\$18.99',
-              style: AppTextStyle.getSemiBoldStyle(color: AppColors.titleColor, fontSize: 11.sp),
+              '${order.order.dateCreated}',
+              style: AppTextStyle.getSemiBoldStyle(
+                  color: AppColors.subTitle, fontSize: 11.sp),
+            ),
+            Text(
+              '  طلب في',
+              style: AppTextStyle.getSemiBoldStyle(
+                  color: AppColors.subTitle, fontSize: 11.sp),
+            ),
+          ],
+        ),
+        Row(
+          children: [
+            Text(
+              '${order.order.total} ${order.order.currency}',
+              style: AppTextStyle.getSemiBoldStyle(
+                  color: AppColors.titleColor, fontSize: 11.sp),
             ),
             Text(
               '  الاجمالي',
-              style: AppTextStyle.getSemiBoldStyle(color: AppColors.subTitle, fontSize: 11.sp),
+              style: AppTextStyle.getSemiBoldStyle(
+                  color: AppColors.subTitle, fontSize: 11.sp),
             ),
             SizedBox(
               width: 5.w,
             ),
             Text(
               '10',
-              style: AppTextStyle.getSemiBoldStyle(color: AppColors.subTitle, fontSize: 11.sp),
+              style: AppTextStyle.getSemiBoldStyle(
+                  color: AppColors.subTitle, fontSize: 11.sp),
             ),
             Text(
               '  العناصر',
-              style: AppTextStyle.getSemiBoldStyle(color: AppColors.subTitle, fontSize: 11.sp),
+              style: AppTextStyle.getSemiBoldStyle(
+                  color: AppColors.subTitle, fontSize: 11.sp),
             ),
           ],
         ),
@@ -143,7 +181,8 @@ class _MyOrdersScreenState extends State<MyOrdersScreen> {
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 1.h),
       child: Container(
-        decoration: BoxDecoration(border: Border(top: BorderSide(color: Colors.grey.shade400))),
+        decoration: BoxDecoration(
+            border: Border(top: BorderSide(color: Colors.grey.shade400))),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.end,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -152,11 +191,11 @@ class _MyOrdersScreenState extends State<MyOrdersScreen> {
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 AppSizedBox.s1,
-                buildOrderStep('تم الطلب ', order.placed),
-                buildOrderStep('تم تأكيد الطلب ', order.confirm),
-                buildOrderStep('تم شحن الطلب ', order.shipped),
-                buildOrderStep('خرج للتوصيل', order.outDelivery),
-                buildOrderStep('تم التوصيل', order.delivered),
+                buildOrderStep('تم الطلب ', order.order.dateCreated),
+                buildOrderStep('تم تأكيد الطلب ', order.order.dateCreated),
+                buildOrderStep('تم شحن الطلب ', order.order.dateCreated),
+                buildOrderStep('خرج للتوصيل', order.order.dateCreated),
+                buildOrderStep('تم التوصيل', order.order.dateCreated),
               ],
             ),
             Padding(
@@ -190,14 +229,16 @@ class _MyOrdersScreenState extends State<MyOrdersScreen> {
         children: [
           Text(
             date,
-            style: AppTextStyle.getSemiBoldStyle(color: AppColors.subTitle, fontSize: 11.sp),
+            style: AppTextStyle.getSemiBoldStyle(
+                color: AppColors.subTitle, fontSize: 11.sp),
           ),
           const Spacer(
             flex: 1,
           ),
           Text(
             step,
-            style: AppTextStyle.getSemiBoldStyle(color: AppColors.subTitle, fontSize: 11.sp),
+            style: AppTextStyle.getSemiBoldStyle(
+                color: AppColors.subTitle, fontSize: 11.sp),
           ),
         ],
       ),
@@ -206,35 +247,29 @@ class _MyOrdersScreenState extends State<MyOrdersScreen> {
 }
 
 class OrderDetails {
-  final String placed;
-  final String confirm;
-  final String shipped;
-  final String outDelivery;
-  final String delivered;
+  final OrderModel order;
+  bool details;
 
-  OrderDetails({
-    required this.placed,
-    required this.confirm,
-    required this.shipped,
-    required this.outDelivery,
-    required this.delivered,
+  OrderDetails(
+    this.order, {
+    this.details = false,
   });
 }
 
-OrderDetails order1 = OrderDetails(
-  placed: '١٧ نوفمبر ٢٠٢٢',
-  confirm: '١٧ نوفمبر ٢٠٢٢',
-  shipped: '١٧ نوفمبر ٢٠٢٢',
-  outDelivery: 'جاري',
-  delivered: 'جاري',
-);
-OrderDetails order2 = OrderDetails(
-  placed: '١٧ نوفمبر ٢٠٢٢',
-  confirm: '١٧ نوفمبر ٢٠٢٢',
-  shipped: '١٧ نوفمبر ٢٠٢٢',
-  outDelivery: '١٧ نوفمبر ٢٠٢٢',
-  delivered: '١٧ نوفمبر ٢٠٢٢',
-);
+// OrderDetails order1 = OrderDetails(
+//   placed: '١٧ نوفمبر ٢٠٢٢',
+//   confirm: '١٧ نوفمبر ٢٠٢٢',
+//   shipped: '١٧ نوفمبر ٢٠٢٢',
+//   outDelivery: 'جاري',
+//   delivered: 'جاري',
+// );
+// OrderDetails order2 = OrderDetails(
+//   placed: '١٧ نوفمبر ٢٠٢٢',
+//   confirm: '١٧ نوفمبر ٢٠٢٢',
+//   shipped: '١٧ نوفمبر ٢٠٢٢',
+//   outDelivery: '١٧ نوفمبر ٢٠٢٢',
+//   delivered: '١٧ نوفمبر ٢٠٢٢',
+// );
 bool details1 = true;
 bool details2 = true;
 bool details3 = true;

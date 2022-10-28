@@ -2,6 +2,7 @@ class AppUrls {
   static const String categories =
       'https://hasseal.com/wp-json/wc/v3/products/categories';
   static const String products = 'https://hasseal.com/wp-json/wc/v3/products/';
+  static const String orders = 'https://hasseal.com/wp-json/wc/v3/orders/';
 
   //params
   static const consumerKey = 'consumer_key';

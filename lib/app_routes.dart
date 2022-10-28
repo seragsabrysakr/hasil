@@ -22,7 +22,6 @@ import 'package:hassel/features/profile/my_credit/add_credit_card_screen.dart';
 import 'package:hassel/features/profile/my_credit/my_credit_screen.dart';
 import 'package:hassel/features/profile/my_information/my_information_screen.dart';
 import 'package:hassel/features/profile/my_orders/my_orders_screen.dart';
-import 'package:hassel/features/profile/my_orders/tracking_order_screen.dart';
 import 'package:hassel/features/profile/notifications/notification_screen.dart';
 import 'package:hassel/features/profile/profile_screen.dart';
 import 'package:hassel/features/profile/transictions/transiction_screen.dart';
@@ -125,10 +124,10 @@ class AppRoutes {
         return MaterialPageRoute(builder: (context) {
           return const MyOrdersScreen();
         });
-      case Routes.trackingOrderScreen:
-        return MaterialPageRoute(builder: (context) {
-          return const TrackingOrderScreen();
-        });
+      // case Routes.trackingOrderScreen:
+      //   return MaterialPageRoute(builder: (context) {
+      //     return const TrackingOrderScreen();
+      //   });
       case Routes.registerRoute:
         return MaterialPageRoute(builder: (context) {
           return const RegisterScreen();

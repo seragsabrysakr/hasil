@@ -33,7 +33,7 @@ class App extends StatelessWidget {
             supportedLocales: AppLocalizations.supportedLocales,
             locale: cubit.locale,
             theme: _themeData(context),
-            initialRoute: Routes.homeRoute,
+            initialRoute: Routes.onBoardRoute,
             debugShowCheckedModeBanner: false,
             // home: const IntroScreen(),
             onGenerateRoute: AppRoutes.onGenerateRoute,

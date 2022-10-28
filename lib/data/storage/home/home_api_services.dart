@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:hassel/data/model/category_model.dart';
+import 'package:hassel/data/model/order_model.dart';
 import 'package:hassel/data/model/productModel.dart';
 import 'package:hassel/shared/app_utils/app_urls.dart';
 import 'package:retrofit/http.dart';
@@ -26,6 +27,12 @@ abstract class HomeServiceClient {
     @Query(AppUrls.consumerSecret) required String consumerSecret,
     @Query(AppUrls.keyPermissions) required String keyPermissions,
     @Query('categories') required String categoriesID,
+  });
+  @GET(AppUrls.orders)
+  Future<List<OrderModel>> getOrders({
+    @Query(AppUrls.consumerKey) required String consumerKey,
+    @Query(AppUrls.consumerSecret) required String consumerSecret,
+    @Query('customer') required String customer,
   });
   @GET('https://hasseal.com/wp-json/wc/v3/products/{id}')
   Future<ProductModel> geSingleProducts({
