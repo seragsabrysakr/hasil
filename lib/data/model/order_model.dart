@@ -43,8 +43,8 @@ class OrderModel {
     required this.needsProcessing,
     required this.dateCreatedGmt,
     required this.dateModifiedGmt,
-    required this.dateCompletedGmt,
-    required this.datePaidGmt,
+    this.dateCompletedGmt,
+    this.datePaidGmt,
     required this.currencySymbol,
     required this.links,
   });
@@ -93,8 +93,8 @@ class OrderModel {
   late final String? dateModifiedGmt;
   late final String? dateCompletedGmt;
   late final String? datePaidGmt;
-  late final String currencySymbol;
-  late final Links links;
+  late final String? currencySymbol;
+  late final Links? links;
 
   OrderModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -103,8 +103,8 @@ class OrderModel {
     currency = json['currency'];
     version = json['version'];
     pricesIncludeTax = json['prices_include_tax'];
-    dateCreated = json['date_created'];
-    dateModified = json['date_modified'];
+    dateCreated = json['date_created'] ?? 'جاري';
+    dateModified = json['date_modified'] ?? 'جاري';
     discountTotal = json['discount_total'];
     discountTax = json['discount_tax'];
     shippingTotal = json['shipping_total'];
@@ -123,8 +123,8 @@ class OrderModel {
     customerUserAgent = json['customer_user_agent'];
     createdVia = json['created_via'];
     customerNote = json['customer_note'];
-    dateCompleted = null;
-    datePaid = null;
+    dateCompleted = json['date_completed'] ?? 'جاري';
+    datePaid = json['date–paid'] ?? 'جاري';
     cartHash = json['cart_hash'];
     number = json['number'];
     metaData =
@@ -198,7 +198,7 @@ class OrderModel {
     _data['date_completed_gmt'] = dateCompletedGmt;
     _data['date_paid_gmt'] = datePaidGmt;
     _data['currency_symbol'] = currencySymbol;
-    _data['_links'] = links.toJson();
+    _data['_links'] = links?.toJson();
     return _data;
   }
 }
@@ -355,7 +355,7 @@ class LineItems {
     required this.sku,
     required this.price,
     required this.image,
-    this.parentName,
+    required this.parentName,
   });
   late final int id;
   late final String name;
@@ -372,7 +372,7 @@ class LineItems {
   late final String sku;
   late final double price;
   late final Image image;
-  late final Null parentName;
+  late final String parentName;
 
   LineItems.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -390,7 +390,7 @@ class LineItems {
     sku = json['sku'];
     price = json['price'];
     image = Image.fromJson(json['image']);
-    parentName = null;
+    parentName = json['parent_name'] ?? '';
   }
 
   Map<String, dynamic> toJson() {
@@ -514,26 +514,21 @@ class Links {
   Links({
     required this.self,
     required this.collection,
-    required this.customer,
   });
   late final List<Self> self;
   late final List<Collection> collection;
-  late final List<Customer> customer;
 
   Links.fromJson(Map<String, dynamic> json) {
     self = List.from(json['self']).map((e) => Self.fromJson(e)).toList();
     collection = List.from(json['collection'])
         .map((e) => Collection.fromJson(e))
         .toList();
-    customer =
-        List.from(json['customer']).map((e) => Customer.fromJson(e)).toList();
   }
 
   Map<String, dynamic> toJson() {
     final _data = <String, dynamic>{};
     _data['self'] = self.map((e) => e.toJson()).toList();
     _data['collection'] = collection.map((e) => e.toJson()).toList();
-    _data['customer'] = customer.map((e) => e.toJson()).toList();
     return _data;
   }
 }
@@ -562,23 +557,6 @@ class Collection {
   late final String href;
 
   Collection.fromJson(Map<String, dynamic> json) {
-    href = json['href'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final _data = <String, dynamic>{};
-    _data['href'] = href;
-    return _data;
-  }
-}
-
-class Customer {
-  Customer({
-    required this.href,
-  });
-  late final String href;
-
-  Customer.fromJson(Map<String, dynamic> json) {
     href = json['href'];
   }
 

@@ -40,4 +40,11 @@ abstract class HomeServiceClient {
     @Query(AppUrls.consumerKey) required String consumerKey,
     @Query(AppUrls.consumerSecret) required String consumerSecret,
   });
+
+  @GET('https://hasseal.com/wp-json/wc/v3/orders/{id}')
+  Future<OrderModel> getSingleOrder({
+    @Path("id") required String id,
+    @Query(AppUrls.consumerKey) required String consumerKey,
+    @Query(AppUrls.consumerSecret) required String consumerSecret,
+  });
 }

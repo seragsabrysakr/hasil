@@ -68,4 +68,14 @@ class HomeRepository {
     ));
     return data;
   }
+
+  Future<Either<Failure, OrderModel>> getSingleOrder(String id) async {
+    Future<Either<Failure, OrderModel>> data = safeApi.call(
+        apiCall: _appServiceClient.getSingleOrder(
+      id: id,
+      consumerKey: AppUrls.consumerKeyValue,
+      consumerSecret: AppUrls.consumerSecretValue,
+    ));
+    return data;
+  }
 }

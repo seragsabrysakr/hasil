@@ -8,18 +8,19 @@ import 'package:hassel/shared/app_utils/app_prefs.dart';
 import 'package:injectable/injectable.dart';
 
 @injectable
-class OrdersCubit extends Cubit<FlowState> {
+class TrackOrderCubit extends Cubit<FlowState> {
   final HomeRepository _repository;
   final AppPreferences _preferences;
-  OrdersCubit(this._repository, this._preferences)
+  TrackOrderCubit(this._repository, this._preferences)
       : super(LoadingState(
             stateRendererType: StateRendererType.fullScreenLoadingState));
-  static OrdersCubit get(BuildContext context) => context.read<OrdersCubit>();
-  List<OrderModel> orders = [];
-  void getAllProducts(String customer) {
+  static TrackOrderCubit get(BuildContext context) =>
+      context.read<TrackOrderCubit>();
+  OrderModel? orderModel;
+  void getProduct(String id) {
     emit(LoadingState(
         stateRendererType: StateRendererType.fullScreenLoadingState));
-    _repository.getOrders(customer).then((value) => value.fold(
+    _repository.getSingleOrder(id).then((value) => value.fold(
           (failure) {
             emit(ErrorState(
                 StateRendererType.fullScreenErrorState, failure.message));
@@ -27,7 +28,7 @@ class OrdersCubit extends Cubit<FlowState> {
           },
           (data) {
             print(data.toString());
-            orders = data;
+            orderModel = data;
             emit(ContentState());
           },
         ));

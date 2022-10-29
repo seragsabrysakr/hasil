@@ -58,38 +58,53 @@ class TrackProgress extends StatelessWidget {
   }
 
   Widget tick1() {
-    bool isTicks = ticks > 1;
-    return ticks > 0
-        ? tick(true, 1, isTick: isTicks, image1: AppAssets.orderOn, image2: AppAssets.orderOff)
-        : tick(false, 1, image1: AppAssets.orderOn, image2: AppAssets.orderOff);
+    bool isTicks = ticks >= 0;
+    return isTicks
+        ? tick(true, 0,
+            isTick: isTicks,
+            image1: AppAssets.orderOn,
+            image2: AppAssets.orderOff)
+        : tick(false, 0, image1: AppAssets.orderOn, image2: AppAssets.orderOff);
   }
 
   Widget tick2() {
-    bool isTicks = ticks > 2;
-    return ticks > 1
-        ? tick(true, 2, isTick: isTicks, image1: AppAssets.orderOn, image2: AppAssets.orderOff)
-        : tick(false, 2, image1: AppAssets.orderOn, image2: AppAssets.orderOff);
+    bool isTicks = ticks >= 1;
+    return isTicks
+        ? tick(true, 1,
+            isTick: isTicks,
+            image1: AppAssets.orderOn,
+            image2: AppAssets.orderOff)
+        : tick(false, 1, image1: AppAssets.orderOn, image2: AppAssets.orderOff);
   }
 
   Widget tick3() {
-    bool isTicks = ticks > 3;
-    return ticks > 2
-        ? tick(true, 3, isTick: isTicks, image1: AppAssets.orderOn, image2: AppAssets.orderOff)
-        : tick(false, 3, image1: AppAssets.orderOn, image2: AppAssets.orderOff);
+    bool isTicks = ticks >= 2;
+    return isTicks
+        ? tick(true, 2,
+            isTick: isTicks,
+            image1: AppAssets.orderOn,
+            image2: AppAssets.orderOff)
+        : tick(false, 2, image1: AppAssets.orderOn, image2: AppAssets.orderOff);
   }
 
   Widget tick4() {
-    bool isTicks = ticks > 4;
-    return ticks > 2
-        ? tick(true, 3, isTick: isTicks, image1: AppAssets.orderOn, image2: AppAssets.orderOff)
+    bool isTicks = ticks >= 3;
+    return isTicks
+        ? tick(true, 3,
+            isTick: isTicks,
+            image1: AppAssets.orderOn,
+            image2: AppAssets.orderOff)
         : tick(false, 3, image1: AppAssets.orderOn, image2: AppAssets.orderOff);
   }
 
   Widget tick5() {
-    bool isTicks = ticks > 5;
-    return ticks > 2
-        ? tick(true, 3, isTick: isTicks, image1: AppAssets.orderOn, image2: AppAssets.orderOff)
-        : tick(false, 3, image1: AppAssets.orderOn, image2: AppAssets.orderOff);
+    bool isTicks = ticks >= 4;
+    return isTicks
+        ? tick(true, 4,
+            isTick: isTicks,
+            image1: AppAssets.orderOn,
+            image2: AppAssets.orderOff)
+        : tick(false, 4, image1: AppAssets.orderOn, image2: AppAssets.orderOff);
   }
 
   Widget line1() {

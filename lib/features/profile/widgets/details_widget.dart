@@ -99,7 +99,7 @@ class _DetailsWidgetState extends State<DetailsWidget> {
                           )),
                     ],
                   ),
-                  if (!details) widget.detailsWidget
+                  if (details) widget.detailsWidget
                 ],
               ),
             ),
