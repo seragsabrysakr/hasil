@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hassel/features/home/presentation/cubits/add_item_cubit.dart';
 
 import 'app.dart';
 import 'core/app_business_logic/app_cubit/app_cubit.dart';
@@ -21,6 +22,8 @@ void main() async {
     // builder: (context) =>
     MultiBlocProvider(
       providers: [
+        BlocProvider<AddItemToCartCubit>(
+            create: (context) => getIt<AddItemToCartCubit>()),
         BlocProvider<AppCubit>(create: (context) => getIt<AppCubit>()),
       ],
       child: App(preferences: getIt<AppPreferences>()),
@@ -33,6 +36,7 @@ class MyHttpOverrides extends HttpOverrides {
   @override
   HttpClient createHttpClient(context) {
     return super.createHttpClient(context)
-      ..badCertificateCallback = (X509Certificate cert, String host, int port) => true;
+      ..badCertificateCallback =
+          (X509Certificate cert, String host, int port) => true;
   }
 }

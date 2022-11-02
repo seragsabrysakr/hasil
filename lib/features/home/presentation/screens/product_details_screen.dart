@@ -3,9 +3,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:hassel/app.dart';
 import 'package:hassel/app_routes.dart';
+import 'package:hassel/core/app_business_logic/state_renderer/request_builder.dart';
 import 'package:hassel/core/app_business_logic/state_renderer/state_renderer_impl.dart';
 import 'package:hassel/core/dependency_injection/dependency_injection.dart';
 import 'package:hassel/data/model/productModel.dart';
+import 'package:hassel/features/home/presentation/cubits/add_item_cubit.dart';
 import 'package:hassel/features/home/presentation/cubits/single_product_cubit.dart';
 import 'package:hassel/shared/app_utils/app_colors.dart';
 import 'package:hassel/shared/app_utils/app_sized_box.dart';
@@ -27,14 +29,18 @@ class ProductDetailsScreen extends StatefulWidget {
 }
 
 class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
+  int count = 0;
   @override
   Widget build(BuildContext context) {
+    count = getCount(widget.item.menuOrder);
     return Scaffold(
-      appBar: WidgetsHelper.customAppBar(context, title: widget.item.name, onTap: () {
+      appBar: WidgetsHelper.customAppBar(context, title: widget.item.name,
+          onTap: () {
         Navigator.canPop(context);
       }),
       body: BlocProvider(
-        create: (context) => getIt<SingleProductsCubit>()..getProduct(widget.item.id.toString()),
+        create: (context) =>
+            getIt<SingleProductsCubit>()..getProduct(widget.item.id.toString()),
         child: BlocConsumer<SingleProductsCubit, FlowState>(
           listener: (context, state) {
             state.flowStateListener(context);
@@ -78,7 +84,8 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
               ),
               Text(
                 product.name,
-                style: AppTextStyle.getBoldStyle(color: AppColors.primaryColor, fontSize: 18.sp),
+                style: AppTextStyle.getBoldStyle(
+                    color: AppColors.primaryColor, fontSize: 18.sp),
               ),
             ],
           ),
@@ -92,7 +99,8 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
               ),
               Text(
                 product.categories.first.name,
-                style: AppTextStyle.getBoldStyle(color: AppColors.headerColor, fontSize: 16.sp),
+                style: AppTextStyle.getBoldStyle(
+                    color: AppColors.headerColor, fontSize: 16.sp),
               ),
             ],
           ),
@@ -106,7 +114,8 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
               ),
               Text(
                 '${product.price}  ريال',
-                style: AppTextStyle.getMediumStyle(color: AppColors.subTitle, fontSize: 12.sp),
+                style: AppTextStyle.getMediumStyle(
+                    color: AppColors.subTitle, fontSize: 12.sp),
               ),
             ],
           ),
@@ -123,7 +132,8 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
               children: [
                 Text(
                   product.averageRating.toString(),
-                  style: AppTextStyle.getMediumStyle(color: AppColors.titleColor, fontSize: 12.sp),
+                  style: AppTextStyle.getMediumStyle(
+                      color: AppColors.titleColor, fontSize: 12.sp),
                 ),
                 SizedBox(
                   width: 2.w,
@@ -143,7 +153,8 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                 ),
                 Text(
                   '(${product.ratingCount} مراجعة)',
-                  style: AppTextStyle.getMediumStyle(color: AppColors.titleColor, fontSize: 12.sp),
+                  style: AppTextStyle.getMediumStyle(
+                      color: AppColors.titleColor, fontSize: 12.sp),
                 ),
               ],
             ),
@@ -162,8 +173,10 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
               trimMode: TrimMode.Line,
               trimCollapsedText: 'المزيد',
               trimExpandedText: 'أقل',
-              lessStyle: AppTextStyle.getBoldStyle(color: AppColors.primaryColor, fontSize: 14.sp),
-              moreStyle: AppTextStyle.getBoldStyle(color: AppColors.primaryColor, fontSize: 14.sp),
+              lessStyle: AppTextStyle.getBoldStyle(
+                  color: AppColors.primaryColor, fontSize: 14.sp),
+              moreStyle: AppTextStyle.getBoldStyle(
+                  color: AppColors.primaryColor, fontSize: 14.sp),
             )),
         AppSizedBox.s3,
         buildItemActions(),
@@ -182,7 +195,8 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
           children: [
             Text(
               App.tr.quantity,
-              style: AppTextStyle.getBoldStyle(color: AppColors.titleColor, fontSize: 10.sp),
+              style: AppTextStyle.getBoldStyle(
+                  color: AppColors.titleColor, fontSize: 10.sp),
             ),
             const Spacer(
               flex: 1,
@@ -191,7 +205,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
               child: InkWell(
                 onTap: () {
                   setState(() {
-                    // widget.item.count--;
+                    widget.item.menuOrder--;
                   });
                 },
                 child: Container(
@@ -218,8 +232,9 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
               width: 5.w,
             ),
             Text(
-              widget.item.menuOrder.toString(),
-              style: AppTextStyle.getBoldStyle(color: AppColors.titleColor, fontSize: 14.sp),
+              getCount(widget.item.menuOrder).toString(),
+              style: AppTextStyle.getBoldStyle(
+                  color: AppColors.titleColor, fontSize: 14.sp),
             ),
             SizedBox(
               width: 5.w,
@@ -228,7 +243,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
               child: InkWell(
                 onTap: () {
                   setState(() {
-                    // widget.item.count++;
+                    widget.item.menuOrder++;
                   });
                 },
                 child: Container(
@@ -258,20 +273,39 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   }
 
   buildAddToCart() {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 2.h),
-      child: CustomButton(
-        onTap: () {},
-        fontSize: 13.sp,
-        radius: .5,
-        buttonColor: AppColors.primaryColor,
-        titleColor: Colors.white,
-        fontWeight: FontWeight.w900,
-        title: App.tr.addToCart,
-        height: 6.h,
-        width: 80.w,
-      ),
-    );
+    return RequestBuilder<AddItemToCartCubit>(
+        contentBuilder: (context, cubit) {
+          return Padding(
+            padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 2.h),
+            child: CustomButton(
+              onTap: () {
+                if (widget.item.menuOrder >= 1) {
+                  cubit.addItemToCart(widget.item.id.toString(),
+                      widget.item.menuOrder.toString());
+                } else {
+                  popDialog(
+                      context: context,
+                      title: 'خطأ',
+                      content: 'برجاء أضافة عدد العناصر',
+                      boxColor: AppColors.redColor);
+                }
+              },
+              fontSize: 13.sp,
+              radius: .5,
+              buttonColor: AppColors.primaryColor,
+              titleColor: Colors.white,
+              fontWeight: FontWeight.w900,
+              title: App.tr.addToCart,
+              height: 6.h,
+              width: 80.w,
+            ),
+          );
+        },
+        loadingView: CircularProgressIndicator(color: AppColors.primaryColor),
+        retry: (context, cubit) {
+          cubit.addItemToCart(
+              widget.item.id.toString(), widget.item.menuOrder.toString());
+        });
   }
 
   buildProductImage(ProductModel product) {
@@ -312,7 +346,8 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
       child: Center(
         child: Text(
           '35%',
-          style: AppTextStyle.getRegularStyle(color: AppColors.redColor, fontSize: 7.sp),
+          style: AppTextStyle.getRegularStyle(
+              color: AppColors.redColor, fontSize: 7.sp),
         ),
       ),
     );

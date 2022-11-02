@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:hassel/app.dart';
 import 'package:hassel/app_routes.dart';
+import 'package:hassel/core/app_business_logic/state_renderer/request_builder.dart';
 import 'package:hassel/data/model/productModel.dart';
+import 'package:hassel/features/home/presentation/cubits/add_item_cubit.dart';
 import 'package:hassel/shared/app_utils/app_colors.dart';
 import 'package:hassel/shared/app_utils/app_sized_box.dart';
 import 'package:hassel/shared/app_utils/app_text_style.dart';
@@ -20,9 +22,10 @@ class ProductItem extends StatefulWidget {
 }
 
 class _ProductItemState extends State<ProductItem> {
+  int count = 0;
   @override
   Widget build(BuildContext context) {
-    // bool inCart = widget.product.count == 0;
+    bool inCart = widget.product.menuOrder >= 1;
     return TouchRippleEffect(
       rippleColor: AppColors.primaryColor.withOpacity(.2),
       onTap: () {
@@ -31,7 +34,7 @@ class _ProductItemState extends State<ProductItem> {
       },
       child: Container(
         color: Colors.white,
-        height: 32.h,
+        height: inCart ? 35.h : 32.h,
         child: Column(children: [
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -71,15 +74,14 @@ class _ProductItemState extends State<ProductItem> {
                 color: AppColors.subTitle, fontSize: 10.sp),
           ),
           AppSizedBox.s2,
-          // inCart ?
-          buildAddToCart()
-          // : buildItemActions(),
+          if (inCart) buildItemActions(),
+          buildAddToCart(context),
         ]),
       ),
     );
   }
 
-  Container buildItemActions() {
+  buildItemActions() {
     return Container(
       decoration: BoxDecoration(
         border: BorderDirectional(
@@ -96,7 +98,7 @@ class _ProductItemState extends State<ProductItem> {
               child: InkWell(
                 onTap: () {
                   setState(() {
-                    // widget.product.count--;
+                    widget.product.menuOrder--;
                   });
                 },
                 child: Container(
@@ -123,7 +125,7 @@ class _ProductItemState extends State<ProductItem> {
             width: 10.w,
           ),
           Text(
-            widget.product.toString(),
+            getCount(widget.product.menuOrder).toString(),
             style: AppTextStyle.getBoldStyle(
                 color: AppColors.headerColor.withOpacity(.4), fontSize: 13.sp),
           ),
@@ -136,7 +138,7 @@ class _ProductItemState extends State<ProductItem> {
               child: InkWell(
                 onTap: () {
                   setState(() {
-                    // widget.product.count++;
+                    widget.product.menuOrder++;
                   });
                 },
                 child: Container(
@@ -164,34 +166,44 @@ class _ProductItemState extends State<ProductItem> {
     );
   }
 
-  Expanded buildAddToCart() {
-    return Expanded(
-      child: Material(
-        child: InkWell(
-          onTap: () {
-            setState(() {
-              // widget.product.count = 1;
-            });
-          },
-          child: Container(
-            decoration: BoxDecoration(
-              border: BorderDirectional(
-                top: BorderSide(
-                  color: AppColors.subTitle.withOpacity(.4),
+  buildAddToCart(BuildContext context) {
+    return RequestBuilder<AddItemToCartCubit>(
+        contentBuilder: (context, cubit) {
+          return Expanded(
+            child: Material(
+              child: InkWell(
+                onTap: () {
+                  setState(() {
+                    if (widget.product.menuOrder == 0) {
+                      widget.product.menuOrder = 1;
+                    } else {
+                      cubit.addItemToCart(widget.product.id.toString(),
+                          widget.product.menuOrder.toString());
+                    }
+                  });
+                },
+                child: Container(
+                  decoration: BoxDecoration(
+                    border: BorderDirectional(
+                      top: BorderSide(
+                        color: AppColors.subTitle.withOpacity(.4),
+                      ),
+                    ),
+                  ),
+                  child: Center(
+                    child: Text(
+                      App.tr.addToCart,
+                      style: AppTextStyle.getBoldStyle(
+                          color: AppColors.subTitle, fontSize: 10.sp),
+                    ),
+                  ),
                 ),
               ),
             ),
-            child: Center(
-              child: Text(
-                App.tr.addToCart,
-                style: AppTextStyle.getBoldStyle(
-                    color: AppColors.subTitle, fontSize: 10.sp),
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
+          );
+        },
+        loadingView: CircularProgressIndicator(color: AppColors.primaryColor),
+        retry: (context, cubit) {});
   }
 
   buildProduxtImage() {

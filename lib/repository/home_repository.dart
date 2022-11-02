@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:hassel/core/data/network/error_handler.dart';
 import 'package:hassel/core/data/network/save_api.dart';
+import 'package:hassel/data/model/cart_order_model.dart';
 import 'package:hassel/data/model/category_model.dart';
 import 'package:hassel/data/model/order_model.dart';
 import 'package:hassel/data/model/productModel.dart';
@@ -76,6 +77,17 @@ class HomeRepository {
       consumerKey: AppUrls.consumerKeyValue,
       consumerSecret: AppUrls.consumerSecretValue,
     ));
+    return data;
+  }
+
+  Future<Either<Failure, CartOrderModel>> addItemToCart(
+      {required String id, required String quantity}) async {
+    Future<Either<Failure, CartOrderModel>> data = safeApi.call(
+        apiCall: _appServiceClient.addItemToCart(
+            id: id,
+            consumerKey: AppUrls.consumerKeyValue,
+            consumerSecret: AppUrls.consumerSecretValue,
+            quantity: quantity));
     return data;
   }
 }

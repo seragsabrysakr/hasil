@@ -348,35 +348,36 @@ Future<Object?> popDialog({
                             topLeft: Radius.circular(2.h),
                             topRight: Radius.circular(2.h))),
                     child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         SizedBox(
                           height: 2.h,
                         ),
                         Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
                               title,
                               style: AppTextStyle.getBoldStyle(
                                   color: boxColor, fontSize: 12.sp),
                             ),
-                            const Spacer(
-                              flex: 1,
-                            ),
-                            InkWell(
-                              onTap: () {
-                                controller.dismiss();
-                              },
-                              child: Padding(
-                                padding: EdgeInsets.symmetric(
-                                    horizontal: 1.w, vertical: 1.h),
-                                child: Icon(
-                                  Icons.clear,
-                                  color: Colors.grey.shade300,
-                                  size: 4.w,
-                                ),
-                              ),
-                            ),
+                            // const Spacer(
+                            //   flex: 1,
+                            // ),
+                            // InkWell(
+                            //   onTap: () {
+                            //     controller.dismiss();
+                            //   },
+                            //   child: Padding(
+                            //     padding: EdgeInsets.symmetric(
+                            //         horizontal: 1.w, vertical: 1.h),
+                            //     child: Icon(
+                            //       Icons.clear,
+                            //       color: Colors.grey.shade300,
+                            //       size: 4.w,
+                            //     ),
+                            //   ),
+                            // ),
                           ],
                         ),
                         Divider(

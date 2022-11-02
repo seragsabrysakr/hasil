@@ -61,7 +61,7 @@ class ProductModel {
     required this.defaultAttributes,
     required this.variations,
     required this.groupedProducts,
-    required this.menuOrder,
+    this.menuOrder = 0,
     required this.priceHtml,
     required this.relatedIds,
     required this.metaData,
@@ -130,7 +130,7 @@ class ProductModel {
   late final List<dynamic> defaultAttributes;
   late final List<dynamic> variations;
   late final List<dynamic> groupedProducts;
-  late final int menuOrder;
+  late int menuOrder;
   late final String priceHtml;
   late final List<int> relatedIds;
   late final List<MetaData> metaData;
@@ -203,7 +203,7 @@ class ProductModel {
         List.castFrom<dynamic, dynamic>(json['default_attributes']);
     variations = List.castFrom<dynamic, dynamic>(json['variations']);
     groupedProducts = List.castFrom<dynamic, dynamic>(json['grouped_products']);
-    menuOrder = json['menu_order'];
+    menuOrder = json['menu_order'] ?? 0;
     priceHtml = json['price_html'];
     relatedIds = List.castFrom<dynamic, int>(json['related_ids']);
     metaData =

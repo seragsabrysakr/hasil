@@ -15,23 +15,24 @@ import 'package:shared_preferences/shared_preferences.dart' as _i7;
 import '../../data/storage/aurh/auth_api_services.dart' as _i13;
 import '../../data/storage/home/home_api_services.dart' as _i10;
 import '../../data/storage/products/products_api_services.dart' as _i11;
-import '../../features/home/presentation/cubits/categories_cubit.dart' as _i20;
+import '../../features/home/presentation/cubits/add_item_cubit.dart' as _i19;
+import '../../features/home/presentation/cubits/categories_cubit.dart' as _i21;
 import '../../features/home/presentation/cubits/category_product_cubit.dart'
-    as _i21;
+    as _i22;
 import '../../features/home/presentation/cubits/products_cubit.dart' as _i16;
 import '../../features/home/presentation/cubits/single_product_cubit.dart'
     as _i17;
 import '../../features/intro/presentation/cubits/intro_cubit.dart' as _i4;
 import '../../features/profile/my_orders/cubits/orders_cubit.dart' as _i15;
 import '../../features/profile/my_orders/cubits/track_order_cubit.dart' as _i18;
-import '../../repository/auth_repository.dart' as _i19;
+import '../../repository/auth_repository.dart' as _i20;
 import '../../repository/home_repository.dart' as _i14;
 import '../../shared/app_utils/app_prefs.dart' as _i8;
 import '../app_business_logic/app_cubit/app_cubit.dart' as _i12;
 import '../data/network/network_info.dart' as _i5;
 import '../data/network/save_api.dart' as _i6;
-import 'module/di_module.dart' as _i22;
-import 'module/dio_module.dart' as _i23; // ignore_for_file: unnecessary_lambdas
+import 'module/di_module.dart' as _i23;
+import 'module/dio_module.dart' as _i24; // ignore_for_file: unnecessary_lambdas
 
 // ignore_for_file: lines_longer_than_80_chars
 /// initializes the registration of provided dependencies inside of [GetIt]
@@ -90,22 +91,26 @@ Future<_i1.GetIt> $initGetIt(
         get<_i14.HomeRepository>(),
         get<_i8.AppPreferences>(),
       ));
-  gh.factory<_i19.AuthRepository>(() => _i19.AuthRepository(
+  gh.factory<_i19.AddItemToCartCubit>(() => _i19.AddItemToCartCubit(
+        get<_i14.HomeRepository>(),
+        get<_i8.AppPreferences>(),
+      ));
+  gh.factory<_i20.AuthRepository>(() => _i20.AuthRepository(
         get<_i13.AuthServiceClient>(),
         get<_i6.SafeApi>(),
         get<_i8.AppPreferences>(),
       ));
-  gh.factory<_i20.CategoriesCubit>(() => _i20.CategoriesCubit(
+  gh.factory<_i21.CategoriesCubit>(() => _i21.CategoriesCubit(
         get<_i14.HomeRepository>(),
         get<_i8.AppPreferences>(),
       ));
-  gh.factory<_i21.CategoryProductsCubit>(() => _i21.CategoryProductsCubit(
+  gh.factory<_i22.CategoryProductsCubit>(() => _i22.CategoryProductsCubit(
         get<_i14.HomeRepository>(),
         get<_i8.AppPreferences>(),
       ));
   return get;
 }
 
-class _$DIModule extends _i22.DIModule {}
+class _$DIModule extends _i23.DIModule {}
 
-class _$DioModule extends _i23.DioModule {}
+class _$DioModule extends _i24.DioModule {}

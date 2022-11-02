@@ -208,6 +208,40 @@ class _HomeServiceClient implements HomeServiceClient {
     return value;
   }
 
+  @override
+  Future<CartOrderModel> addItemToCart({
+    required consumerKey,
+    required consumerSecret,
+    required id,
+    required quantity,
+  }) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{
+      r'consumer_key': consumerKey,
+      r'consumer_secret': consumerSecret,
+    };
+    final _headers = <String, dynamic>{};
+    final _data = {
+      'product_id': id,
+      'quantity': quantity,
+    };
+    final _result = await _dio
+        .fetch<Map<String, dynamic>>(_setStreamType<CartOrderModel>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              'https://hasseal.com/wp-json/cocart/v1/add-item',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = CartOrderModel.fromJson(_result.data!);
+    return value;
+  }
+
   RequestOptions _setStreamType<T>(RequestOptions requestOptions) {
     if (T != dynamic &&
         !(requestOptions.responseType == ResponseType.bytes ||
