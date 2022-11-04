@@ -44,6 +44,7 @@ dependencies:
   sizer: ^2.0.15
   touch_ripple_effect: ^2.2.3
   flutter_rating_bar: ^4.0.1
+  woocommerce_api: ^0.1.0
 
 
 dev_dependencies:

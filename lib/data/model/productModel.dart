@@ -208,8 +208,8 @@ class ProductModel {
     relatedIds = List.castFrom<dynamic, int>(json['related_ids']);
     metaData =
         List.from(json['meta_data']).map((e) => MetaData.fromJson(e)).toList();
-    stockStatus = json['stock_status'];
-    hasOptions = json['has_options'];
+    stockStatus = json['stock_status'] ??'';
+    hasOptions = json['has_options']??false;
     links = Links.fromJson(json['_links']);
   }
 

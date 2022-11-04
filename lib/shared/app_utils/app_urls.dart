@@ -6,6 +6,7 @@ class AppUrls {
   static const addItem = 'https://hasseal.com/wp-json/cocart/v1/add-item';
 
   //params
+  static const baseUrl = 'https://hasseal.com';
   static const consumerKey = 'consumer_key';
   static const consumerSecret = 'consumer_secret';
   static const keyPermissions = 'key_permissions';
