@@ -20,7 +20,7 @@ class CartOrderModel {
   late final int productId;
   late final int variationId;
   late final List<dynamic> variation;
-  late final int quantity;
+  late int quantity;
   late final String dataHash;
   late final LineTaxData lineTaxData;
   late final double lineSubtotal;

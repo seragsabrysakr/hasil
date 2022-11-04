@@ -6,6 +6,7 @@ import 'package:hassel/app_routes.dart';
 import 'package:hassel/core/app_business_logic/state_renderer/request_builder.dart';
 import 'package:hassel/core/app_business_logic/state_renderer/state_renderer_impl.dart';
 import 'package:hassel/core/dependency_injection/dependency_injection.dart';
+import 'package:hassel/data/model/cart_order_model.dart';
 import 'package:hassel/data/model/productModel.dart';
 import 'package:hassel/features/home/presentation/cubits/add_item_cubit.dart';
 import 'package:hassel/features/home/presentation/cubits/single_product_cubit.dart';
@@ -39,19 +40,17 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
         Navigator.canPop(context);
       }),
       body: BlocProvider(
-        create: (context) =>
-            getIt<SingleProductsCubit>()..getProduct(widget.item.id.toString()),
+        create: (context) => getIt<SingleProductsCubit>(),
         child: BlocConsumer<SingleProductsCubit, FlowState>(
           listener: (context, state) {
             state.flowStateListener(context);
           },
           builder: (context, state) {
             var cubit = SingleProductsCubit.get(context);
-            ProductModel? products = cubit.products;
+            ProductModel? products = widget.item;
             return state.flowStateBuilder(context,
-                screenContent: products != null
-                    ? buildScreenContent(context, products)
-                    : const SizedBox(), retry: () {
+                screenContent: buildScreenContent(context, products),
+                retry: () {
               cubit.getProduct(widget.item.id.toString());
             });
           },
@@ -274,6 +273,17 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
 
   buildAddToCart() {
     return RequestBuilder<AddItemToCartCubit>(
+        listener: (context, cubit) {
+          if (cubit.state is SuccessState) {
+            setState(() {
+              // cubit.model!.quantity = count;
+              cartItems.add(cubit.model!);
+              cartItemsImages.add(widget.item);
+            });
+            print(cartItemsImages);
+            print(cartItems.length);
+          }
+        },
         contentBuilder: (context, cubit) {
           return Padding(
             padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 2.h),
@@ -301,7 +311,8 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
             ),
           );
         },
-        loadingView: CircularProgressIndicator(color: AppColors.primaryColor),
+        loadingView: Center(
+            child: CircularProgressIndicator(color: AppColors.primaryColor)),
         retry: (context, cubit) {
           cubit.addItemToCart(
               widget.item.id.toString(), widget.item.menuOrder.toString());
@@ -353,3 +364,6 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
     );
   }
 }
+
+List<CartOrderModel> cartItems = [];
+List<ProductModel> cartItemsImages = [];

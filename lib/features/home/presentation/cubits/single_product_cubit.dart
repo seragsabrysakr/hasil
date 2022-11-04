@@ -12,8 +12,7 @@ class SingleProductsCubit extends Cubit<FlowState> {
   final HomeRepository _repository;
   final AppPreferences _preferences;
   SingleProductsCubit(this._repository, this._preferences)
-      : super(LoadingState(
-            stateRendererType: StateRendererType.fullScreenLoadingState));
+      : super(ContentState());
   static SingleProductsCubit get(BuildContext context) =>
       context.read<SingleProductsCubit>();
   ProductModel? products;

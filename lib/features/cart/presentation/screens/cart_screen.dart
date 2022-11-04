@@ -2,12 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:hassel/app.dart';
 import 'package:hassel/app_routes.dart';
+import 'package:hassel/data/model/cart_order_model.dart';
+import 'package:hassel/features/home/presentation/screens/product_details_screen.dart';
 import 'package:hassel/features/home/presentation/widgets/product_item.dart';
 import 'package:hassel/shared/app_utils/app_colors.dart';
 import 'package:hassel/shared/app_utils/app_navigator.dart';
 import 'package:hassel/shared/app_utils/app_sized_box.dart';
 import 'package:hassel/shared/app_utils/app_text_style.dart';
 import 'package:hassel/shared/app_widgets/custom_button.dart';
+import 'package:hassel/shared/app_widgets/custom_network_image.dart';
 import 'package:hassel/shared/app_widgets/empty_view/empty_item_model.dart';
 import 'package:hassel/shared/app_widgets/empty_view/empty_view_screen.dart';
 import 'package:hassel/shared/app_widgets/widgets_helper.dart';
@@ -23,14 +26,15 @@ class CartScreen extends StatefulWidget {
 class _CartScreenState extends State<CartScreen> {
   List<Product> productItems = List.of(cart).toSet().toList();
   bool orderComplete = false;
-  bool orderList = true;
-  bool orderEmpty = false;
+  bool orderList = cartItems.isNotEmpty;
+  bool orderEmpty = cartItems.isEmpty;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: WidgetsHelper.customAppBar(context,
-          title: orderComplete ? App.tr.completeRequest : App.tr.cart, cart: false),
+          title: orderComplete ? App.tr.completeRequest : App.tr.cart,
+          cart: false),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 2.h),
         child: CustomScrollView(
@@ -54,8 +58,8 @@ class _CartScreenState extends State<CartScreen> {
   SliverList buildCartItemList() {
     return SliverList(
         delegate: SliverChildBuilderDelegate((BuildContext context, int index) {
-      return buildCartItem(context, cart[index], index);
-    }, childCount: cart.length));
+      return buildCartItem(context, cartItems[index], index);
+    }, childCount: cartItems.length));
   }
 
   SliverToBoxAdapter buildCartFooter() {
@@ -72,14 +76,16 @@ class _CartScreenState extends State<CartScreen> {
                 children: [
                   Text(
                     App.tr.subTotal,
-                    style: AppTextStyle.getMediumStyle(color: AppColors.subTitle, fontSize: 10.sp),
+                    style: AppTextStyle.getMediumStyle(
+                        color: AppColors.subTitle, fontSize: 10.sp),
                   ),
                   const Spacer(
                     flex: 1,
                   ),
                   Text(
                     '123.5 ريال',
-                    style: AppTextStyle.getMediumStyle(color: AppColors.subTitle, fontSize: 10.sp),
+                    style: AppTextStyle.getMediumStyle(
+                        color: AppColors.subTitle, fontSize: 10.sp),
                   ),
                 ],
               ),
@@ -90,14 +96,16 @@ class _CartScreenState extends State<CartScreen> {
                 children: [
                   Text(
                     App.tr.deliveryCharge,
-                    style: AppTextStyle.getMediumStyle(color: AppColors.subTitle, fontSize: 10.sp),
+                    style: AppTextStyle.getMediumStyle(
+                        color: AppColors.subTitle, fontSize: 10.sp),
                   ),
                   const Spacer(
                     flex: 1,
                   ),
                   Text(
                     '123.5 ريال',
-                    style: AppTextStyle.getMediumStyle(color: AppColors.subTitle, fontSize: 10.sp),
+                    style: AppTextStyle.getMediumStyle(
+                        color: AppColors.subTitle, fontSize: 10.sp),
                   ),
                 ],
               ),
@@ -116,14 +124,16 @@ class _CartScreenState extends State<CartScreen> {
                 children: [
                   Text(
                     App.tr.total,
-                    style: AppTextStyle.getBoldStyle(color: AppColors.titleColor, fontSize: 13.sp),
+                    style: AppTextStyle.getBoldStyle(
+                        color: AppColors.titleColor, fontSize: 13.sp),
                   ),
                   const Spacer(
                     flex: 1,
                   ),
                   Text(
                     '123.5 ريال',
-                    style: AppTextStyle.getBoldStyle(color: AppColors.titleColor, fontSize: 13.sp),
+                    style: AppTextStyle.getBoldStyle(
+                        color: AppColors.titleColor, fontSize: 13.sp),
                   ),
                 ],
               ),
@@ -131,7 +141,8 @@ class _CartScreenState extends State<CartScreen> {
             AppSizedBox.s1,
             CustomButton(
               onTap: () async {
-                var result = await Navigator.pushNamed(context, Routes.deliveryAddresscreen);
+                var result = await Navigator.pushNamed(
+                    context, Routes.deliveryAddresscreen);
                 if (result == 'done') {
                   setState(() {
                     orderComplete = true;
@@ -160,7 +171,8 @@ class _CartScreenState extends State<CartScreen> {
       child: EmptyViewScreen(
         image: true,
         onTap: () {
-          AppNavigator.navigateTo(context: context, screen: Routes.trackingOrderScreen);
+          AppNavigator.navigateTo(
+              context: context, screen: Routes.trackingOrderScreen);
         },
         item: EmptyItemModel(
           mainTextHeader: 'تم إكتمال طلبك ',
@@ -187,7 +199,7 @@ class _CartScreenState extends State<CartScreen> {
     );
   }
 
-  Widget buildCartItem(BuildContext cxt, Product item, int index) {
+  Widget buildCartItem(BuildContext cxt, CartOrderModel item, int index) {
     return Slidable(
       key: Key(UniqueKey().toString()),
       endActionPane: ActionPane(
@@ -198,8 +210,6 @@ class _CartScreenState extends State<CartScreen> {
             autoClose: false,
             onPressed: (context) {
               cart.removeAt(index);
-              // productItems.removeAt(index);
-
               print(productItems[index].name);
               setState(() {});
             },
@@ -223,9 +233,10 @@ class _CartScreenState extends State<CartScreen> {
               SizedBox(
                 width: 8.w,
               ),
-              Image.asset(
-                item.image,
-                scale: 2.5,
+              buildImage(
+                height: 10.h,
+                width: 28.w,
+                imageUrl: cartItemsImages[index].images.first.src,
               ),
               const Spacer(
                 flex: 1,
@@ -242,21 +253,24 @@ class _CartScreenState extends State<CartScreen> {
     );
   }
 
-  Column buildItemsDetails(Product item) {
+  Column buildItemsDetails(CartOrderModel item) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Text(
-          '\$1.22 x 5',
-          style: AppTextStyle.getBoldStyle(color: AppColors.primaryColor, fontSize: 11.sp),
+          item.lineSubtotal.toString().split('.').first,
+          style: AppTextStyle.getBoldStyle(
+              color: AppColors.primaryColor, fontSize: 11.sp),
         ),
         Text(
-          item.name,
-          style: AppTextStyle.getBoldStyle(color: AppColors.titleColor, fontSize: 12.sp),
+          item.productName,
+          style: AppTextStyle.getBoldStyle(
+              color: AppColors.titleColor, fontSize: 12.sp),
         ),
         Text(
-          '1.50 ibs',
-          style: AppTextStyle.getMediumStyle(color: AppColors.subTitle, fontSize: 12.sp),
+          'ريال ' + item.productPrice.toString(),
+          style: AppTextStyle.getMediumStyle(
+              color: AppColors.subTitle, fontSize: 12.sp),
         ),
       ],
     );
@@ -277,7 +291,7 @@ class _CartScreenState extends State<CartScreen> {
             child: InkWell(
               onTap: () {
                 setState(() {
-                  productItems[index].count--;
+                  cartItems[index].quantity--;
                 });
               },
               child: Container(
@@ -305,8 +319,9 @@ class _CartScreenState extends State<CartScreen> {
             width: 10.w,
             child: Center(
               child: Text(
-                productItems[index].count.toString(),
-                style: AppTextStyle.getBoldStyle(color: AppColors.titleColor, fontSize: 14.sp),
+                getCount(cartItems[index].quantity).toString(),
+                style: AppTextStyle.getBoldStyle(
+                    color: AppColors.titleColor, fontSize: 14.sp),
               ),
             ),
           ),
@@ -314,7 +329,7 @@ class _CartScreenState extends State<CartScreen> {
             child: InkWell(
               onTap: () {
                 setState(() {
-                  productItems[index].count++;
+                  cartItems[index].quantity++;
                 });
               },
               child: Container(

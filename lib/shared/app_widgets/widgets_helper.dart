@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hassel/app_routes.dart';
 import 'package:hassel/data/model/productModel.dart';
+import 'package:hassel/features/home/presentation/screens/product_details_screen.dart';
 import 'package:hassel/shared/app_utils/app_colors.dart';
 import 'package:hassel/shared/app_utils/app_navigator.dart';
 import 'package:hassel/shared/app_utils/app_sized_box.dart';
@@ -88,10 +89,11 @@ class WidgetsHelper {
                 icon: Badge(
                   toAnimate: false,
                   badgeContent: Text(
-                    '5',
-                    style: AppTextStyle.getMediumStyle(color: Colors.white),
+                    cartItems.length.toString(),
+                    style: AppTextStyle.getBoldStyle(
+                        color: AppColors.primaryColor),
                   ),
-                  badgeColor: AppColors.redColor,
+                  badgeColor: Colors.white,
                   position: BadgePosition.topStart(top: -10),
                   child: Icon(
                     Icons.shopping_cart,

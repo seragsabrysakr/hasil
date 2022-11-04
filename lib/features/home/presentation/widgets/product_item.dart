@@ -25,7 +25,6 @@ class _ProductItemState extends State<ProductItem> {
   int count = 0;
   @override
   Widget build(BuildContext context) {
-    bool inCart = widget.product.menuOrder >= 1;
     return TouchRippleEffect(
       rippleColor: AppColors.primaryColor.withOpacity(.2),
       onTap: () {
@@ -34,7 +33,7 @@ class _ProductItemState extends State<ProductItem> {
       },
       child: Container(
         color: Colors.white,
-        height: inCart ? 35.h : 32.h,
+        height: 32.h,
         child: Column(children: [
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -74,7 +73,6 @@ class _ProductItemState extends State<ProductItem> {
                 color: AppColors.subTitle, fontSize: 10.sp),
           ),
           AppSizedBox.s2,
-          if (inCart) buildItemActions(),
           buildAddToCart(context),
         ]),
       ),
@@ -173,14 +171,8 @@ class _ProductItemState extends State<ProductItem> {
             child: Material(
               child: InkWell(
                 onTap: () {
-                  setState(() {
-                    if (widget.product.menuOrder == 0) {
-                      widget.product.menuOrder = 1;
-                    } else {
-                      cubit.addItemToCart(widget.product.id.toString(),
-                          widget.product.menuOrder.toString());
-                    }
-                  });
+                  Navigator.pushNamed(context, Routes.productDetailsRoute,
+                      arguments: widget.product);
                 },
                 child: Container(
                   decoration: BoxDecoration(

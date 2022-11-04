@@ -9,6 +9,7 @@ import 'package:hassel/data/model/category_model.dart' as model;
 import 'package:hassel/data/model/productModel.dart';
 import 'package:hassel/features/home/presentation/cubits/categories_cubit.dart';
 import 'package:hassel/features/home/presentation/cubits/products_cubit.dart';
+import 'package:hassel/features/home/presentation/screens/product_details_screen.dart';
 import 'package:hassel/features/home/presentation/widgets/category_item.dart';
 import 'package:hassel/features/home/presentation/widgets/product_item.dart';
 import 'package:hassel/shared/app_utils/app_assets.dart';
@@ -256,10 +257,11 @@ class _HomeScreenState extends State<HomeScreen> {
               icon: Badge(
                 toAnimate: false,
                 badgeContent: Text(
-                  '5',
-                  style: AppTextStyle.getMediumStyle(color: Colors.white),
+                  cartItems.length.toString(),
+                  style:
+                      AppTextStyle.getBoldStyle(color: AppColors.primaryColor),
                 ),
-                badgeColor: AppColors.redColor,
+                badgeColor: Colors.white,
                 position: BadgePosition.topStart(top: -10),
                 child: Icon(
                   Icons.shopping_cart,
