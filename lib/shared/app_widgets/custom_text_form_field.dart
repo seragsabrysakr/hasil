@@ -60,7 +60,8 @@ class CustomTextField extends StatelessWidget {
       children: [
         Container(
           decoration: BoxDecoration(
-              shape: BoxShape.rectangle, borderRadius: BorderRadius.circular(radius.h)),
+              shape: BoxShape.rectangle,
+              borderRadius: BorderRadius.circular(radius.h)),
           width: width ?? size.width * .8,
           child: TextFormField(
             textAlign: textAlign,
@@ -69,6 +70,7 @@ class CustomTextField extends StatelessWidget {
             // enabled: enable,
             // autofocus: true,
             // obscuringCharacter: '*',
+
             onEditingComplete: onedit,
             textInputAction: action,
             maxLines: max,
@@ -76,12 +78,13 @@ class CustomTextField extends StatelessWidget {
             initialValue: initialValue,
             controller: controller,
             style: TextStyle(
-                fontSize: 15.0.sp, fontWeight: FontWeight.w400, color: AppColors.headerColor),
+                fontSize: 15.0.sp,
+                fontWeight: FontWeight.w400,
+                color: AppColors.headerColor),
             cursorColor: AppColors.primaryColor,
             keyboardType: type,
             obscureText: obscure,
             validator: validator,
-
             decoration: buildInputDecoration(color: color),
           ),
         ),
@@ -118,7 +121,7 @@ class CustomTextField extends StatelessWidget {
                     color: Colors.grey,
                   ),
                 ),
-                onTap: ontap,
+                onTap: visiblpass,
               )
             : SizedBox(
                 width: 5.w,

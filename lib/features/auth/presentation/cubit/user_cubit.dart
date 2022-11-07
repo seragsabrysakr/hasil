@@ -1,37 +1,42 @@
-// import 'dart:ffi';
-//
-// import 'package:flutter/material.dart';
-// import 'package:flutter_bloc/flutter_bloc.dart';
-// import 'package:hassel/core/app_business_logic/state_renderer/state_renderer.dart';
-// import 'package:hassel/core/app_business_logic/state_renderer/state_renderer_impl.dart';
-// import 'package:injectable/injectable.dart';
-//
-//
-// import '../../domain/usecase/user_usecase.dart';
-//
-// @injectable
-// class UserCubit extends Cubit<FlowState> {
-//   final UseCase _useCase;
-//
-//   UserCubit(this._useCase) : super(ContentState());
-//
-//   static UserCubit get(BuildContext context) => context.read<UserCubit>();
-//
-//   void login() {
-//     emit(LoadingState(stateRendererType: StateRendererType.popupLoadingState));
-//     // emit(ContentState());
-//
-//     _useCase.execute(Void).then((value) => value.fold((failure) {
-//           // print("errorMessage: ${failure.message}");
-//           emit(ErrorState(StateRendererType.toastErrorState, failure.message));
-//         }, (data) {
-//       // print(data.toString());
-//           emit(SuccessState(
-//             data: data,
-//             message: '',
-//             stateRendererType: StateRendererType.toastSuccess,
-//           ));
-//           // print(data);
-//         }));
-//   }
-// }
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hassel/core/app_business_logic/state_renderer/state_renderer.dart';
+import 'package:hassel/core/app_business_logic/state_renderer/state_renderer_impl.dart';
+import 'package:hassel/data/model/login_model.dart';
+import 'package:hassel/repository/auth_repository.dart';
+import 'package:hassel/shared/app_utils/app_prefs.dart';
+import 'package:injectable/injectable.dart';
+
+@injectable
+class LoginCubit extends Cubit<FlowState> {
+  final AuthRepository _repository;
+  final AppPreferences _preferences;
+
+  LoginCubit(this._repository, this._preferences) : super(ContentState());
+
+  static LoginCubit get(BuildContext context) => context.read<LoginCubit>();
+  LoginResponseModel? user;
+  void login({required String userName, required String password}) {
+    emit(LoadingState(stateRendererType: StateRendererType.popupLoadingState));
+
+    _repository
+        .login(userName: userName, password: password)
+        .then((value) => value.fold((failure) {
+              print("errorMessage: ${failure.message}");
+              emit(ErrorState(StateRendererType.toastErrorState,
+                  'خطأ في أسم المستخدم او كلمة المرور'));
+            }, (data) {
+              print(data.toString());
+              user = data;
+              var token = user!.token!;
+              print(token);
+              _preferences.token = user!.token!;
+
+              emit(SuccessState(
+                StateRendererType.toastSuccess,
+                message: 'تم تسجيل الدخول بنجاح',
+              ));
+              // print(data);
+            }));
+  }
+}

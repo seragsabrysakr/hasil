@@ -319,6 +319,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "4.0.1"
+  flutter_secure_storage:
+    dependency: transitive
+    description:
+      name: flutter_secure_storage
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "4.2.1"
   flutter_slidable:
     dependency: "direct main"
     description:
@@ -520,6 +527,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.2"
+  monahawk_woocommerce:
+    dependency: "direct main"
+    description:
+      name: monahawk_woocommerce
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.0"
   nested:
     dependency: transitive
     description:
@@ -945,13 +959,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.0.0"
-  woocommerce_api:
-    dependency: "direct main"
-    description:
-      name: woocommerce_api
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.1.0"
   xdg_directories:
     dependency: transitive
     description:

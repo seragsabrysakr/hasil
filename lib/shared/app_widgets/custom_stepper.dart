@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 
 class CustomStepper extends StatefulWidget {
   CustomStepper({
-    @required this.lowerLimit,
-    @required this.upperLimit,
-    @required this.stepValue,
-    @required this.iconSize,
-    @required this.value,
-    @required this.onChanged,
+    required this.lowerLimit,
+    required this.upperLimit,
+    required this.stepValue,
+    required this.iconSize,
+    required this.value,
+    required this.onChanged,
   });
 
   final int lowerLimit;

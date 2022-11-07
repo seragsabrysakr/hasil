@@ -45,7 +45,7 @@ class _HomeScreenState extends State<HomeScreen> {
             create: (context) => getIt<CategoriesCubit>()..getCategories(),
           ),
           BlocProvider(
-            create: (context) => getIt<ProductsCubit>()..getProducts(),
+            create: (context) => getIt<ProductsCubit>()..getAllProducts(),
           ),
         ],
         child: SafeArea(
@@ -132,7 +132,7 @@ class _HomeScreenState extends State<HomeScreen> {
             return ProductItem(product: productList[index]);
           });
         },
-        childCount: products.length,
+        childCount: productList.length,
       ),
     );
   }
@@ -288,8 +288,6 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
-
-
 
   SliverToBoxAdapter buildHeaderImage() {
     return SliverToBoxAdapter(

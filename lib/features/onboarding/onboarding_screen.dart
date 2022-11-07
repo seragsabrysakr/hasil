@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:hassel/app_routes.dart';
+import 'package:hassel/core/dependency_injection/dependency_injection.dart';
 import 'package:hassel/features/favorite/presentation/favorite_screen.dart';
 import 'package:hassel/features/home/presentation/screens/home_screen.dart';
 import 'package:hassel/features/profile/profile_screen.dart';
 import 'package:hassel/shared/app_utils/app_assets.dart';
 import 'package:hassel/shared/app_utils/app_colors.dart';
+import 'package:hassel/shared/app_utils/app_prefs.dart';
 import 'package:sizer/sizer.dart';
 
 class OnBoardingScreen extends StatefulWidget {
@@ -16,12 +19,25 @@ class OnBoardingScreen extends StatefulWidget {
 
 class _OnBoardingScreenState extends State<OnBoardingScreen> {
   int selected = 2;
-
+  var appPref = getIt<AppPreferences>();
   List<Widget> homeScreens = [
     const FavoriteScreen(),
     const ProfileScreen(),
     const HomeScreen(),
   ];
+
+  void startApp() {
+    if (appPref.token == '') {
+      Navigator.of(context).pushNamedAndRemoveUntil(
+          Routes.logInRoute, (Route<dynamic> route) => false);
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

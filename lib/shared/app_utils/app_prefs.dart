@@ -3,13 +3,13 @@ import 'package:hassel/shared/app_utils/app_theme.dart';
 import 'package:injectable/injectable.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-
 import 'app_strings.dart';
 
 @injectable
 class AppPreferences {
-  static const String isDarkMode = 'isDarkMode';
+  static const String _isDarkMode = 'isDarkMode';
   static const String lang = 'lang';
+  static const String introShow = 'introShow';
   static const String isLogin = 'isLogin';
   static const String userData = 'userData';
   static const String userToken = 'IdToken';
@@ -35,8 +35,20 @@ class AppPreferences {
     return await _sharedPreferences.remove(key);
   }
 
+  set token(String token) {
+    _putData(userToken, token);
+  }
+
+  String get token => getData(userToken, '');
+
   String getLanguage() {
     return getData(lang, AppStrings.defaultLanguage);
+  }
+
+  bool get isIntroShow => getData(introShow, true);
+
+  set isIntroShow(bool value) {
+    _putData(introShow, value);
   }
 
   setLanguage(String language) {
@@ -44,7 +56,7 @@ class AppPreferences {
   }
 
   ThemeData? getTheme() {
-    final bool isDark = getData(isDarkMode, false);
+    final bool isDark = getData(_isDarkMode, false);
     ThemeData? theme;
     if (isDark) {
       theme = appThemeData[AppTheme.darkAppTheme];
@@ -55,6 +67,6 @@ class AppPreferences {
   }
 
   setTheme(bool isDark) {
-    _putData(isDarkMode, isDark);
+    _putData(_isDarkMode, isDark);
   }
 }

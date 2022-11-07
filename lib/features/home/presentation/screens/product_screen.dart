@@ -69,10 +69,13 @@ class _ProductScreenState extends State<ProductScreen> {
       delegate: SliverChildBuilderDelegate(
         (BuildContext context, int index) {
           return StatefulBuilder(builder: (context, snapshot) {
-            return ProductItem(product: productsList[index]);
+            return ProductItem(
+              product: productsList[index],
+              cat: false,
+            );
           });
         },
-        childCount: products.length,
+        childCount: productsList.length,
       ),
     );
   }

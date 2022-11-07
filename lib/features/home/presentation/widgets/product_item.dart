@@ -14,8 +14,10 @@ import 'package:touch_ripple_effect/touch_ripple_effect.dart';
 
 class ProductItem extends StatefulWidget {
   final ProductModel product;
+  bool cat;
 
-  const ProductItem({Key? key, required this.product}) : super(key: key);
+  ProductItem({Key? key, required this.product, this.cat = true})
+      : super(key: key);
 
   @override
   State<ProductItem> createState() => _ProductItemState();
@@ -43,10 +45,11 @@ class _ProductItemState extends State<ProductItem> {
               const Spacer(
                 flex: 1,
               ),
-              Padding(
-                padding: EdgeInsetsDirectional.only(end: 2.w, top: 2.w),
-                child: WidgetsHelper.buildFavoriteIcon(widget.product),
-              ),
+              if (widget.cat)
+                Padding(
+                  padding: EdgeInsetsDirectional.only(end: 2.w, top: 2.w),
+                  child: WidgetsHelper.buildFavoriteIcon(widget.product),
+                ),
             ],
           ),
           buildProduxtImage(),
@@ -224,88 +227,88 @@ class _ProductItemState extends State<ProductItem> {
     );
   }
 }
-
-class Product {
-  final String name;
-  final String image;
-  int count;
-  final Color color;
-  final String price;
-  final String type;
-  final String description;
-  bool isFavorite;
-
-  Product({
-    required this.name,
-    required this.count,
-    required this.image,
-    required this.color,
-    required this.price,
-    required this.type,
-    required this.description,
-    required this.isFavorite,
-  });
-}
-
-List<Product> products = [
-  Product(
-      name: 'خوخ سكري',
-      count: 0,
-      image: 'assets/images/static/k.png',
-      color: AppColors.orangColorTrans,
-      price: '٣٠ ريال',
-      type: '150 kg',
-      isFavorite: false,
-      description:
-          'يتميز الخوخ أو البرقوق أنه غني بالعديد من العناصر الغذائية المهمة لدعم وظائف الجسم، وتنظيم مستويات السكر في الجسم. إنّ موسم الذروة للخوخ هو من يولي إلى أغسطس، لكن يتواجد في المحلات التجارية ما بين مايو إلى أكتوبر.ي بالعديد من العناصر الغذائية المهمة لدعم وظائف الجسم، وتنظيم مستويات السكر في الجسم. إنّ موسم الذروة للخوخ هو من يولي إلى أغسطس، لكن يتواجد في المحلات التجارية ما بين مايو إلى أكتوبر.'),
-  Product(
-      name: "رومان مصري",
-      image: 'assets/images/static/r.png',
-      color: AppColors.redColorTrans,
-      price: '٥٠ ريال',
-      count: 2,
-      type: 'صندوق',
-      description:
-          'الرمان المصرى يغزو أوروبا وروسيا ويتفوق على «الإسبانى» و«الإسرائيلى» بدأ موسم تصدير محصول الرمان عالمياً مبكراً، وانتهى مبكراً أيضاً، وتعد مصر وإسبانيا وإسرائيل من أبرز الدول المصدرة، لكن يحظى المحصول المصرى بأهمية بالغة على مستوى التعاقدات الدولية؛ بسبب ارتفاع جودته، وتنظيم العملية التصديرية.',
-      isFavorite: true),
-  Product(
-      description:
-          'الرمان المصرى يغزو أوروبا وروسيا ويتفوق على «الإسبانى» و«الإسرائيلى» بدأ موسم تصدير محصول الرمان عالمياً مبكراً، وانتهى مبكراً أيضاً، وتعد مصر وإسبانيا وإسرائيل من أبرز الدول المصدرة، لكن يحظى المحصول المصرى بأهمية بالغة على مستوى التعاقدات الدولية؛ بسبب ارتفاع جودته، وتنظيم العملية التصديرية.',
-      name: "فراولة",
-      image: 'assets/images/static/s.png',
-      color: AppColors.redColorTrans,
-      price: '٢٠٠ ريال',
-      type: '150 kg',
-      count: 3,
-      isFavorite: false),
-  Product(
-      description:
-          'الرمان المصرى يغزو أوروبا وروسيا ويتفوق على «الإسبانى» و«الإسرائيلى» بدأ موسم تصدير محصول الرمان عالمياً مبكراً، وانتهى مبكراً أيضاً، وتعد مصر وإسبانيا وإسرائيل من أبرز الدول المصدرة، لكن يحظى المحصول المصرى بأهمية بالغة على مستوى التعاقدات الدولية؛ بسبب ارتفاع جودته، وتنظيم العملية التصديرية.',
-      name: "ليمون أخضر",
-      image: 'assets/images/static/l.png',
-      color: AppColors.greenColorTrans,
-      price: '١٠٠ ريال',
-      type: '150 kg',
-      count: 0,
-      isFavorite: true),
-  Product(
-      description:
-          'الرمان المصرى يغزو أوروبا وروسيا ويتفوق على «الإسبانى» و«الإسرائيلى» بدأ موسم تصدير محصول الرمان عالمياً مبكراً، وانتهى مبكراً أيضاً، وتعد مصر وإسبانيا وإسرائيل من أبرز الدول المصدرة، لكن يحظى المحصول المصرى بأهمية بالغة على مستوى التعاقدات الدولية؛ بسبب ارتفاع جودته، وتنظيم العملية التصديرية.',
-      name: "رومان مصري",
-      image: 'assets/images/static/r.png',
-      color: AppColors.redColorTrans,
-      price: '٥٠ ريال',
-      type: 'صندوق',
-      count: 0,
-      isFavorite: true),
-  Product(
-      description:
-          'الرمان المصرى يغزو أوروبا وروسيا ويتفوق على «الإسبانى» و«الإسرائيلى» بدأ موسم تصدير محصول الرمان عالمياً مبكراً، وانتهى مبكراً أيضاً، وتعد مصر وإسبانيا وإسرائيل من أبرز الدول المصدرة، لكن يحظى المحصول المصرى بأهمية بالغة على مستوى التعاقدات الدولية؛ بسبب ارتفاع جودته، وتنظيم العملية التصديرية.',
-      name: "فراولة",
-      image: 'assets/images/static/s.png',
-      color: AppColors.redColorTrans,
-      price: '٢٠٠ ريال',
-      type: '150 kg',
-      count: 0,
-      isFavorite: false)
-];
+//
+// class Product {
+//   final String name;
+//   final String image;
+//   int count;
+//   final Color color;
+//   final String price;
+//   final String type;
+//   final String description;
+//   bool isFavorite;
+//
+//   Product({
+//     required this.name,
+//     required this.count,
+//     required this.image,
+//     required this.color,
+//     required this.price,
+//     required this.type,
+//     required this.description,
+//     required this.isFavorite,
+//   });
+// }
+//
+// List<Product> products = [
+//   Product(
+//       name: 'خوخ سكري',
+//       count: 0,
+//       image: 'assets/images/static/k.png',
+//       color: AppColors.orangColorTrans,
+//       price: '٣٠ ريال',
+//       type: '150 kg',
+//       isFavorite: false,
+//       description:
+//           'يتميز الخوخ أو البرقوق أنه غني بالعديد من العناصر الغذائية المهمة لدعم وظائف الجسم، وتنظيم مستويات السكر في الجسم. إنّ موسم الذروة للخوخ هو من يولي إلى أغسطس، لكن يتواجد في المحلات التجارية ما بين مايو إلى أكتوبر.ي بالعديد من العناصر الغذائية المهمة لدعم وظائف الجسم، وتنظيم مستويات السكر في الجسم. إنّ موسم الذروة للخوخ هو من يولي إلى أغسطس، لكن يتواجد في المحلات التجارية ما بين مايو إلى أكتوبر.'),
+//   Product(
+//       name: "رومان مصري",
+//       image: 'assets/images/static/r.png',
+//       color: AppColors.redColorTrans,
+//       price: '٥٠ ريال',
+//       count: 2,
+//       type: 'صندوق',
+//       description:
+//           'الرمان المصرى يغزو أوروبا وروسيا ويتفوق على «الإسبانى» و«الإسرائيلى» بدأ موسم تصدير محصول الرمان عالمياً مبكراً، وانتهى مبكراً أيضاً، وتعد مصر وإسبانيا وإسرائيل من أبرز الدول المصدرة، لكن يحظى المحصول المصرى بأهمية بالغة على مستوى التعاقدات الدولية؛ بسبب ارتفاع جودته، وتنظيم العملية التصديرية.',
+//       isFavorite: true),
+//   Product(
+//       description:
+//           'الرمان المصرى يغزو أوروبا وروسيا ويتفوق على «الإسبانى» و«الإسرائيلى» بدأ موسم تصدير محصول الرمان عالمياً مبكراً، وانتهى مبكراً أيضاً، وتعد مصر وإسبانيا وإسرائيل من أبرز الدول المصدرة، لكن يحظى المحصول المصرى بأهمية بالغة على مستوى التعاقدات الدولية؛ بسبب ارتفاع جودته، وتنظيم العملية التصديرية.',
+//       name: "فراولة",
+//       image: 'assets/images/static/s.png',
+//       color: AppColors.redColorTrans,
+//       price: '٢٠٠ ريال',
+//       type: '150 kg',
+//       count: 3,
+//       isFavorite: false),
+//   Product(
+//       description:
+//           'الرمان المصرى يغزو أوروبا وروسيا ويتفوق على «الإسبانى» و«الإسرائيلى» بدأ موسم تصدير محصول الرمان عالمياً مبكراً، وانتهى مبكراً أيضاً، وتعد مصر وإسبانيا وإسرائيل من أبرز الدول المصدرة، لكن يحظى المحصول المصرى بأهمية بالغة على مستوى التعاقدات الدولية؛ بسبب ارتفاع جودته، وتنظيم العملية التصديرية.',
+//       name: "ليمون أخضر",
+//       image: 'assets/images/static/l.png',
+//       color: AppColors.greenColorTrans,
+//       price: '١٠٠ ريال',
+//       type: '150 kg',
+//       count: 0,
+//       isFavorite: true),
+//   Product(
+//       description:
+//           'الرمان المصرى يغزو أوروبا وروسيا ويتفوق على «الإسبانى» و«الإسرائيلى» بدأ موسم تصدير محصول الرمان عالمياً مبكراً، وانتهى مبكراً أيضاً، وتعد مصر وإسبانيا وإسرائيل من أبرز الدول المصدرة، لكن يحظى المحصول المصرى بأهمية بالغة على مستوى التعاقدات الدولية؛ بسبب ارتفاع جودته، وتنظيم العملية التصديرية.',
+//       name: "رومان مصري",
+//       image: 'assets/images/static/r.png',
+//       color: AppColors.redColorTrans,
+//       price: '٥٠ ريال',
+//       type: 'صندوق',
+//       count: 0,
+//       isFavorite: true),
+//   Product(
+//       description:
+//           'الرمان المصرى يغزو أوروبا وروسيا ويتفوق على «الإسبانى» و«الإسرائيلى» بدأ موسم تصدير محصول الرمان عالمياً مبكراً، وانتهى مبكراً أيضاً، وتعد مصر وإسبانيا وإسرائيل من أبرز الدول المصدرة، لكن يحظى المحصول المصرى بأهمية بالغة على مستوى التعاقدات الدولية؛ بسبب ارتفاع جودته، وتنظيم العملية التصديرية.',
+//       name: "فراولة",
+//       image: 'assets/images/static/s.png',
+//       color: AppColors.redColorTrans,
+//       price: '٢٠٠ ريال',
+//       type: '150 kg',
+//       count: 0,
+//       isFavorite: false)
+// ];

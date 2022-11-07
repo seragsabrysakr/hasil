@@ -39,7 +39,7 @@ class _WelComeScreenState extends State<WelComeScreen> {
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
           buildWelcomeText(),
-          buildLogWithGoogle(),
+          // buildLogWithGoogle(),
           buildCreateAccount(),
           buildFooter(),
         ],

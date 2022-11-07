@@ -3,7 +3,9 @@ class AppUrls {
       'https://hasseal.com/wp-json/wc/v3/products/categories';
   static const String products = 'https://hasseal.com/wp-json/wc/v3/products/';
   static const String orders = 'https://hasseal.com/wp-json/wc/v3/orders/';
-  static const addItem = 'https://hasseal.com/wp-json/cocart/v1/add-item';
+  static const String addItem =
+      'https://hasseal.com/wp-json/cocart/v1/add-item';
+  static const String login = 'https://hasseal.com/wp-json/jwt-auth/v1/token';
 
   //params
   static const baseUrl = 'https://hasseal.com';

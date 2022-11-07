@@ -6,6 +6,7 @@ import 'package:hassel/data/model/category_model.dart';
 import 'package:hassel/data/model/order_model.dart';
 import 'package:hassel/data/model/productModel.dart';
 import 'package:hassel/data/storage/home/home_api_services.dart';
+import 'package:hassel/data/storage/home/home_local_data_source.dart';
 import 'package:hassel/shared/app_utils/app_prefs.dart';
 import 'package:hassel/shared/app_utils/app_urls.dart';
 import 'package:injectable/injectable.dart';
@@ -14,12 +15,14 @@ import 'package:injectable/injectable.dart';
 class HomeRepository {
   final HomeServiceClient _appServiceClient;
   final SafeApi safeApi;
+  final HomeLocal _homeLocal;
   final AppPreferences appPreferences;
 
   HomeRepository(
     this._appServiceClient,
     this.safeApi,
     this.appPreferences,
+    this._homeLocal,
   );
 
   Future<Either<Failure, List<CategoryModel>>> getCategories() async {

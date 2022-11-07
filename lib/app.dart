@@ -33,7 +33,7 @@ class App extends StatelessWidget {
             supportedLocales: AppLocalizations.supportedLocales,
             locale: cubit.locale,
             theme: _themeData(context),
-            initialRoute: Routes.onBoardRoute,
+            initialRoute: getInitialRoute(),
             debugShowCheckedModeBanner: false,
             // home: const IntroScreen(),
             onGenerateRoute: AppRoutes.onGenerateRoute,
@@ -68,13 +68,18 @@ class App extends StatelessWidget {
     );
   }
 
-  // String getInitialRoute() {
-  //   final token = preferences.getData(AppPreferences.userToken, '');
-  //   print(token);
-  //   if (token != '') {
-  //     return MainScreen.id;
-  //   } else {
-  //     return LoginScreen.id;
-  //   }
-  // }
+  String getInitialRoute() {
+    String initial = '';
+    final token = preferences.getData(AppPreferences.userToken, '');
+    final introShow = preferences.getData(AppPreferences.introShow, true);
+    print(token);
+    print(introShow);
+    if (introShow) return Routes.introScreen;
+    if (token != '') {
+      initial = Routes.onBoardRoute;
+    } else {
+      initial = Routes.welcomeRoute;
+    }
+    return initial;
+  }
 }

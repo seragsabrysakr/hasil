@@ -1,75 +1,76 @@
 class ProductModel {
-  ProductModel({
-    required this.id,
-    required this.name,
-    required this.slug,
-    required this.permalink,
-    required this.dateCreated,
-    required this.dateCreatedGmt,
-    required this.dateModified,
-    required this.dateModifiedGmt,
-    required this.type,
-    required this.status,
-    required this.featured,
-    required this.catalogVisibility,
-    required this.description,
-    required this.shortDescription,
-    required this.sku,
-    required this.price,
-    required this.regularPrice,
-    required this.salePrice,
-    this.dateOnSaleFrom,
-    this.dateOnSaleFromGmt,
-    this.dateOnSaleTo,
-    this.dateOnSaleToGmt,
-    required this.onSale,
-    required this.purchasable,
-    required this.totalSales,
-    required this.virtual,
-    required this.downloadable,
-    required this.downloads,
-    required this.downloadLimit,
-    required this.downloadExpiry,
-    required this.externalUrl,
-    required this.buttonText,
-    required this.taxStatus,
-    required this.taxClass,
-    required this.manageStock,
-    this.stockQuantity,
-    required this.backorders,
-    required this.backordersAllowed,
-    required this.backordered,
-    this.lowStockAmount,
-    required this.soldIndividually,
-    required this.weight,
-    required this.dimensions,
-    required this.shippingRequired,
-    required this.shippingTaxable,
-    required this.shippingClass,
-    required this.shippingClassId,
-    required this.reviewsAllowed,
-    required this.averageRating,
-    required this.ratingCount,
-    required this.upsellIds,
-    required this.crossSellIds,
-    required this.parentId,
-    required this.purchaseNote,
-    required this.categories,
-    required this.tags,
-    required this.images,
-    required this.attributes,
-    required this.defaultAttributes,
-    required this.variations,
-    required this.groupedProducts,
-    this.menuOrder = 0,
-    required this.priceHtml,
-    required this.relatedIds,
-    required this.metaData,
-    required this.stockStatus,
-    required this.hasOptions,
-    required this.links,
-  });
+  ProductModel(
+      {required this.id,
+      required this.name,
+      required this.slug,
+      required this.permalink,
+      required this.dateCreated,
+      required this.dateCreatedGmt,
+      required this.dateModified,
+      required this.dateModifiedGmt,
+      required this.type,
+      required this.status,
+      required this.featured,
+      required this.catalogVisibility,
+      required this.description,
+      required this.shortDescription,
+      required this.sku,
+      required this.price,
+      required this.regularPrice,
+      required this.salePrice,
+      this.dateOnSaleFrom,
+      this.dateOnSaleFromGmt,
+      this.dateOnSaleTo,
+      this.dateOnSaleToGmt,
+      required this.onSale,
+      required this.purchasable,
+      required this.totalSales,
+      required this.virtual,
+      required this.downloadable,
+      required this.downloads,
+      required this.downloadLimit,
+      required this.downloadExpiry,
+      required this.externalUrl,
+      required this.buttonText,
+      required this.taxStatus,
+      required this.taxClass,
+      required this.manageStock,
+      this.stockQuantity,
+      required this.backorders,
+      required this.backordersAllowed,
+      required this.backordered,
+      this.lowStockAmount,
+      required this.soldIndividually,
+      required this.weight,
+      required this.dimensions,
+      required this.shippingRequired,
+      required this.shippingTaxable,
+      required this.shippingClass,
+      required this.shippingClassId,
+      required this.reviewsAllowed,
+      required this.averageRating,
+      required this.ratingCount,
+      required this.upsellIds,
+      required this.crossSellIds,
+      required this.parentId,
+      required this.purchaseNote,
+      required this.categories,
+      required this.tags,
+      required this.images,
+      required this.attributes,
+      required this.defaultAttributes,
+      required this.variations,
+      required this.groupedProducts,
+      this.menuOrder = 0,
+      required this.priceHtml,
+      required this.relatedIds,
+      required this.metaData,
+      required this.stockStatus,
+      required this.hasOptions,
+      required this.links,
+      this.isFavorite = false});
   late final int id;
+
   late final String name;
   late final String slug;
   late final String permalink;
@@ -137,9 +138,11 @@ class ProductModel {
   late final String stockStatus;
   late final bool hasOptions;
   late final Links links;
+  bool? isFavorite;
 
   ProductModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
+    isFavorite = false;
     name = json['name'];
     slug = json['slug'];
     permalink = json['permalink'] ?? '';
@@ -208,8 +211,8 @@ class ProductModel {
     relatedIds = List.castFrom<dynamic, int>(json['related_ids']);
     metaData =
         List.from(json['meta_data']).map((e) => MetaData.fromJson(e)).toList();
-    stockStatus = json['stock_status'] ??'';
-    hasOptions = json['has_options']??false;
+    stockStatus = json['stock_status'] ?? '';
+    hasOptions = json['has_options'] ?? false;
     links = Links.fromJson(json['_links']);
   }
 

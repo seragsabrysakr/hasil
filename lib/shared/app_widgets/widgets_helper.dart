@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hassel/app_routes.dart';
 import 'package:hassel/data/model/productModel.dart';
+import 'package:hassel/features/favorite/presentation/favorite_screen.dart';
 import 'package:hassel/features/home/presentation/screens/product_details_screen.dart';
 import 'package:hassel/shared/app_utils/app_colors.dart';
 import 'package:hassel/shared/app_utils/app_navigator.dart';
@@ -39,19 +40,31 @@ class WidgetsHelper {
 
   static Widget buildFavoriteIcon(ProductModel item, {double size = 14}) {
     return StatefulBuilder(builder: (context, setState) {
-      return InkWell(
-          onTap: () {
-            setState(() {
-              // item.isFavorite = !item.isFavorite;
-            });
-          },
-          child: Icon(
-            // item.isFavorite ?
-            // Icons.favorite :
-            Icons.favorite_border,
-            color: AppColors.redColor,
-            size: size.sp,
-          ));
+      return item.isFavorite!
+          ? InkWell(
+              onTap: () {
+                setState(() {
+                  item.isFavorite = !item.isFavorite!;
+                  FavoriteScreen.favorite.removeWhere((e) => e.id == item.id);
+                });
+              },
+              child: Icon(
+                Icons.favorite,
+                color: AppColors.redColor,
+                size: size.sp,
+              ))
+          : InkWell(
+              onTap: () {
+                setState(() {
+                  item.isFavorite = !item.isFavorite!;
+                  FavoriteScreen.favorite.add(item);
+                });
+              },
+              child: Icon(
+                Icons.favorite_border,
+                color: AppColors.redColor,
+                size: size.sp,
+              ));
     });
   }
 

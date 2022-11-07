@@ -1,12 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hassel/app.dart';
 import 'package:hassel/app_routes.dart';
+import 'package:hassel/core/app_business_logic/state_renderer/request_builder.dart';
+import 'package:hassel/core/app_business_logic/state_renderer/state_renderer_impl.dart';
+import 'package:hassel/core/dependency_injection/dependency_injection.dart';
+import 'package:hassel/features/auth/presentation/cubit/register_cubit.dart';
 import 'package:hassel/shared/app_utils/app_assets.dart';
 import 'package:hassel/shared/app_utils/app_colors.dart';
 import 'package:hassel/shared/app_utils/app_navigator.dart';
 import 'package:hassel/shared/app_utils/app_sized_box.dart';
 import 'package:hassel/shared/app_utils/app_text_style.dart';
+import 'package:hassel/shared/app_utils/app_validation.dart';
 import 'package:hassel/shared/app_widgets/custom_button.dart';
 import 'package:hassel/shared/app_widgets/custom_text_form_field.dart';
 import 'package:sizer/sizer.dart';
@@ -24,34 +30,58 @@ class _RegisterScreenState extends State<RegisterScreen> {
   var emailController = TextEditingController();
   var passController = TextEditingController();
   var phoneController = TextEditingController();
+  RegisterCubit? _cubit;
+  void navigateTo(String route, {Object? arguments}) {
+    WidgetsBinding.instance.addPostFrameCallback((_) => Navigator.of(context)
+        .pushNamedAndRemoveUntil(route, (Route<dynamic> route) => false));
+  }
+
   @override
   Widget build(BuildContext context) {
     systemOverLay();
 
-    return Scaffold(
-      extendBodyBehindAppBar: true,
-      extendBody: true,
-      body: SingleChildScrollView(
-        child: Form(
-          key: _formKey,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              buildImageHeader(),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 8.w),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    buildWelcomeText(),
-                    buildLogInForm(),
-                    buildLogInButton(),
-                    buildFooter()
-                  ],
-                ),
-              ),
-            ],
+    return BlocProvider(
+      create: (context) => getIt<RegisterCubit>(),
+      child: Scaffold(
+          extendBodyBehindAppBar: true,
+          extendBody: true,
+          body: RequestBuilder<RegisterCubit>(
+              listener: (context, cubit) {
+                if (cubit.state is SuccessState) {
+                  navigateTo(Routes.logInRoute);
+                }
+              },
+              contentBuilder: (context, cubit) {
+                _cubit = cubit;
+                return buildScreenContent();
+              },
+              retry: (context, cubit) {})
+          // buildScreenContent(),
           ),
+    );
+  }
+
+  SingleChildScrollView buildScreenContent() {
+    return SingleChildScrollView(
+      child: Form(
+        key: _formKey,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            buildImageHeader(),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 8.w),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  buildWelcomeText(),
+                  buildLogInForm(),
+                  buildLogInButton(),
+                  buildFooter()
+                ],
+              ),
+            ),
+          ],
         ),
       ),
     );
@@ -63,16 +93,20 @@ class _RegisterScreenState extends State<RegisterScreen> {
       children: [
         CustomButton(
           onTap: () {
-            AppNavigator.navigateAndFinish(context: context, screen: Routes.onBoardRoute);
-
-            if (_formKey.currentState!.validate()) {}
+            if (_formKey.currentState!.validate()) {
+              _cubit!.register(
+                userName: phoneController.text,
+                password: passController.text,
+                email: emailController.text,
+              );
+            }
           },
           fontSize: 13.sp,
           radius: .5,
           buttonColor: AppColors.primaryColor,
           titleColor: Colors.white,
           fontWeight: FontWeight.w500,
-          title: App.tr.logIn,
+          title: App.tr.createAccount,
           height: 6.h,
           width: 80.w,
         ),
@@ -92,15 +126,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
             controller: emailController,
             hint: App.tr.email,
             validator: (String? value) {
-              return;
+              return Validations.emailValidation(value);
             }),
         CustomTextField(
             action: TextInputAction.next,
-            type: TextInputType.phone,
+            type: TextInputType.name,
             controller: phoneController,
-            hint: App.tr.mobil,
+            hint: App.tr.name,
             validator: (String? value) {
-              return;
+              return Validations.userNameValidation(value);
             }),
         CustomTextField(
             action: TextInputAction.done,
@@ -116,7 +150,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             suffix: showPassword ? Icons.visibility : Icons.visibility_off,
             hint: App.tr.password,
             validator: (String? value) {
-              return;
+              return Validations.passwordValidation(value);
             }),
         AppSizedBox.s1,
       ],
@@ -132,14 +166,17 @@ class _RegisterScreenState extends State<RegisterScreen> {
           children: [
             TextButton(
               onPressed: () {
-                AppNavigator.navigateAndFinish(context: context, screen: Routes.logInRoute);
+                AppNavigator.navigateAndFinish(
+                    context: context, screen: Routes.logInRoute);
               },
               style: ButtonStyle(
-                padding: MaterialStateProperty.all<EdgeInsetsGeometry>(EdgeInsets.zero),
+                padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
+                    EdgeInsets.zero),
               ),
               child: Text(
                 App.tr.logIn,
-                style: AppTextStyle.getSemiBoldStyle(color: AppColors.headerColor, fontSize: 11.sp),
+                style: AppTextStyle.getSemiBoldStyle(
+                    color: AppColors.headerColor, fontSize: 11.sp),
               ),
             ),
             SizedBox(
@@ -147,7 +184,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
             ),
             Text(
               App.tr.iHaveAccount,
-              style: AppTextStyle.getMediumStyle(color: AppColors.subTitle, fontSize: 11.sp),
+              style: AppTextStyle.getMediumStyle(
+                  color: AppColors.subTitle, fontSize: 11.sp),
             ),
           ],
         ),
@@ -175,7 +213,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
             gradient: LinearGradient(
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
-              colors: [Colors.black.withOpacity(.25), Colors.black.withOpacity(.1)],
+              colors: [
+                Colors.black.withOpacity(.25),
+                Colors.black.withOpacity(.1)
+              ],
             ),
           ),
           height: 12.h,
@@ -186,7 +227,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
           right: 34.w,
           child: Text(
             App.tr.newRegister,
-            style: AppTextStyle.getMediumStyle(color: Colors.white, fontSize: 14.sp),
+            style: AppTextStyle.getMediumStyle(
+                color: Colors.white, fontSize: 14.sp),
           ),
         ),
       ],
@@ -200,12 +242,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
         AppSizedBox.s2,
         Text(
           App.tr.createAccount,
-          style: AppTextStyle.getMediumStyle(color: AppColors.headerColor, fontSize: 18.sp),
+          style: AppTextStyle.getMediumStyle(
+              color: AppColors.headerColor, fontSize: 18.sp),
         ),
         AppSizedBox.s1,
         Text(
           App.tr.createFastAccount,
-          style: AppTextStyle.getMediumStyle(color: AppColors.subTitle, fontSize: 11.sp),
+          style: AppTextStyle.getMediumStyle(
+              color: AppColors.subTitle, fontSize: 11.sp),
         ),
         AppSizedBox.s1,
       ],
