@@ -4,6 +4,7 @@ class Config {
   static String secret = "cs_e2046dd842e7c5da35488274584934a6a43d326b";
 
   static String url = "https://hasseal.com/wp-json/wc/v3/";
+  static String baseurl = "https://hasseal.com";
   static String customerURL = "customers";
   static String tokenURL = "https://hasseal.com//wp-json/jwt-auth/v1/token";
   static String categoriesURL = "products/categories";

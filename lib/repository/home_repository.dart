@@ -2,11 +2,14 @@ import 'package:dartz/dartz.dart';
 import 'package:hassel/core/data/network/error_handler.dart';
 import 'package:hassel/core/data/network/save_api.dart';
 import 'package:hassel/data/model/cart_order_model.dart';
+import 'package:hassel/data/model/cart_request_model.dart';
+import 'package:hassel/data/model/cart_response_model.dart';
 import 'package:hassel/data/model/category_model.dart';
 import 'package:hassel/data/model/order_model.dart';
 import 'package:hassel/data/model/productModel.dart';
 import 'package:hassel/data/storage/home/home_api_services.dart';
 import 'package:hassel/data/storage/home/home_local_data_source.dart';
+import 'package:hassel/data/storage/woo_serivecs.dart';
 import 'package:hassel/shared/app_utils/app_prefs.dart';
 import 'package:hassel/shared/app_utils/app_urls.dart';
 import 'package:injectable/injectable.dart';
@@ -17,12 +20,14 @@ class HomeRepository {
   final SafeApi safeApi;
   final HomeLocal _homeLocal;
   final AppPreferences appPreferences;
+  final WooServices _wooServices;
 
   HomeRepository(
     this._appServiceClient,
     this.safeApi,
     this.appPreferences,
     this._homeLocal,
+    this._wooServices,
   );
 
   Future<Either<Failure, List<CategoryModel>>> getCategories() async {
@@ -84,13 +89,15 @@ class HomeRepository {
   }
 
   Future<Either<Failure, CartOrderModel>> addItemToCart(
-      {required String id, required String quantity}) async {
-    Future<Either<Failure, CartOrderModel>> data = safeApi.call(
-        apiCall: _appServiceClient.addItemToCart(
-            id: id,
-            consumerKey: AppUrls.consumerKeyValue,
-            consumerSecret: AppUrls.consumerSecretValue,
-            quantity: quantity));
+      {required CartProducts body}) async {
+    Future<Either<Failure, CartOrderModel>> data =
+        safeApi.call(apiCall: _wooServices.addtoCart(body));
+    return data;
+  }
+
+  Future<Either<Failure, CartResponseModel>> getCartItems() async {
+    Future<Either<Failure, CartResponseModel>> data =
+        safeApi.call(apiCall: _wooServices.getCartItems());
     return data;
   }
 }

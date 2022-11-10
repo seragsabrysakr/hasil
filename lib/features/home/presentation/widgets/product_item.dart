@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hassel/app.dart';
 import 'package:hassel/app_routes.dart';
-import 'package:hassel/core/app_business_logic/state_renderer/request_builder.dart';
 import 'package:hassel/data/model/productModel.dart';
-import 'package:hassel/features/home/presentation/cubits/add_item_cubit.dart';
 import 'package:hassel/shared/app_utils/app_colors.dart';
 import 'package:hassel/shared/app_utils/app_sized_box.dart';
 import 'package:hassel/shared/app_utils/app_text_style.dart';
@@ -168,37 +166,32 @@ class _ProductItemState extends State<ProductItem> {
   }
 
   buildAddToCart(BuildContext context) {
-    return RequestBuilder<AddItemToCartCubit>(
-        contentBuilder: (context, cubit) {
-          return Expanded(
-            child: Material(
-              child: InkWell(
-                onTap: () {
-                  Navigator.pushNamed(context, Routes.productDetailsRoute,
-                      arguments: widget.product);
-                },
-                child: Container(
-                  decoration: BoxDecoration(
-                    border: BorderDirectional(
-                      top: BorderSide(
-                        color: AppColors.subTitle.withOpacity(.4),
-                      ),
-                    ),
-                  ),
-                  child: Center(
-                    child: Text(
-                      App.tr.addToCart,
-                      style: AppTextStyle.getBoldStyle(
-                          color: AppColors.subTitle, fontSize: 10.sp),
-                    ),
-                  ),
+    return Expanded(
+      child: Material(
+        child: InkWell(
+          onTap: () {
+            Navigator.pushNamed(context, Routes.productDetailsRoute,
+                arguments: widget.product);
+          },
+          child: Container(
+            decoration: BoxDecoration(
+              border: BorderDirectional(
+                top: BorderSide(
+                  color: AppColors.subTitle.withOpacity(.4),
                 ),
               ),
             ),
-          );
-        },
-        loadingView: CircularProgressIndicator(color: AppColors.primaryColor),
-        retry: (context, cubit) {});
+            child: Center(
+              child: Text(
+                App.tr.addToCart,
+                style: AppTextStyle.getBoldStyle(
+                    color: AppColors.subTitle, fontSize: 10.sp),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
   }
 
   buildProduxtImage() {

@@ -4,10 +4,12 @@ import 'package:badges/badges.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hassel/app_routes.dart';
+import 'package:hassel/core/app_business_logic/state_renderer/state_renderer_impl.dart';
 import 'package:hassel/data/model/productModel.dart';
 import 'package:hassel/features/favorite/presentation/favorite_screen.dart';
-import 'package:hassel/features/home/presentation/screens/product_details_screen.dart';
+import 'package:hassel/features/home/presentation/cubits/add_item_cubit.dart';
 import 'package:hassel/shared/app_utils/app_colors.dart';
 import 'package:hassel/shared/app_utils/app_navigator.dart';
 import 'package:hassel/shared/app_utils/app_sized_box.dart';
@@ -94,25 +96,32 @@ class WidgetsHelper {
       ),
       actions: [
         cart
-            ? IconButton(
-                onPressed: () {
-                  AppNavigator.navigateTo(
-                      context: context, screen: Routes.cartRoute);
+            ? BlocConsumer<AddItemToCartCubit, FlowState>(
+                listener: (context, state) {},
+                builder: (context, state) {
+                  var cart = AddItemToCartCubit.get(context).cartItems;
+
+                  return IconButton(
+                      onPressed: () {
+                        AppNavigator.navigateTo(
+                            context: context, screen: Routes.cartRoute);
+                      },
+                      icon: Badge(
+                        toAnimate: false,
+                        badgeContent: Text(
+                          cart.length.toString(),
+                          style: AppTextStyle.getBoldStyle(
+                              color: AppColors.primaryColor),
+                        ),
+                        badgeColor: Colors.white,
+                        position: BadgePosition.topStart(top: -10),
+                        child: Icon(
+                          Icons.shopping_cart,
+                          color: AppColors.primaryColor,
+                        ),
+                      ));
                 },
-                icon: Badge(
-                  toAnimate: false,
-                  badgeContent: Text(
-                    cartItems.length.toString(),
-                    style: AppTextStyle.getBoldStyle(
-                        color: AppColors.primaryColor),
-                  ),
-                  badgeColor: Colors.white,
-                  position: BadgePosition.topStart(top: -10),
-                  child: Icon(
-                    Icons.shopping_cart,
-                    color: AppColors.primaryColor,
-                  ),
-                ))
+              )
             : AppSizedBox.s1,
       ],
     );

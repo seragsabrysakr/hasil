@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:hassel/data/model/cart_order_model.dart';
+import 'package:hassel/data/model/cart_request_model.dart';
 import 'package:hassel/data/model/category_model.dart';
 import 'package:hassel/data/model/order_model.dart';
 import 'package:hassel/data/model/productModel.dart';
@@ -52,7 +53,6 @@ abstract class HomeServiceClient {
   Future<CartOrderModel> addItemToCart({
     @Query(AppUrls.consumerKey) required String consumerKey,
     @Query(AppUrls.consumerSecret) required String consumerSecret,
-    @Field('product_id') required String id,
-    @Field('quantity') required String quantity,
+    @Body() required CartProducts body,
   });
 }

@@ -16,10 +16,11 @@ class OrdersCubit extends Cubit<FlowState> {
             stateRendererType: StateRendererType.fullScreenLoadingState));
   static OrdersCubit get(BuildContext context) => context.read<OrdersCubit>();
   List<OrderModel> orders = [];
-  void getAllProducts(String customer) {
+
+  void getAllProducts() {
     emit(LoadingState(
         stateRendererType: StateRendererType.fullScreenLoadingState));
-    _repository.getOrders(customer).then((value) => value.fold(
+    _repository.getOrders(_preferences.userDataModel!.id.toString()).then((value) => value.fold(
           (failure) {
             emit(ErrorState(
                 StateRendererType.fullScreenErrorState, failure.message));

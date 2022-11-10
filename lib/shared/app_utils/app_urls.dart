@@ -3,6 +3,7 @@ class AppUrls {
       'https://hasseal.com/wp-json/wc/v3/products/categories';
   static const String products = 'https://hasseal.com/wp-json/wc/v3/products/';
   static const String orders = 'https://hasseal.com/wp-json/wc/v3/orders/';
+  static const String userInfo = 'https://hasseal.com/wp-json/wc/v3/customers';
   static const String addItem =
       'https://hasseal.com/wp-json/cocart/v1/add-item';
   static const String login = 'https://hasseal.com/wp-json/jwt-auth/v1/token';
@@ -16,4 +17,13 @@ class AppUrls {
   static const consumerKeyValue = 'ck_835af9281f5258755734b3db398207f193c6c218';
   static const consumerSecretValue =
       'cs_e2046dd842e7c5da35488274584934a6a43d326b';
+}
+
+class Config {
+  static const url = 'https://hasseal.com/wp-json/wc/v3/';
+  static const customerURL = 'customers';
+  static const addToCart = 'https://hasseal.com/wp-json/cocart/v1/add-item?';
+  static const cart = 'cart';
+  static const key = 'ck_835af9281f5258755734b3db398207f193c6c218';
+  static const secret = 'cs_e2046dd842e7c5da35488274584934a6a43d326b';
 }

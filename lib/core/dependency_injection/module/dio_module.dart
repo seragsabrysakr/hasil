@@ -44,8 +44,6 @@ extension DioHeader on Dio {
   void updateHeader(AppPreferences _preferences) {
     var token = _preferences.getData(AppPreferences.userToken, "");
     Map<String, String> headers = {
-      // 'Cookie':
-      //     'wp_cocart_session_166687e8b7f2b766f1c195c097920477=1%7C%7C1667819445%7C%7C1667733045%7C%7Cef2607b75bcd527ea966aae5e1e8368b',
       CONTENT_TYPE: APPLICATION_JSON,
       ACCEPT: APPLICATION_JSON,
       if (token != '') AUTHORIZATION: token,

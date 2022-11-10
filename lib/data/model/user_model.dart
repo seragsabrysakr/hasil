@@ -1,3 +1,5 @@
+import 'package:analyzer/dart/element/type.dart';
+
 class UserModel {
   UserModel({
     required this.id,
@@ -199,24 +201,20 @@ class MetaData {
   MetaData({
     required this.id,
     required this.key,
-    required this.value,
   });
 
   late final int id;
   late final String key;
-  late final List<dynamic> value;
 
   MetaData.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     key = json['key'];
-    value = List.castFrom<dynamic, dynamic>(json['value']);
   }
 
   Map<String, dynamic> toJson() {
     final _data = <String, dynamic>{};
     _data['id'] = id;
     _data['key'] = key;
-    _data['value'] = value;
     return _data;
   }
 }

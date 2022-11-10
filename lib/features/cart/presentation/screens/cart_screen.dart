@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:hassel/app.dart';
 import 'package:hassel/app_routes.dart';
+import 'package:hassel/core/app_business_logic/state_renderer/state_renderer_impl.dart';
 import 'package:hassel/data/model/cart_order_model.dart';
 import 'package:hassel/data/model/productModel.dart';
+import 'package:hassel/features/home/presentation/cubits/add_item_cubit.dart';
 import 'package:hassel/features/home/presentation/screens/product_details_screen.dart';
 import 'package:hassel/shared/app_utils/app_colors.dart';
 import 'package:hassel/shared/app_utils/app_navigator.dart';
@@ -25,9 +28,10 @@ class CartScreen extends StatefulWidget {
 
 class _CartScreenState extends State<CartScreen> {
   List<ProductModel> productItems = [];
+  List<CartOrderModel> cartItems = [];
   bool orderComplete = false;
-  bool orderList = cartItems.isNotEmpty;
-  bool orderEmpty = cartItems.isEmpty;
+  bool orderList = false;
+  bool orderEmpty = true;
 
   @override
   Widget build(BuildContext context) {
@@ -35,27 +39,37 @@ class _CartScreenState extends State<CartScreen> {
       appBar: WidgetsHelper.customAppBar(context,
           title: orderComplete ? App.tr.completeRequest : App.tr.cart,
           cart: false),
-      body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 2.h),
-        child: CustomScrollView(
-          slivers: [
-            if (orderList) ...[
-              buildCartItemList(),
-              buildCartFooter(),
-            ],
-            if (orderEmpty) ...[
-              buildEmptyView(),
-            ],
-            if (orderComplete) ...[
-              buildOrderComplete(),
-            ],
-          ],
-        ),
+      body: BlocConsumer<AddItemToCartCubit, FlowState>(
+        listener: (context, state) {},
+        builder: (context, state) {
+          var cart = AddItemToCartCubit.get(context).cartItems;
+          cartItems = List.from(cart);
+
+          orderList = cartItems.isNotEmpty;
+          orderEmpty = cartItems.isEmpty;
+          return Padding(
+            padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 2.h),
+            child: CustomScrollView(
+              slivers: [
+                if (orderList) ...[
+                  buildCartItemList(cartItems),
+                  buildCartFooter(),
+                ],
+                if (orderEmpty) ...[
+                  buildEmptyView(),
+                ],
+                if (orderComplete) ...[
+                  buildOrderComplete(),
+                ],
+              ],
+            ),
+          );
+        },
       ),
     );
   }
 
-  SliverList buildCartItemList() {
+  SliverList buildCartItemList(List<CartOrderModel> cartItems) {
     return SliverList(
         delegate: SliverChildBuilderDelegate((BuildContext context, int index) {
       return buildCartItem(context, cartItems[index], index);
@@ -245,7 +259,7 @@ class _CartScreenState extends State<CartScreen> {
               SizedBox(
                 width: 10.w,
               ),
-              buildItemsAction(index),
+              buildItemsAction(item),
             ],
           ),
         ),
@@ -258,7 +272,8 @@ class _CartScreenState extends State<CartScreen> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Text(
-          item.lineSubtotal.toString().split('.').first,
+          (item.quantity * double.parse(item.productPrice.substring(0, 4)))
+              .toString(),
           style: AppTextStyle.getBoldStyle(
               color: AppColors.primaryColor, fontSize: 11.sp),
         ),
@@ -276,7 +291,7 @@ class _CartScreenState extends State<CartScreen> {
     );
   }
 
-  Container buildItemsAction(int index) {
+  Container buildItemsAction(CartOrderModel item) {
     return Container(
       decoration: BoxDecoration(
         border: BorderDirectional(
@@ -291,7 +306,7 @@ class _CartScreenState extends State<CartScreen> {
             child: InkWell(
               onTap: () {
                 setState(() {
-                  cartItems[index].quantity--;
+                  item.quantity--;
                 });
               },
               child: Container(
@@ -319,7 +334,7 @@ class _CartScreenState extends State<CartScreen> {
             width: 10.w,
             child: Center(
               child: Text(
-                getCount(cartItems[index].quantity).toString(),
+                getCount(item.quantity).toString(),
                 style: AppTextStyle.getBoldStyle(
                     color: AppColors.titleColor, fontSize: 14.sp),
               ),
@@ -329,7 +344,7 @@ class _CartScreenState extends State<CartScreen> {
             child: InkWell(
               onTap: () {
                 setState(() {
-                  cartItems[index].quantity++;
+                  item.quantity++;
                 });
               },
               child: Container(

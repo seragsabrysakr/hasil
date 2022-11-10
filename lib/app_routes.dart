@@ -157,7 +157,7 @@ class AppRoutes {
         });
       case Routes.myInformationRoute:
         return MaterialPageRoute(builder: (context) {
-          return const MyInformationScreen();
+          return  MyInformationScreen();
         });
       case Routes.favoriteRoute:
         return MaterialPageRoute(builder: (context) {

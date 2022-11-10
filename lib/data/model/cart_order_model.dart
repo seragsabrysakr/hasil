@@ -23,9 +23,9 @@ class CartOrderModel {
   late int quantity;
   late final String dataHash;
   late final LineTaxData lineTaxData;
-  late final double lineSubtotal;
-  late final double lineSubtotalTax;
-  late final double lineTotal;
+  dynamic? lineSubtotal;
+  late final dynamic lineSubtotalTax;
+  late final dynamic lineTotal;
   late final double lineTax;
   late final Data data;
   late final String productName;

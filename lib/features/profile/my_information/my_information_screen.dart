@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:hassel/app.dart';
+import 'package:hassel/core/dependency_injection/dependency_injection.dart';
+import 'package:hassel/data/model/user_model.dart';
 import 'package:hassel/shared/app_utils/app_colors.dart';
+import 'package:hassel/shared/app_utils/app_prefs.dart';
 import 'package:hassel/shared/app_utils/app_sized_box.dart';
 import 'package:hassel/shared/app_utils/app_text_style.dart';
 import 'package:hassel/shared/app_widgets/custom_button.dart';
@@ -9,8 +12,8 @@ import 'package:hassel/shared/app_widgets/widgets_helper.dart';
 import 'package:sizer/sizer.dart';
 
 class MyInformationScreen extends StatelessWidget {
-  const MyInformationScreen({Key? key}) : super(key: key);
-
+  MyInformationScreen({Key? key}) : super(key: key);
+  UserModel user = getIt<AppPreferences>().userDataModel!;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,9 +30,10 @@ class MyInformationScreen extends StatelessWidget {
                 style: AppTextStyle.getBoldStyle(color: AppColors.titleColor, fontSize: 12.sp),
               ),
               AppSizedBox.s1,
-              myInfoWidget(icon: Icons.account_circle_rounded, title: 'عبدالله الشهري'),
-              myInfoWidget(icon: Icons.email_outlined, title: 'abdalla@gmail.com'),
-              myInfoWidget(icon: Icons.call, title: '01222002200'),
+              myInfoWidget(
+                  icon: Icons.account_circle_rounded, title: user.firstName + ' '+ user.lastName),
+              myInfoWidget(icon: Icons.email_outlined, title: user.email),
+              myInfoWidget(icon: Icons.call, title: user.billing.phone),
               AppSizedBox.s1,
               Text(
                 App.tr.changePassword,

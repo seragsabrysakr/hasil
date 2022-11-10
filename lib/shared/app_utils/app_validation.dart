@@ -34,10 +34,10 @@ class Validations {
 
   static String? userNameValidation(String? value) {
     if (value == null || value.isEmpty) {
-      return ' App.tr.nameEmpty';
+      return 'من فضلك أدخل أسم المسخدم';
     }
     if (value.length < 4) {
-      return 'App.tr.validateUserName';
+      return 'أسم المستخدم يجب الا يقل عن ٤ حروف';
     } else {
       return null;
     }

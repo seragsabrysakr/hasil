@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:hassel/data/model/user_model.dart';
 import 'package:hassel/shared/app_utils/app_theme.dart';
 import 'package:injectable/injectable.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -9,6 +12,7 @@ import 'app_strings.dart';
 class AppPreferences {
   static const String _isDarkMode = 'isDarkMode';
   static const String lang = 'lang';
+  static const String userEmail = 'email';
   static const String introShow = 'introShow';
   static const String isLogin = 'isLogin';
   static const String userData = 'userData';
@@ -40,6 +44,21 @@ class AppPreferences {
   }
 
   String get token => getData(userToken, '');
+  set email(String value) {
+    _putData(userEmail, value);
+  }
+
+  UserModel? get userDataModel {
+    String data = getData(userData, "");
+    if (data.isEmpty) return null;
+    return UserModel.fromJson(jsonDecode(getData(userData, null)));
+  }
+
+  set userDataModel(UserModel? user) {
+    _putData(userData, jsonEncode(user));
+  }
+
+  String get email => getData(userEmail, '');
 
   String getLanguage() {
     return getData(lang, AppStrings.defaultLanguage);

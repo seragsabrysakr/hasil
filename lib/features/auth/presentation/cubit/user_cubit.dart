@@ -31,6 +31,7 @@ class LoginCubit extends Cubit<FlowState> {
               var token = user!.token!;
               print(token);
               _preferences.token = user!.token!;
+              _preferences.email = user!.email!;
 
               emit(SuccessState(
                 StateRendererType.toastSuccess,

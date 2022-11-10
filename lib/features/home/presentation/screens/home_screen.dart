@@ -7,9 +7,9 @@ import 'package:hassel/core/app_business_logic/state_renderer/state_renderer_imp
 import 'package:hassel/core/dependency_injection/dependency_injection.dart';
 import 'package:hassel/data/model/category_model.dart' as model;
 import 'package:hassel/data/model/productModel.dart';
+import 'package:hassel/features/home/presentation/cubits/add_item_cubit.dart';
 import 'package:hassel/features/home/presentation/cubits/categories_cubit.dart';
 import 'package:hassel/features/home/presentation/cubits/products_cubit.dart';
-import 'package:hassel/features/home/presentation/screens/product_details_screen.dart';
 import 'package:hassel/features/home/presentation/widgets/category_item.dart';
 import 'package:hassel/features/home/presentation/widgets/product_item.dart';
 import 'package:hassel/shared/app_utils/app_assets.dart';
@@ -254,19 +254,26 @@ class _HomeScreenState extends State<HomeScreen> {
                 AppNavigator.navigateTo(
                     context: context, screen: Routes.cartRoute);
               },
-              icon: Badge(
-                toAnimate: false,
-                badgeContent: Text(
-                  cartItems.length.toString(),
-                  style:
-                      AppTextStyle.getBoldStyle(color: AppColors.primaryColor),
-                ),
-                badgeColor: Colors.white,
-                position: BadgePosition.topStart(top: -10),
-                child: Icon(
-                  Icons.shopping_cart,
-                  color: AppColors.primaryColor,
-                ),
+              icon: BlocConsumer<AddItemToCartCubit, FlowState>(
+                listener: (context, state) {},
+                builder: (context, state) {
+                  var cart = AddItemToCartCubit.get(context).cartItems;
+
+                  return Badge(
+                    toAnimate: false,
+                    badgeContent: Text(
+                      cart.length.toString(),
+                      style: AppTextStyle.getBoldStyle(
+                          color: AppColors.primaryColor),
+                    ),
+                    badgeColor: Colors.white,
+                    position: BadgePosition.topStart(top: -10),
+                    child: Icon(
+                      Icons.shopping_cart,
+                      color: AppColors.primaryColor,
+                    ),
+                  );
+                },
               )),
           TouchRippleEffect(
               rippleColor: Colors.grey.shade300,

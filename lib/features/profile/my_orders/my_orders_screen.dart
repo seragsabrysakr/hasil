@@ -27,7 +27,7 @@ class _MyOrdersScreenState extends State<MyOrdersScreen> {
     return Scaffold(
       appBar: WidgetsHelper.customAppBar(context, title: App.tr.myOrders),
       body: BlocProvider(
-        create: (context) => getIt<OrdersCubit>()..getAllProducts('8'),
+        create: (context) => getIt<OrdersCubit>()..getAllProducts(),
         child: RequestBuilder<OrdersCubit>(
             listener: (context, cubit) {},
             contentBuilder: (context, cubit) {
@@ -38,7 +38,7 @@ class _MyOrdersScreenState extends State<MyOrdersScreen> {
               return buildScreenContent(myOrders, context);
             },
             retry: (context, cubit) {
-              cubit.getAllProducts('8');
+              cubit.getAllProducts();
             }),
       ),
     );

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hassel/app_routes.dart';
 import 'package:hassel/core/dependency_injection/dependency_injection.dart';
+import 'package:hassel/features/auth/presentation/cubit/user_info_cubit.dart';
 import 'package:hassel/features/favorite/presentation/favorite_screen.dart';
 import 'package:hassel/features/home/presentation/screens/home_screen.dart';
 import 'package:hassel/features/profile/profile_screen.dart';
@@ -28,13 +29,14 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
 
   void startApp() {
     if (appPref.token == '') {
-      Navigator.of(context).pushNamedAndRemoveUntil(
-          Routes.logInRoute, (Route<dynamic> route) => false);
+      Navigator.of(context)
+          .pushNamedAndRemoveUntil(Routes.logInRoute, (Route<dynamic> route) => false);
     }
   }
 
   @override
   void initState() {
+    getIt<UserInfoCubit>().getUserInfo();
     super.initState();
   }
 
@@ -73,9 +75,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                   width: 25.sp,
                   child: Icon(
                     Icons.favorite_border_rounded,
-                    color: selected == 0
-                        ? AppColors.headerColor
-                        : AppColors.navColorsUnActive,
+                    color: selected == 0 ? AppColors.headerColor : AppColors.navColorsUnActive,
                     size: 25.sp,
                   ),
                 ),
@@ -94,9 +94,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                   width: 25.sp,
                   child: SvgPicture.asset(
                     AppAssets.profileNavIcon,
-                    color: selected == 1
-                        ? AppColors.headerColor
-                        : AppColors.navColorsUnActive,
+                    color: selected == 1 ? AppColors.headerColor : AppColors.navColorsUnActive,
                   ),
                 ),
               ),

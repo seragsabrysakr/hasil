@@ -6,16 +6,18 @@ import 'package:hassel/app_routes.dart';
 import 'package:hassel/core/app_business_logic/state_renderer/request_builder.dart';
 import 'package:hassel/core/app_business_logic/state_renderer/state_renderer_impl.dart';
 import 'package:hassel/core/dependency_injection/dependency_injection.dart';
-import 'package:hassel/data/model/cart_order_model.dart';
 import 'package:hassel/data/model/productModel.dart';
 import 'package:hassel/features/home/presentation/cubits/add_item_cubit.dart';
 import 'package:hassel/features/home/presentation/cubits/single_product_cubit.dart';
+import 'package:hassel/haseal-test/config.dart';
 import 'package:hassel/shared/app_utils/app_colors.dart';
 import 'package:hassel/shared/app_utils/app_sized_box.dart';
 import 'package:hassel/shared/app_utils/app_text_style.dart';
 import 'package:hassel/shared/app_widgets/custom_button.dart';
 import 'package:hassel/shared/app_widgets/custom_network_image.dart';
+import 'package:hassel/shared/app_widgets/custom_stepper.dart';
 import 'package:hassel/shared/app_widgets/widgets_helper.dart';
+import 'package:monahawk_woocommerce/woocommerce.dart';
 import 'package:readmore/readmore.dart';
 import 'package:sizer/sizer.dart';
 import 'package:touch_ripple_effect/touch_ripple_effect.dart';
@@ -31,6 +33,8 @@ class ProductDetailsScreen extends StatefulWidget {
 
 class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   int count = 0;
+  int qty = 0;
+  int quantity = 0;
   @override
   Widget build(BuildContext context) {
     count = getCount(widget.item.menuOrder);
@@ -200,70 +204,15 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
             const Spacer(
               flex: 1,
             ),
-            Material(
-              child: InkWell(
-                onTap: () {
-                  setState(() {
-                    widget.item.menuOrder--;
-                  });
-                },
-                child: Container(
-                  height: 5.h,
-                  width: 10.w,
-                  decoration: BoxDecoration(
-                    border: BorderDirectional(
-                      end: BorderSide(
-                        color: AppColors.subTitle.withOpacity(.2),
-                      ),
-                    ),
-                  ),
-                  child: Center(
-                    child: Icon(
-                      Icons.remove,
-                      color: AppColors.primaryColor,
-                      size: 17.sp,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            SizedBox(
-              width: 5.w,
-            ),
-            Text(
-              getCount(widget.item.menuOrder).toString(),
-              style: AppTextStyle.getBoldStyle(
-                  color: AppColors.titleColor, fontSize: 14.sp),
-            ),
-            SizedBox(
-              width: 5.w,
-            ),
-            Material(
-              child: InkWell(
-                onTap: () {
-                  setState(() {
-                    widget.item.menuOrder++;
-                  });
-                },
-                child: Container(
-                  height: 5.h,
-                  width: 10.w,
-                  decoration: BoxDecoration(
-                    border: BorderDirectional(
-                      start: BorderSide(
-                        color: AppColors.headerColor.withOpacity(.2),
-                      ),
-                    ),
-                  ),
-                  child: Center(
-                    child: Icon(
-                      Icons.add,
-                      color: AppColors.primaryColor,
-                      size: 17.sp,
-                    ),
-                  ),
-                ),
-              ),
+            CustomStepper(
+              lowerLimit: 0,
+              upperLimit: 20,
+              stepValue: 1,
+              iconSize: 22.0,
+              value: this.qty.toInt(),
+              onChanged: (value) {
+                quantity = value;
+              },
             ),
           ],
         ),
@@ -276,22 +225,43 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
         listener: (context, cubit) {
           if (cubit.state is SuccessState) {
             setState(() {
-              // cubit.model!.quantity = count;
-              cartItems.add(cubit.model!);
               cartItemsImages.add(widget.item);
             });
             print(cartItemsImages);
-            print(cartItems.length);
           }
         },
         contentBuilder: (context, cubit) {
           return Padding(
             padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 2.h),
             child: CustomButton(
-              onTap: () {
-                if (widget.item.menuOrder >= 1) {
-                  cubit.addItemToCart(widget.item.id.toString(),
-                      widget.item.menuOrder.toString());
+              onTap: () async {
+                if (quantity >= 1) {
+                  // UserModel user = getIt<AppPreferences>().userDataModel!;
+                  // CartProducts cartProducts = CartProducts(
+                  //   productId: widget.item.id.toString(),
+                  //   quantity: quantity.toString(),
+                  //   variationId: '0',
+                  // );
+                  // cubit.addItemToCart(cartProducts, quantity.toString());
+                  WooCommerce woocommerce = WooCommerce(
+                    baseUrl: Config.baseurl,
+                    consumerKey: Config.key,
+                    consumerSecret: Config.secret,
+                    isDebug: true,
+                  );
+                  //Login - Returns the access token on success.
+                  //
+                  // final token = woocommerce.authenticateViaJWT(
+                  //     username: 'eman@gmail.com', password: 'eman1111');
+                  //
+                  // final customer = woocommerce.loginCustomer(
+                  //     username: 'eman@gmail.com', password: 'eman1111');
+                  //
+                  // bool isLoggedIn = await woocommerce.isCustomerLoggedIn();
+
+                  final myCart = await woocommerce.addToMyCart(
+                      itemId: widget.item.id.toString(),
+                      quantity: quantity.toString());
                 } else {
                   popDialog(
                       context: context,
@@ -313,10 +283,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
         },
         loadingView: Center(
             child: CircularProgressIndicator(color: AppColors.primaryColor)),
-        retry: (context, cubit) {
-          cubit.addItemToCart(
-              widget.item.id.toString(), widget.item.menuOrder.toString());
-        });
+        retry: (context, cubit) {});
   }
 
   buildProductImage(ProductModel product) {
@@ -365,5 +332,4 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   }
 }
 
-List<CartOrderModel> cartItems = [];
 List<ProductModel> cartItemsImages = [];

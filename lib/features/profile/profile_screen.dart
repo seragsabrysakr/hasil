@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:hassel/app.dart';
 import 'package:hassel/app_routes.dart';
+import 'package:hassel/data/model/user_model.dart';
 import 'package:hassel/shared/app_utils/app_assets.dart';
 import 'package:hassel/shared/app_utils/app_colors.dart';
+import 'package:hassel/shared/app_utils/app_prefs.dart';
 import 'package:hassel/shared/app_utils/app_sized_box.dart';
 import 'package:hassel/shared/app_utils/app_text_style.dart';
+import 'package:hassel/shared/app_widgets/custom_network_image.dart';
 import 'package:sizer/sizer.dart';
 import 'package:touch_ripple_effect/touch_ripple_effect.dart';
+
+import '../../core/dependency_injection/dependency_injection.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({
@@ -18,6 +23,8 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
+  UserModel user = getIt<AppPreferences>().userDataModel!;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,12 +41,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 child: Column(
                   children: [
                     Text(
-                      'عبلة كامل',
+                      user.firstName + ' ' + user.lastName,
                       style:
                           AppTextStyle.getBoldStyle(color: AppColors.titleColor, fontSize: 15.sp),
                     ),
                     Text(
-                      'Abla.camel@gmail.com',
+                      user.email,
                       style: AppTextStyle.getBoldStyle(color: AppColors.subTitle, fontSize: 10.sp),
                     ),
                   ],
@@ -49,7 +56,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               Expanded(child: buildProductLit())
             ],
           ),
-          buildImage(),
+          buildUserImage(),
           buildCameraPicker(),
         ],
       ),
@@ -72,7 +79,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
-  Positioned buildImage() {
+  Positioned buildUserImage() {
     return Positioned(
       top: 9.h,
       left: 20.w,
@@ -82,14 +89,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
         radius: 8.h,
         child: ClipOval(
           child: CircleAvatar(
-            radius: 7.h,
-            backgroundColor: AppColors.backGround,
-            child: Image.asset(
-              AppAssets.register,
-              fit: BoxFit.contain,
-              scale: 1.5,
-            ),
-          ),
+              radius: 7.h,
+              backgroundColor: AppColors.backGround,
+              child: buildImage(imageUrl: user.avatarUrl, height: 15.h, width: 30.w)),
         ),
       ),
     );
@@ -118,10 +120,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
         height: 16.h,
         child: TouchRippleEffect(
           onTap: () {
-            if(index!=screens.length-1){
-
-                          Navigator.pushNamed(context, screens[index]);
-
+            if (index != screens.length - 1) {
+              Navigator.pushNamed(context, screens[index]);
             }
           },
           rippleColor: AppColors.primaryColor.withOpacity(.2),

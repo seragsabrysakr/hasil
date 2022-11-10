@@ -7,6 +7,7 @@ import 'package:hassel/core/app_business_logic/state_renderer/request_builder.da
 import 'package:hassel/core/app_business_logic/state_renderer/state_renderer_impl.dart';
 import 'package:hassel/core/dependency_injection/dependency_injection.dart';
 import 'package:hassel/features/auth/presentation/cubit/register_cubit.dart';
+import 'package:hassel/data/model/customer.dart';
 import 'package:hassel/shared/app_utils/app_assets.dart';
 import 'package:hassel/shared/app_utils/app_colors.dart';
 import 'package:hassel/shared/app_utils/app_navigator.dart';
@@ -94,11 +95,17 @@ class _RegisterScreenState extends State<RegisterScreen> {
         CustomButton(
           onTap: () {
             if (_formKey.currentState!.validate()) {
-              _cubit!.register(
-                userName: phoneController.text,
-                password: passController.text,
-                email: emailController.text,
-              );
+              _cubit!.createUser(CustomerModel(
+                  email: emailController.text,
+                  password: passController.text,
+                  firstName: phoneController.text,
+                  lastName: ''));
+
+              //     .register(
+              //   userName: phoneController.text,
+              //   password: passController.text,
+              //   email: emailController.text,
+              // );
             }
           },
           fontSize: 13.sp,

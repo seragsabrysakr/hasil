@@ -212,8 +212,7 @@ class _HomeServiceClient implements HomeServiceClient {
   Future<CartOrderModel> addItemToCart({
     required consumerKey,
     required consumerSecret,
-    required id,
-    required quantity,
+    required body,
   }) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
@@ -221,10 +220,8 @@ class _HomeServiceClient implements HomeServiceClient {
       r'consumer_secret': consumerSecret,
     };
     final _headers = <String, dynamic>{};
-    final _data = {
-      'product_id': id,
-      'quantity': quantity,
-    };
+    final _data = <String, dynamic>{};
+    _data.addAll(body.toJson());
     final _result = await _dio
         .fetch<Map<String, dynamic>>(_setStreamType<CartOrderModel>(Options(
       method: 'POST',
