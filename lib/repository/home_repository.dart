@@ -90,8 +90,11 @@ class HomeRepository {
 
   Future<Either<Failure, CartOrderModel>> addItemToCart(
       {required CartProducts body}) async {
-    Future<Either<Failure, CartOrderModel>> data =
-        safeApi.call(apiCall: _wooServices.addtoCart(body));
+    Future<Either<Failure, CartOrderModel>> data = safeApi.call(
+        apiCall: _appServiceClient.addItemToCart(
+            consumerKey: AppUrls.consumerKeyValue,
+            consumerSecret: AppUrls.consumerSecretValue,
+            body: body));
     return data;
   }
 

@@ -61,8 +61,6 @@ class AddItemToCartCubit extends Cubit<FlowState> {
               (data) {
                 print(data.toString());
                 model = data;
-                print(data.toString());
-                print(data.key);
                 data.quantity = int.parse(count);
                 _cartItems.add(data);
                 emit(SuccessState(StateRendererType.popupSuccess,
@@ -70,19 +68,6 @@ class AddItemToCartCubit extends Cubit<FlowState> {
               },
             ));
   }
-
-  // fetchCartItems() async {
-  //   var token = getIt<AppPreferences>().token;
-  //
-  //   if (token != '') {
-  //     await _repository.getCartItems().then((value) {
-  //       value.fold((l) {}, (data) {
-  //         _cartItems.clear();
-  //         _cartItems.addAll(data.data!);
-  //       });
-  //     });
-  //   }
-  // }
 
   CartOrderModel? model;
 }

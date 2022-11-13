@@ -6,18 +6,19 @@ import 'package:hassel/app_routes.dart';
 import 'package:hassel/core/app_business_logic/state_renderer/request_builder.dart';
 import 'package:hassel/core/app_business_logic/state_renderer/state_renderer_impl.dart';
 import 'package:hassel/core/dependency_injection/dependency_injection.dart';
+import 'package:hassel/data/model/cart_request_model.dart';
 import 'package:hassel/data/model/productModel.dart';
+import 'package:hassel/data/model/user_model.dart';
 import 'package:hassel/features/home/presentation/cubits/add_item_cubit.dart';
 import 'package:hassel/features/home/presentation/cubits/single_product_cubit.dart';
-import 'package:hassel/haseal-test/config.dart';
 import 'package:hassel/shared/app_utils/app_colors.dart';
+import 'package:hassel/shared/app_utils/app_prefs.dart';
 import 'package:hassel/shared/app_utils/app_sized_box.dart';
 import 'package:hassel/shared/app_utils/app_text_style.dart';
 import 'package:hassel/shared/app_widgets/custom_button.dart';
 import 'package:hassel/shared/app_widgets/custom_network_image.dart';
 import 'package:hassel/shared/app_widgets/custom_stepper.dart';
 import 'package:hassel/shared/app_widgets/widgets_helper.dart';
-import 'package:monahawk_woocommerce/woocommerce.dart';
 import 'package:readmore/readmore.dart';
 import 'package:sizer/sizer.dart';
 import 'package:touch_ripple_effect/touch_ripple_effect.dart';
@@ -235,33 +236,16 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
             padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 2.h),
             child: CustomButton(
               onTap: () async {
-                if (quantity >= 1) {
-                  // UserModel user = getIt<AppPreferences>().userDataModel!;
-                  // CartProducts cartProducts = CartProducts(
-                  //   productId: widget.item.id.toString(),
-                  //   quantity: quantity.toString(),
-                  //   variationId: '0',
-                  // );
-                  // cubit.addItemToCart(cartProducts, quantity.toString());
-                  WooCommerce woocommerce = WooCommerce(
-                    baseUrl: Config.baseurl,
-                    consumerKey: Config.key,
-                    consumerSecret: Config.secret,
-                    isDebug: true,
-                  );
-                  //Login - Returns the access token on success.
-                  //
-                  // final token = woocommerce.authenticateViaJWT(
-                  //     username: 'eman@gmail.com', password: 'eman1111');
-                  //
-                  // final customer = woocommerce.loginCustomer(
-                  //     username: 'eman@gmail.com', password: 'eman1111');
-                  //
-                  // bool isLoggedIn = await woocommerce.isCustomerLoggedIn();
+                UserModel? user = getIt<AppPreferences>().userDataModel!;
 
-                  final myCart = await woocommerce.addToMyCart(
-                      itemId: widget.item.id.toString(),
-                      quantity: quantity.toString());
+                if (quantity >= 1) {
+                  CartProducts cartProducts = CartProducts(
+                    productId: widget.item.id.toString(),
+                    quantity: quantity.toString(),
+                    customer_id: user.id.toString(),
+                    variationId: '0',
+                  );
+                  cubit.addItemToCart(cartProducts, quantity.toString());
                 } else {
                   popDialog(
                       context: context,

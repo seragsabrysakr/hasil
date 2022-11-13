@@ -44,6 +44,7 @@ class WooServices {
           headers: {
             if (token != '') "authorization": token,
             HttpHeaders.contentTypeHeader: "application/json",
+            "User-Agent": " CoCart API/v1",
           },
         ),
       );

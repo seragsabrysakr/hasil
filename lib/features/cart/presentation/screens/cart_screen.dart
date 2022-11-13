@@ -14,6 +14,7 @@ import 'package:hassel/shared/app_utils/app_sized_box.dart';
 import 'package:hassel/shared/app_utils/app_text_style.dart';
 import 'package:hassel/shared/app_widgets/custom_button.dart';
 import 'package:hassel/shared/app_widgets/custom_network_image.dart';
+import 'package:hassel/shared/app_widgets/custom_stepper.dart';
 import 'package:hassel/shared/app_widgets/empty_view/empty_item_model.dart';
 import 'package:hassel/shared/app_widgets/empty_view/empty_view_screen.dart';
 import 'package:hassel/shared/app_widgets/widgets_helper.dart';
@@ -241,7 +242,7 @@ class _CartScreenState extends State<CartScreen> {
             borderRadius: BorderRadius.circular(.5.h),
             color: Colors.white,
           ),
-          height: 12.h,
+          height: 13.5.h,
           child: Row(
             children: [
               SizedBox(
@@ -271,11 +272,15 @@ class _CartScreenState extends State<CartScreen> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Text(
-          (item.quantity * double.parse(item.productPrice.substring(0, 4)))
-              .toString(),
-          style: AppTextStyle.getBoldStyle(
-              color: AppColors.primaryColor, fontSize: 11.sp),
+        SizedBox(
+          width: 20.w,
+          child: Text(
+            (item.quantity * double.parse(item.productPrice.substring(0, 4)))
+                .toString(),
+            maxLines: 1,
+            style: AppTextStyle.getBoldStyle(
+                color: AppColors.primaryColor, fontSize: 11.sp),
+          ),
         ),
         Text(
           item.productName,
@@ -292,6 +297,8 @@ class _CartScreenState extends State<CartScreen> {
   }
 
   Container buildItemsAction(CartOrderModel item) {
+    int qty = 0;
+
     return Container(
       decoration: BoxDecoration(
         border: BorderDirectional(
@@ -300,74 +307,17 @@ class _CartScreenState extends State<CartScreen> {
           ),
         ),
       ),
-      child: Column(
-        children: [
-          Material(
-            child: InkWell(
-              onTap: () {
-                setState(() {
-                  item.quantity--;
-                });
-              },
-              child: Container(
-                height: 4.h,
-                width: 10.w,
-                decoration: BoxDecoration(
-                  border: BorderDirectional(
-                    bottom: BorderSide(
-                      color: AppColors.subTitle.withOpacity(.2),
-                    ),
-                  ),
-                ),
-                child: Center(
-                  child: Icon(
-                    Icons.remove,
-                    color: AppColors.primaryColor,
-                    size: 17.sp,
-                  ),
-                ),
-              ),
-            ),
-          ),
-          SizedBox(
-            height: 4.h,
-            width: 10.w,
-            child: Center(
-              child: Text(
-                getCount(item.quantity).toString(),
-                style: AppTextStyle.getBoldStyle(
-                    color: AppColors.titleColor, fontSize: 14.sp),
-              ),
-            ),
-          ),
-          Material(
-            child: InkWell(
-              onTap: () {
-                setState(() {
-                  item.quantity++;
-                });
-              },
-              child: Container(
-                height: 4.h,
-                width: 10.w,
-                decoration: BoxDecoration(
-                  border: BorderDirectional(
-                    top: BorderSide(
-                      color: AppColors.headerColor.withOpacity(.2),
-                    ),
-                  ),
-                ),
-                child: Center(
-                  child: Icon(
-                    Icons.add,
-                    color: AppColors.primaryColor,
-                    size: 17.sp,
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ],
+      child: CustomViStepper(
+        lowerLimit: 0,
+        upperLimit: 20,
+        stepValue: 1,
+        iconSize: 22.0,
+        value: item.quantity.toInt(),
+        onChanged: (value) {
+          setState(() {
+            item.quantity = value;
+          });
+        },
       ),
     );
   }

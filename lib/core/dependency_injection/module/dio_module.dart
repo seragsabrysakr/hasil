@@ -12,7 +12,7 @@ const String APPLICATION_JSON = "application/json";
 const String CONTENT_TYPE = "content-type";
 const String ACCEPT = "accept";
 const String ACCEPT_Language = "Accept-Language";
-const String AUTHORIZATION = "authorization";
+const String AUTHORIZATION = "Authorization";
 const String DEFAULT_LANGUAGE = "language";
 
 @module
@@ -46,7 +46,8 @@ extension DioHeader on Dio {
     Map<String, String> headers = {
       CONTENT_TYPE: APPLICATION_JSON,
       ACCEPT: APPLICATION_JSON,
-      if (token != '') AUTHORIZATION: token,
+
+      if (token != '') AUTHORIZATION: 'Bearer $token',
       ACCEPT_Language:
           _preferences.getData(AppPreferences.lang, AppStrings.defaultLanguage),
       // DEFAULT_LANGUAGE: language
