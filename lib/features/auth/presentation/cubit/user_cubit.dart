@@ -19,25 +19,23 @@ class LoginCubit extends Cubit<FlowState> {
   void login({required String userName, required String password}) {
     emit(LoadingState(stateRendererType: StateRendererType.popupLoadingState));
 
-    _repository
-        .login(userName: userName, password: password)
-        .then((value) => value.fold((failure) {
-              print("errorMessage: ${failure.message}");
-              emit(ErrorState(StateRendererType.toastErrorState,
-                  'خطأ في أسم المستخدم او كلمة المرور'));
-            }, (data) {
-              print(data.toString());
-              user = data;
-              var token = user!.token!;
-              print(token);
-              _preferences.token = user!.token!;
-              _preferences.email = user!.email!;
+    _repository.login(userName: userName, password: password).then((value) =>
+        value.fold((failure) {
+          print("errorMessage: ${failure.message}");
+          emit(ErrorState(StateRendererType.toastErrorState, failure.message));
+        }, (data) {
+          print(data.toString());
+          user = data;
+          var token = user!.token!;
+          print(token);
+          _preferences.token = user!.token!;
+          _preferences.email = user!.email!;
 
-              emit(SuccessState(
-                StateRendererType.toastSuccess,
-                message: 'تم تسجيل الدخول بنجاح',
-              ));
-              // print(data);
-            }));
+          emit(SuccessState(
+            StateRendererType.toastSuccess,
+            message: 'تم تسجيل الدخول بنجاح',
+          ));
+          // print(data);
+        }));
   }
 }

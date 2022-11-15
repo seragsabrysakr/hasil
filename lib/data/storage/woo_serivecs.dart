@@ -42,7 +42,7 @@ class WooServices {
         data: model.toJson(),
         options: Options(
           headers: {
-            if (token != '') "authorization": token,
+            if (token != '') "Authorization": token,
             HttpHeaders.contentTypeHeader: "application/json",
             "User-Agent": " CoCart API/v1",
           },
